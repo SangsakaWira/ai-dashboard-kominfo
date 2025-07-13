@@ -6,6 +6,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import OccupancyPanel from "@/components/dashboard/OccupancyPanel";
 import HeatMapVisualization from "@/components/dashboard/HeatMapVisualization";
 import TimeSeriesGraph from "@/components/dashboard/TimeSeriesGraph";
@@ -23,11 +32,22 @@ import {
   Clock,
   Menu,
   X,
+  Table as TableIcon,
+  Video,
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Maximize,
+  RotateCcw,
 } from "lucide-react";
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState("overview");
+  const [cctvPlaying, setCctvPlaying] = React.useState(true);
+  const [cctvMuted, setCctvMuted] = React.useState(false);
+  const [selectedCamera, setSelectedCamera] = React.useState("Camera 1");
 
   const sidebarItems = [
     { id: "overview", label: "Overview", icon: Home },
@@ -35,7 +55,95 @@ export default function Dashboard() {
     { id: "heatmap", label: "Heat Map", icon: Map },
     { id: "historical", label: "Historical", icon: Clock },
     { id: "alerts", label: "Alerts", icon: AlertTriangle },
+    { id: "table", label: "Data Table", icon: TableIcon },
+    { id: "cctv", label: "CCTV Streams", icon: Video },
   ];
+
+  // Mock data for the table
+  const tableData = [
+    {
+      id: 1,
+      zone: "Main Entrance",
+      currentOccupancy: 12,
+      maxCapacity: 50,
+      status: "Normal",
+      lastUpdate: "2 min ago",
+      peakTime: "12:30 PM",
+      peakCount: 45,
+    },
+    {
+      id: 2,
+      zone: "Lobby",
+      currentOccupancy: 24,
+      maxCapacity: 100,
+      status: "Normal",
+      lastUpdate: "1 min ago",
+      peakTime: "1:15 PM",
+      peakCount: 78,
+    },
+    {
+      id: 3,
+      zone: "Cafeteria",
+      currentOccupancy: 6,
+      maxCapacity: 80,
+      status: "Low",
+      lastUpdate: "3 min ago",
+      peakTime: "12:00 PM",
+      peakCount: 65,
+    },
+    {
+      id: 4,
+      zone: "Meeting Rooms",
+      currentOccupancy: 0,
+      maxCapacity: 30,
+      status: "Empty",
+      lastUpdate: "5 min ago",
+      peakTime: "10:30 AM",
+      peakCount: 28,
+    },
+    {
+      id: 5,
+      zone: "Office Area",
+      currentOccupancy: 35,
+      maxCapacity: 40,
+      status: "High",
+      lastUpdate: "1 min ago",
+      peakTime: "2:00 PM",
+      peakCount: 38,
+    },
+  ];
+
+  const cameras = [
+    { id: "cam1", name: "Camera 1 - Main Entrance", status: "online" },
+    { id: "cam2", name: "Camera 2 - Lobby", status: "online" },
+    { id: "cam3", name: "Camera 3 - Cafeteria", status: "online" },
+    { id: "cam4", name: "Camera 4 - Meeting Rooms", status: "offline" },
+    { id: "cam5", name: "Camera 5 - Office Area", status: "online" },
+    { id: "cam6", name: "Camera 6 - Emergency Exit", status: "online" },
+  ];
+
+  const getStatusBadge = (status: string) => {
+    switch (status.toLowerCase()) {
+      case "normal":
+        return <Badge variant="secondary">Normal</Badge>;
+      case "high":
+        return <Badge className="bg-orange-500">High</Badge>;
+      case "low":
+        return <Badge className="bg-blue-500">Low</Badge>;
+      case "empty":
+        return <Badge variant="outline">Empty</Badge>;
+      default:
+        return <Badge>Unknown</Badge>;
+    }
+  };
+
+  const getCameraStatusBadge = (status: string) => {
+    return status === "online" ? (
+      <Badge className="bg-green-500">Online</Badge>
+    ) : (
+      <Badge variant="destructive">Offline</Badge>
+    );
+  };
 
   return (
     <div className="flex h-screen bg-background text-foreground">
@@ -250,6 +358,227 @@ export default function Dashboard() {
                 <TabsContent value="alerts">
                   <div className="grid grid-cols-1 gap-6">
                     <AlertSystem />
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="table">
+                  <div className="grid grid-cols-1 gap-6">
+                    <Card className="bg-card border">
+                      <CardHeader>
+                        <CardTitle className="flex items-center">
+                          <TableIcon className="mr-2 h-5 w-5" />
+                          Zone Data Table
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="rounded-md border">
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Zone</TableHead>
+                                <TableHead>Current Occupancy</TableHead>
+                                <TableHead>Max Capacity</TableHead>
+                                <TableHead>Utilization</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Peak Time</TableHead>
+                                <TableHead>Peak Count</TableHead>
+                                <TableHead>Last Update</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {tableData.map((row) => {
+                                const utilization = Math.round(
+                                  (row.currentOccupancy / row.maxCapacity) *
+                                    100,
+                                );
+                                return (
+                                  <TableRow key={row.id}>
+                                    <TableCell className="font-medium">
+                                      {row.zone}
+                                    </TableCell>
+                                    <TableCell>
+                                      {row.currentOccupancy}
+                                    </TableCell>
+                                    <TableCell>{row.maxCapacity}</TableCell>
+                                    <TableCell>
+                                      <div className="flex items-center space-x-2">
+                                        <div className="w-full bg-muted rounded-full h-2">
+                                          <div
+                                            className={`h-2 rounded-full ${
+                                              utilization > 80
+                                                ? "bg-red-500"
+                                                : utilization > 60
+                                                  ? "bg-orange-500"
+                                                  : "bg-green-500"
+                                            }`}
+                                            style={{ width: `${utilization}%` }}
+                                          ></div>
+                                        </div>
+                                        <span className="text-sm font-medium">
+                                          {utilization}%
+                                        </span>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      {getStatusBadge(row.status)}
+                                    </TableCell>
+                                    <TableCell>{row.peakTime}</TableCell>
+                                    <TableCell>{row.peakCount}</TableCell>
+                                    <TableCell className="text-muted-foreground">
+                                      {row.lastUpdate}
+                                    </TableCell>
+                                  </TableRow>
+                                );
+                              })}
+                            </TableBody>
+                          </Table>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="cctv">
+                  <div className="grid grid-cols-1 gap-6">
+                    <Card className="bg-card border">
+                      <CardHeader>
+                        <CardTitle className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <Video className="mr-2 h-5 w-5" />
+                            CCTV Live Streams
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <select
+                              className="h-9 rounded-md border border-input bg-background px-3 py-1 text-sm"
+                              value={selectedCamera}
+                              onChange={(e) =>
+                                setSelectedCamera(e.target.value)
+                              }
+                            >
+                              {cameras.map((camera) => (
+                                <option key={camera.id} value={camera.name}>
+                                  {camera.name}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                          {/* Main Stream */}
+                          <div className="lg:col-span-2">
+                            <div className="relative bg-black rounded-lg overflow-hidden">
+                              <div className="aspect-video bg-gray-900 flex items-center justify-center">
+                                <div className="text-center text-white">
+                                  <Video className="h-16 w-16 mx-auto mb-4 opacity-50" />
+                                  <p className="text-lg font-medium">
+                                    {selectedCamera}
+                                  </p>
+                                  <p className="text-sm opacity-75">
+                                    Live Stream Placeholder
+                                  </p>
+                                  <p className="text-xs opacity-50 mt-2">
+                                    In a real implementation, this would show
+                                    the actual CCTV feed
+                                  </p>
+                                </div>
+                              </div>
+
+                              {/* Stream Controls */}
+                              <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-4">
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center space-x-2">
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="text-white hover:bg-white/20"
+                                      onClick={() =>
+                                        setCctvPlaying(!cctvPlaying)
+                                      }
+                                    >
+                                      {cctvPlaying ? (
+                                        <Pause className="h-4 w-4" />
+                                      ) : (
+                                        <Play className="h-4 w-4" />
+                                      )}
+                                    </Button>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="text-white hover:bg-white/20"
+                                      onClick={() => setCctvMuted(!cctvMuted)}
+                                    >
+                                      {cctvMuted ? (
+                                        <VolumeX className="h-4 w-4" />
+                                      ) : (
+                                        <Volume2 className="h-4 w-4" />
+                                      )}
+                                    </Button>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="text-white hover:bg-white/20"
+                                    >
+                                      <RotateCcw className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                  <div className="flex items-center space-x-2">
+                                    <span className="text-white text-sm">
+                                      {new Date().toLocaleTimeString()}
+                                    </span>
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      className="text-white hover:bg-white/20"
+                                    >
+                                      <Maximize className="h-4 w-4" />
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Camera Grid */}
+                          <div className="lg:col-span-2">
+                            <h3 className="text-lg font-semibold mb-4">
+                              All Cameras
+                            </h3>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                              {cameras.map((camera) => (
+                                <div
+                                  key={camera.id}
+                                  className={`relative bg-gray-900 rounded-lg overflow-hidden cursor-pointer transition-all ${
+                                    selectedCamera === camera.name
+                                      ? "ring-2 ring-primary"
+                                      : "hover:ring-1 ring-gray-400"
+                                  }`}
+                                  onClick={() => setSelectedCamera(camera.name)}
+                                >
+                                  <div className="aspect-video bg-gray-800 flex items-center justify-center">
+                                    <div className="text-center text-white">
+                                      <Video className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                                      <p className="text-xs opacity-75">
+                                        {camera.name.split(" - ")[0]}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className="absolute top-2 right-2">
+                                    {getCameraStatusBadge(camera.status)}
+                                  </div>
+                                  <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-2">
+                                    <p className="text-white text-xs truncate">
+                                      {camera.name.split(" - ")[1]}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
                 </TabsContent>
               </Tabs>
