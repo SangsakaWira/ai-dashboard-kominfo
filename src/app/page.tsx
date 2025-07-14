@@ -50,6 +50,12 @@ import MyMap from "@/components/mapbox/Map";
 // import MapboxMap from "@/components/mapbox/Map";
 import { LatLngExpression } from "leaflet";
 
+import dynamic from 'next/dynamic';
+
+const MapWithNoSSR = dynamic(() => import('../components/mapbox/Map'), {
+  ssr: false,
+});
+
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState("overview");
@@ -435,11 +441,11 @@ export default function Dashboard() {
                 <TabsContent value="locations">
                   <div className="justify-between items-start h-[500px]">
                     <h1 className="mb-5 text-3xl font-bold">Lokasi CCTV</h1>
-                    <MyMap
+                    <MapWithNoSSR
                       zoom={zoom}
                       position={center}
                       title="Kantor Kami"
-                    ></MyMap>
+                    ></MapWithNoSSR>
                   </div>
                 </TabsContent>
 
