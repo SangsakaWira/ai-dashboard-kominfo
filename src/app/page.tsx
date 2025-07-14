@@ -51,12 +51,12 @@ export default function Dashboard() {
 
   const sidebarItems = [
     { id: "overview", label: "Overview", icon: Home },
-    { id: "occupancy", label: "Occupancy", icon: Users },
+    { id: "cctv", label: "CCTV Streams", icon: Video },
+    { id: "table", label: "CCTV Data", icon: TableIcon },
+    { id: "occupancy", label: "People Analytics", icon: Users },
     { id: "heatmap", label: "Heat Map", icon: Map },
     { id: "historical", label: "Historical", icon: Clock },
     { id: "alerts", label: "Alerts", icon: AlertTriangle },
-    { id: "table", label: "Data Table", icon: TableIcon },
-    { id: "cctv", label: "CCTV Streams", icon: Video },
   ];
 
   // Mock data for the table
@@ -114,12 +114,62 @@ export default function Dashboard() {
   ];
 
   const cameras = [
-    { id: "cam1", name: "Camera 1 - Main Entrance", status: "online" },
-    { id: "cam2", name: "Camera 2 - Lobby", status: "online" },
-    { id: "cam3", name: "Camera 3 - Cafeteria", status: "online" },
-    { id: "cam4", name: "Camera 4 - Meeting Rooms", status: "offline" },
-    { id: "cam5", name: "Camera 5 - Office Area", status: "online" },
-    { id: "cam6", name: "Camera 6 - Emergency Exit", status: "online" },
+    {
+      id: "cam1", name: "Camera 1 - Main Entrance", status: "online", frame: <iframe
+        src="https://cctv.balitower.co.id/Bendungan-Hilir-003-700014_3/embed.html"
+        width="100%"
+        height="100%"
+        style={{ border: "none" }}
+        allowFullScreen
+      />
+    },
+    {
+      id: "cam2", name: "Camera 2 - Lobby", status: "online", frame:
+        <iframe
+          src="https://cctv.balitower.co.id/Jati-Pulo-001-702017_2/embed.html"
+          width="100%"
+          height="100%"
+          style={{ border: "none" }}
+          allowFullScreen
+        >
+        </iframe>
+    },
+    { id: "cam3", name: "Camera 3 - Cafeteria", status: "offline", frame:
+        <iframe
+          src="https://cctv.balitower.co.id/Senayan-004-705087_3/embed.html"
+          width="100%"
+          height="100%"
+          style={{ border: "none" }}
+          allowFullScreen
+        >
+        </iframe> },
+    { id: "cam4", name: "Camera 4 - Meeting Rooms", status: "online", frame:
+        <iframe
+          src="https://cctv.balitower.co.id/Cengkareng-Barat-013-702131_2/embed.html"
+          width="100%"
+          height="100%"
+          style={{ border: "none" }}
+          allowFullScreen
+        >
+        </iframe> },
+    { id: "cam5", name: "Camera 5 - Office Area", status: "online", frame:
+        <iframe
+          src="https://cctv.balitower.co.id/Jati-Pulo-001-702017_2/embed.html"
+          width="100%"
+          height="100%"
+          style={{ border: "none" }}
+          allowFullScreen
+        >
+        </iframe> },
+    { id: "cam6", name: "Camera 6 - Emergency Exit", status: "online", frame:
+        <iframe
+          src="https://cctv.balitower.co.id/Tomang-004-702108_3/embed.html"
+          width="100%"
+          height="100%"
+          style={{ border: "none" }}
+          allowFullScreen
+        >
+        </iframe> },
   ];
 
   const getStatusBadge = (status: string) => {
@@ -390,7 +440,7 @@ export default function Dashboard() {
                               {tableData.map((row) => {
                                 const utilization = Math.round(
                                   (row.currentOccupancy / row.maxCapacity) *
-                                    100,
+                                  100,
                                 );
                                 return (
                                   <TableRow key={row.id}>
@@ -405,13 +455,12 @@ export default function Dashboard() {
                                       <div className="flex items-center space-x-2">
                                         <div className="w-full bg-muted rounded-full h-2">
                                           <div
-                                            className={`h-2 rounded-full ${
-                                              utilization > 80
-                                                ? "bg-red-500"
-                                                : utilization > 60
-                                                  ? "bg-orange-500"
-                                                  : "bg-green-500"
-                                            }`}
+                                            className={`h-2 rounded-full ${utilization > 80
+                                              ? "bg-red-500"
+                                              : utilization > 60
+                                                ? "bg-orange-500"
+                                                : "bg-green-500"
+                                              }`}
                                             style={{ width: `${utilization}%` }}
                                           ></div>
                                         </div>
@@ -471,19 +520,13 @@ export default function Dashboard() {
                           <div className="lg:col-span-2">
                             <div className="relative bg-black rounded-lg overflow-hidden">
                               <div className="aspect-video bg-gray-900 flex items-center justify-center">
-                                <div className="text-center text-white">
-                                  <Video className="h-16 w-16 mx-auto mb-4 opacity-50" />
-                                  <p className="text-lg font-medium">
-                                    {selectedCamera}
-                                  </p>
-                                  <p className="text-sm opacity-75">
-                                    Live Stream Placeholder
-                                  </p>
-                                  <p className="text-xs opacity-50 mt-2">
-                                    In a real implementation, this would show
-                                    the actual CCTV feed
-                                  </p>
-                                </div>
+                                <iframe
+                                  src="https://cctv.balitower.co.id/Bendungan-Hilir-003-700014_3/embed.html"
+                                  width="100%"
+                                  height="100%"
+                                  style={{ border: "none" }}
+                                  allowFullScreen
+                                />
                               </div>
 
                               {/* Stream Controls */}
@@ -544,26 +587,26 @@ export default function Dashboard() {
                           {/* Camera Grid */}
                           <div className="lg:col-span-2">
                             <h3 className="text-lg font-semibold mb-4">
-                              All Cameras
+                              Semua Kamera
                             </h3>
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                               {cameras.map((camera) => (
                                 <div
                                   key={camera.id}
-                                  className={`relative bg-gray-900 rounded-lg overflow-hidden cursor-pointer transition-all ${
-                                    selectedCamera === camera.name
-                                      ? "ring-2 ring-primary"
-                                      : "hover:ring-1 ring-gray-400"
-                                  }`}
+                                  className={`relative bg-gray-900 rounded-lg overflow-hidden cursor-pointer transition-all ${selectedCamera === camera.name
+                                    ? "ring-2 ring-primary"
+                                    : "hover:ring-1 ring-gray-400"
+                                    }`}
                                   onClick={() => setSelectedCamera(camera.name)}
                                 >
                                   <div className="aspect-video bg-gray-800 flex items-center justify-center">
-                                    <div className="text-center text-white">
+                                    {/* <div className="text-center text-white">
                                       <Video className="h-8 w-8 mx-auto mb-2 opacity-50" />
                                       <p className="text-xs opacity-75">
                                         {camera.name.split(" - ")[0]}
                                       </p>
-                                    </div>
+                                    </div> */}
+                                    {camera.frame}
                                   </div>
                                   <div className="absolute top-2 right-2">
                                     {getCameraStatusBadge(camera.status)}
