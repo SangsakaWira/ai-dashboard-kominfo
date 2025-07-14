@@ -46,6 +46,9 @@ import {
   RotateCcw,
   TrendingDown,
 } from "lucide-react";
+import MyMap from "@/components/mapbox/Map";
+// import MapboxMap from "@/components/mapbox/Map";
+import { LatLngExpression } from "leaflet";
 
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
@@ -54,11 +57,14 @@ export default function Dashboard() {
   const [cctvMuted, setCctvMuted] = React.useState(false);
   const [selectedCamera, setSelectedCamera] = React.useState("Camera 1");
 
+  const center: LatLngExpression = [-2.9761, 104.7754]; // Koordinat pusat peta
+  const zoom = 12;
+
   const sidebarItems = [
     { id: "overview", label: "Overview", icon: Home },
     { id: "cctv", label: "Streams", icon: Video },
     { id: "table", label: "Management", icon: TableIcon },
-    { id: "table", label: "Locations", icon: MapIcon },
+    { id: "locations", label: "Locations", icon: MapIcon },
     { id: "occupancy", label: "People Analytics", icon: Users },
     { id: "heatmap", label: "Flood Detection", icon: Map },
     { id: "historical", label: "Historical", icon: Clock },
@@ -423,6 +429,17 @@ export default function Dashboard() {
                 <TabsContent value="occupancy">
                   <div className="grid grid-cols-1 gap-6">
                     <OccupancyPanel />
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="locations">
+                  <div className="justify-between items-start h-[500px]">
+                    <h1 className="mb-5 text-3xl font-bold">Lokasi CCTV</h1>
+                    <MyMap
+                      zoom={zoom}
+                      position={center}
+                      title="Kantor Kami"
+                    ></MyMap>
                   </div>
                 </TabsContent>
 
