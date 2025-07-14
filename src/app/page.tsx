@@ -163,7 +163,7 @@ export default function Dashboard() {
         </iframe> },
     { id: "cam6", name: "Camera 6 - Emergency Exit", status: "online", frame:
         <iframe
-          src="https://cctv.balitower.co.id/Tomang-004-702108_3/embed.html"
+          src="https://cctv.balitower.co.id/Gelora-017-700470_8/embed.html"
           width="100%"
           height="100%"
           style={{ border: "none" }}
