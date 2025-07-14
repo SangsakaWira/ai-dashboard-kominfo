@@ -34,6 +34,7 @@ import {
   X,
   Table as TableIcon,
   Video,
+  MapIcon,
   Play,
   Pause,
   Volume2,
@@ -51,10 +52,11 @@ export default function Dashboard() {
 
   const sidebarItems = [
     { id: "overview", label: "Overview", icon: Home },
-    { id: "cctv", label: "CCTV Streams", icon: Video },
-    { id: "table", label: "CCTV Data", icon: TableIcon },
+    { id: "cctv", label: "Streams", icon: Video },
+    { id: "table", label: "Management", icon: TableIcon },
+    { id: "table", label: "Locations", icon: MapIcon },
     { id: "occupancy", label: "People Analytics", icon: Users },
-    { id: "heatmap", label: "Heat Map", icon: Map },
+    { id: "heatmap", label: "Flood Detection", icon: Map },
     { id: "historical", label: "Historical", icon: Clock },
     { id: "alerts", label: "Alerts", icon: AlertTriangle },
   ];
@@ -520,8 +522,9 @@ export default function Dashboard() {
                           <div className="lg:col-span-2">
                             <div className="relative bg-black rounded-lg overflow-hidden">
                               <div className="aspect-video bg-gray-900 flex items-center justify-center">
+                                {/* <iframe width="620" height="350" src="https://www.youtube.com/embed/3gjO-Ifaig0" title="APACE - 22.033.11K" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> */}
                                 <iframe
-                                  src="https://cctv.balitower.co.id/Bendungan-Hilir-003-700014_3/embed.html"
+                                  src="https://www.youtube.com/embed/3gjO-Ifaig0?autoplay=1&mute=1"
                                   width="100%"
                                   height="100%"
                                   style={{ border: "none" }}
