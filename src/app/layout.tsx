@@ -7,7 +7,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Tempo - Modern SaaS Starter",
+  title: "Vision AI - Dashboard",
   description: "A modern full-stack starter template powered by Next.js",
 };
 

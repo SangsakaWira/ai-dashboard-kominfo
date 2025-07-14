@@ -153,8 +153,9 @@ export default function Dashboard() {
       >
         <div className="flex items-center justify-between h-16 px-6 border-b">
           <div className="flex items-center space-x-2">
-            <BarChart3 className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold">Analytics</span>
+            <img src="/logo.svg"></img>
+            {/* <BarChart3 className="h-8 w-8 text-primary" /> */}
+            {/* <span className="text-xl font-bold">Analytics</span> */}
           </div>
           <Button
             variant="ghost"
@@ -224,7 +225,7 @@ export default function Dashboard() {
               >
                 <Menu className="h-5 w-5" />
               </Button>
-              <h1 className="text-2xl font-bold">People Analytics Dashboard</h1>
+              <h1 className="text-2xl font-bold">Analytics Dashboard</h1>
             </div>
 
             <div className="flex items-center space-x-2">
@@ -254,7 +255,7 @@ export default function Dashboard() {
                       <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium flex items-center">
                           <Users className="mr-2 h-4 w-4 text-primary" />
-                          Current Occupancy
+                          Kepadatan Pengunjung
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
@@ -271,7 +272,7 @@ export default function Dashboard() {
                       <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium flex items-center">
                           <Activity className="mr-2 h-4 w-4 text-primary" />
-                          Peak Today
+                          Puncak Kepadatan
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
@@ -287,7 +288,7 @@ export default function Dashboard() {
                       <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium flex items-center">
                           <AlertTriangle className="mr-2 h-4 w-4 text-destructive" />
-                          Active Alerts
+                          Peringatan
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
@@ -315,19 +316,19 @@ export default function Dashboard() {
                         <CardContent>
                           <div className="space-y-4">
                             <div className="flex justify-between items-center">
-                              <span>Entrance</span>
+                              <span>Seberang Ulu I</span>
                               <span className="font-medium">12 people</span>
                             </div>
                             <div className="flex justify-between items-center">
-                              <span>Main Hall</span>
+                              <span>Seberang Ulu II</span>
                               <span className="font-medium">24 people</span>
                             </div>
                             <div className="flex justify-between items-center">
-                              <span>Cafeteria</span>
+                              <span>Kertapati</span>
                               <span className="font-medium">6 people</span>
                             </div>
                             <div className="flex justify-between items-center">
-                              <span>Meeting Rooms</span>
+                              <span>Jakabaring</span>
                               <span className="font-medium">0 people</span>
                             </div>
                           </div>
