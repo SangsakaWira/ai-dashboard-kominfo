@@ -50,7 +50,7 @@ export default function OccupancyPanel({
   return (
     <Card className="w-full bg-background shadow-md">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-xl font-bold">Real-time Occupancy</CardTitle>
+        <CardTitle className="text-xl font-bold">Aktifitas Kantor Pelayanan Publik</CardTitle>
         <div className="flex items-center space-x-2">
           <Select value={selectedZone} onValueChange={setSelectedZone}>
             <SelectTrigger className="w-[180px]">

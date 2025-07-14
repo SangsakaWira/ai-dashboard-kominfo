@@ -30,9 +30,12 @@ import {
   TrendingUp,
   Map,
   Clock,
+  GlassWaterIcon,
   Menu,
   X,
   Table as TableIcon,
+  CameraIcon,
+  VideotapeIcon,
   Video,
   MapIcon,
   Play,
@@ -41,6 +44,7 @@ import {
   VolumeX,
   Maximize,
   RotateCcw,
+  TrendingDown,
 } from "lucide-react";
 
 export default function Dashboard() {
@@ -65,7 +69,7 @@ export default function Dashboard() {
   const tableData = [
     {
       id: 1,
-      zone: "Main Entrance",
+      zone: "Kantor Kecamatan Plaju",
       currentOccupancy: 12,
       maxCapacity: 50,
       status: "Normal",
@@ -75,7 +79,7 @@ export default function Dashboard() {
     },
     {
       id: 2,
-      zone: "Lobby",
+      zone: "Kertapati",
       currentOccupancy: 24,
       maxCapacity: 100,
       status: "Normal",
@@ -117,7 +121,7 @@ export default function Dashboard() {
 
   const cameras = [
     {
-      id: "cam1", name: "Camera 1 - Main Entrance", status: "online", frame: <iframe
+      id: "cam1", name: "Camera 1 - Pintu Gerbang DPRD", status: "online", frame: <iframe
         src="https://cctv.balitower.co.id/Bendungan-Hilir-003-700014_3/embed.html"
         width="100%"
         height="100%"
@@ -126,7 +130,7 @@ export default function Dashboard() {
       />
     },
     {
-      id: "cam2", name: "Camera 2 - Lobby", status: "online", frame:
+      id: "cam2", name: "Camera 2 - Jalan Ahmad Yani", status: "online", frame:
         <iframe
           src="https://cctv.balitower.co.id/Jati-Pulo-001-702017_2/embed.html"
           width="100%"
@@ -136,7 +140,8 @@ export default function Dashboard() {
         >
         </iframe>
     },
-    { id: "cam3", name: "Camera 3 - Cafeteria", status: "offline", frame:
+    {
+      id: "cam3", name: "Camera 3 - Kantor Walikota", status: "offline", frame:
         <iframe
           src="https://cctv.balitower.co.id/Senayan-004-705087_3/embed.html"
           width="100%"
@@ -144,8 +149,10 @@ export default function Dashboard() {
           style={{ border: "none" }}
           allowFullScreen
         >
-        </iframe> },
-    { id: "cam4", name: "Camera 4 - Meeting Rooms", status: "online", frame:
+        </iframe>
+    },
+    {
+      id: "cam4", name: "Camera 4 - Jalan Merdeka", status: "online", frame:
         <iframe
           src="https://cctv.balitower.co.id/Cengkareng-Barat-013-702131_2/embed.html"
           width="100%"
@@ -153,17 +160,22 @@ export default function Dashboard() {
           style={{ border: "none" }}
           allowFullScreen
         >
-        </iframe> },
-    { id: "cam5", name: "Camera 5 - Office Area", status: "online", frame:
+        </iframe>
+    },
+    {
+      id: "cam5", name: "Camera 5 - Jalan Kecamatan Plaju", status: "online", frame:
+        // <iframe width="620" height="350" src="https://www.youtube.com/embed/yBKMI8-08Q4" title="APACE - 22037" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         <iframe
-          src="https://cctv.balitower.co.id/Jati-Pulo-001-702017_2/embed.html"
+          src="https://www.youtube.com/embed/yBKMI8-08Q4?autoplay=1&mute=1"
           width="100%"
           height="100%"
           style={{ border: "none" }}
           allowFullScreen
         >
-        </iframe> },
-    { id: "cam6", name: "Camera 6 - Emergency Exit", status: "online", frame:
+        </iframe>
+    },
+    {
+      id: "cam6", name: "Camera 6 - Pintu Gerbang DPRD Belakang", status: "online", frame:
         <iframe
           src="https://cctv.balitower.co.id/Gelora-017-700470_8/embed.html"
           width="100%"
@@ -171,7 +183,8 @@ export default function Dashboard() {
           style={{ border: "none" }}
           allowFullScreen
         >
-        </iframe> },
+        </iframe>
+    },
   ];
 
   const getStatusBadge = (status: string) => {
@@ -302,12 +315,12 @@ export default function Dashboard() {
                 className="w-full"
               >
                 <TabsContent value="overview" className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <Card className="bg-card border">
                       <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium flex items-center">
-                          <Users className="mr-2 h-4 w-4 text-primary" />
-                          Kepadatan Pengunjung
+                          <CameraIcon className="mr-2 h-4 w-4 text-primary" />
+                          Jumlah CCTV
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
@@ -324,15 +337,32 @@ export default function Dashboard() {
                       <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium flex items-center">
                           <Activity className="mr-2 h-4 w-4 text-primary" />
-                          Puncak Kepadatan
+                          Jumlah CCTV Offline
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
                         <div className="text-3xl font-bold text-foreground">
-                          78
+                          3
+                        </div>
+                        <p className="text-xs text-muted-foreground flex items-center">
+                          <TrendingDown className="mr-1 h-3 w-3 text-red-500" />
+                          3%
+                        </p>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-card border">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm font-medium flex items-center">
+                          <GlassWaterIcon className="mr-2 h-4 w-4 text-primary" />
+                          Banjir Terdeteksi
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-3xl font-bold text-foreground">
+                          3
                         </div>
                         <p className="text-xs text-muted-foreground">
-                          At 12:30 PM
+                          2 high priority
                         </p>
                       </CardContent>
                     </Card>
@@ -637,7 +667,7 @@ export default function Dashboard() {
         <footer className="border-t py-3 bg-card/50">
           <div className="px-6 flex flex-col sm:flex-row items-center justify-between">
             <p className="text-sm text-muted-foreground">
-              © 2023 People Analytics Dashboard. All rights reserved.
+              © 2025 People Analytics Dashboard. KOMDIGI Kominfo Kota Palembang
             </p>
             <p className="text-sm text-muted-foreground">
               Last updated: {new Date().toLocaleTimeString()}
