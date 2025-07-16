@@ -49,8 +49,10 @@ import {
 import MyMap from "@/components/mapbox/Map";
 // import MapboxMap from "@/components/mapbox/Map";
 import { LatLngExpression } from "leaflet";
+import MapView from "@/components/dashboard/MapView";
 
 import dynamic from 'next/dynamic';
+import LiveFeedPanel from "@/components/dashboard/LiveFeedPanel";
 
 const MapWithNoSSR = dynamic(() => import('../components/mapbox/Map'), {
   ssr: false,
@@ -72,7 +74,7 @@ export default function Dashboard() {
     { id: "table", label: "Management", icon: TableIcon },
     { id: "locations", label: "Locations", icon: MapIcon },
     { id: "occupancy", label: "People Analytics", icon: Users },
-    { id: "heatmap", label: "Flood Detection", icon: Map },
+    { id: "flood-detection", label: "Flood Detection", icon: Map },
     { id: "historical", label: "Historical", icon: Clock },
     { id: "alerts", label: "Alerts", icon: AlertTriangle },
   ];
@@ -453,6 +455,102 @@ export default function Dashboard() {
                   <div className="grid grid-cols-1 gap-6">
                     <HeatMapVisualization />
                   </div>
+                </TabsContent>
+
+                <TabsContent value="flood-detection">
+                  <main className="flex-1 overflow-auto p-6">
+                    <div className="mb-6">
+                      <h1 className="text-2xl font-bold">Flood Detection System</h1>
+                      <p className="text-muted-foreground">
+                        Monitor water levels and receive alerts in real-time
+                      </p>
+                    </div>
+
+                    {/* Dashboard Content */}
+                    <div className="space-y-6">
+                      {/* Top Row - Live Feeds and Alerts */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <Card className="col-span-1 md:col-span-2">
+                          <CardHeader>
+                            <CardTitle>Live CCTV Feeds</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <LiveFeedPanel />
+                          </CardContent>
+                        </Card>
+
+                        <Card className="col-span-1">
+                          <CardContent className="p-0">
+                            <AlertSystem />
+                          </CardContent>
+                        </Card>
+                      </div>
+
+                      {/* Middle Row - Map and Analytics */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <Card className="col-span-1 md:col-span-2">
+                          <CardContent className="p-0">
+                            <MapView />
+                          </CardContent>
+                        </Card>
+
+                        <Card className="col-span-1">
+                          <CardHeader>
+                            <CardTitle>Analytics</CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-4">
+                              <div className="h-[100px] flex items-center justify-center bg-muted rounded-md">
+                                <div className="flex flex-col items-center gap-2">
+                                  <BarChart3 className="h-6 w-6 text-muted-foreground" />
+                                  <p className="text-xs text-muted-foreground">
+                                    Water Level Chart
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="h-[100px] flex items-center justify-center bg-muted rounded-md">
+                                <div className="flex flex-col items-center gap-2">
+                                  <BarChart3 className="h-6 w-6 text-muted-foreground" />
+                                  <p className="text-xs text-muted-foreground">
+                                    Prediction Models
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+
+                      {/* Bottom Row - Control Panel */}
+                      <Card>
+                        <CardHeader>
+                          <CardTitle>Control Panel</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="p-4 border rounded-md">
+                              <h3 className="font-medium mb-2">Alert Thresholds</h3>
+                              <p className="text-sm text-muted-foreground">
+                                Configure water level thresholds for alerts
+                              </p>
+                            </div>
+                            <div className="p-4 border rounded-md">
+                              <h3 className="font-medium mb-2">Notification Settings</h3>
+                              <p className="text-sm text-muted-foreground">
+                                Manage notification preferences
+                              </p>
+                            </div>
+                            <div className="p-4 border rounded-md">
+                              <h3 className="font-medium mb-2">Camera Settings</h3>
+                              <p className="text-sm text-muted-foreground">
+                                Configure CCTV camera parameters
+                              </p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </main>
                 </TabsContent>
 
                 <TabsContent value="historical">
