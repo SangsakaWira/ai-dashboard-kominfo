@@ -35,7 +35,7 @@ import {
   X,
   Table as TableIcon,
   CameraIcon,
-  VideotapeIcon,
+  GlassesIcon,
   Video,
   MapIcon,
   Play,
@@ -71,10 +71,11 @@ export default function Dashboard() {
   const sidebarItems = [
     { id: "overview", label: "Overview", icon: Home },
     { id: "cctv", label: "Streams", icon: Video },
-    { id: "table", label: "Management", icon: TableIcon },
     { id: "locations", label: "Locations", icon: MapIcon },
+    { id: "vandalism", label: "Crime Detections", icon: GlassesIcon },
     { id: "occupancy", label: "People Analytics", icon: Users },
     { id: "flood-detection", label: "Flood Detection", icon: Map },
+    { id: "table", label: "Management", icon: TableIcon },
     { id: "historical", label: "Historical", icon: Clock },
     { id: "alerts", label: "Alerts", icon: AlertTriangle },
   ];
