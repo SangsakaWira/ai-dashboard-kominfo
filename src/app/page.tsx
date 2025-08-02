@@ -182,7 +182,7 @@ export default function Dashboard() {
         // <iframe width="620" height="350" src="https://www.youtube.com/embed/yBKMI8-08Q4" title="APACE - 22037" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         <iframe
         // Q1Eq5Q_m6GU
-          src="https://www.youtube.com/embed/iqieNEKnCNA?autoplay=1&mute=1"
+          src="https://www.youtube.com/embed/gVGFbYr1FUg?autoplay=1&mute=1"
           width="100%"
           height="100%"
           style={{ border: "none" }}
@@ -678,7 +678,7 @@ export default function Dashboard() {
                               <div className="aspect-video bg-gray-900 flex items-center justify-center">
                                 {/* <iframe width="620" height="350" src="https://www.youtube.com/embed/3gjO-Ifaig0" title="APACE - 22.033.11K" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> */}
                                 <iframe
-                                  src="https://www.youtube.com/embed/iqieNEKnCNA?autoplay=1&mute=1"
+                                  src="https://www.youtube.com/embed/gVGFbYr1FUg?autoplay=1&mute=1"
                                   width="100%"
                                   height="100%"
                                   style={{ border: "none" }}
