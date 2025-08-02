@@ -156,9 +156,9 @@ export default function Dashboard() {
         </iframe>
     },
     {
-      id: "cam3", name: "Camera 3 - Kantor Walikota", status: "offline", frame:
+      id: "cam3", name: "Camera 3 - Kantor Walikota", status: "online", frame:
         <iframe
-          src="https://cctv.balitower.co.id/Gelora-017-700470_2/embed.html"
+          src="https://cctv.balitower.co.id/Jati-Pulo-001-702017_4/embed.html"
           width="100%"
           height="100%"
           style={{ border: "none" }}
