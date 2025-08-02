@@ -158,7 +158,7 @@ export default function Dashboard() {
     {
       id: "cam3", name: "Camera 3 - Kantor Walikota", status: "offline", frame:
         <iframe
-          src="https://cctv.balitower.co.id/Senayan-004-705087_3/embed.html"
+          src="https://cctv.balitower.co.id/Gelora-017-700470_2/embed.html"
           width="100%"
           height="100%"
           style={{ border: "none" }}
