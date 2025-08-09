@@ -28,7 +28,7 @@ interface OccupancyPanelProps {
   alertThreshold?: number;
 }
 
-export default function OccupancyPanel({
+export function OccupancyPanel({
   zones = [
     "Main Entrance",
     "Lobby",
