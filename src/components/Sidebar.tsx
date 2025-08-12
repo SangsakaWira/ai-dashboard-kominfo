@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import { Separator } from "./ui/separator";
@@ -16,17 +16,20 @@ import {
   GlassesIcon,
   Video,
   MapIcon,
+  LogOutIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LogoutDialog } from "./LogoutDialog";
 
 type Props = {
-    sidebarOpen: boolean
-    setSidebarOpen: (isOpen: boolean) => void
+  sidebarOpen: boolean;
+  setSidebarOpen: (isOpen: boolean) => void;
 };
 
-export function Sidebar({sidebarOpen,setSidebarOpen}: Props) {
-  const pathname = usePathname()
+export function Sidebar({ sidebarOpen, setSidebarOpen }: Props) {
+  const pathname = usePathname();
+  const [showDialog, setShowDialog] = useState(false);
 
   const sidebarItems = [
     { id: "overview", label: "Overview", link: "/", icon: Home },
@@ -62,8 +65,6 @@ export function Sidebar({sidebarOpen,setSidebarOpen}: Props) {
         <div className="flex items-center justify-between h-16 px-6 border-b">
           <div className="flex items-center space-x-2">
             <img src="/logo.svg"></img>
-            {/* <BarChart3 className="h-8 w-8 text-primary" /> */}
-            {/* <span className="text-xl font-bold">Analytics</span> */}
           </div>
           <Button
             variant="ghost"
@@ -80,12 +81,11 @@ export function Sidebar({sidebarOpen,setSidebarOpen}: Props) {
             {sidebarItems.map((item) => {
               const Icon = item.icon;
               return (
-                <Link
-                  href={item.link}
-                  key={item.id}
-                  className="block"
-                >
-                  <Button className="w-full justify-start" variant={pathname === item.link ? "default" : "ghost"}>
+                <Link href={item.link} key={item.id} className="block">
+                  <Button
+                    className="w-full justify-start"
+                    variant={pathname === item.link ? "default" : "ghost"}
+                  >
                     <Icon className="mr-3 h-4 w-4" />
                     {item.label}
                   </Button>
@@ -105,6 +105,14 @@ export function Sidebar({sidebarOpen,setSidebarOpen}: Props) {
               <HelpCircle className="mr-3 h-4 w-4" />
               Help
             </Button>
+            <Button
+              variant="ghost"
+              className="w-full justify-start"
+              onClick={() => setShowDialog(true)}
+            >
+              <LogOutIcon className="mr-3 h-4 w-4" />
+              Logout
+            </Button>
           </div>
         </ScrollArea>
       </div>
@@ -115,6 +123,8 @@ export function Sidebar({sidebarOpen,setSidebarOpen}: Props) {
           onClick={() => setSidebarOpen(false)}
         />
       )}
+
+      <LogoutDialog openDialog={showDialog} setOpenDialog={setShowDialog} />
     </>
   );
 }

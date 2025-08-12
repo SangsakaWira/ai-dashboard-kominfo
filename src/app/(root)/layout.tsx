@@ -2,7 +2,7 @@ import { TempoInit } from "@/components/tempo-init";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
-import "./globals.css";
+import "../globals.css";
 import Footer from "@/components/Footer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Header from "@/components/Header";
