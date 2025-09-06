@@ -42,6 +42,9 @@ export function LoginForm({
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
+         <div className="flex items-center space-x-2 pt-6 px-6">
+            <img src="/logo.svg"></img>
+          </div>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
