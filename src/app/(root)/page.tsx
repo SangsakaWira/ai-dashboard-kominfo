@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import TimeSeriesGraph from "@/components/dashboard/TimeSeriesGraph";
 import AlertSystem from "@/components/dashboard/AlertSystem";
@@ -13,8 +13,21 @@ import {
   TrendingDown,
 } from "lucide-react";
 import { OccupancyPanel } from "@/components/dashboard/OccupancyPanel";
+import { getMe } from "@/services/api";
 
 export default function Dashboard() {
+  const me = async () => {
+    try {
+      const res = await getMe()
+      console.log(res)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    me()
+  }, [])
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

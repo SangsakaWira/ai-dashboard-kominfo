@@ -1,0 +1,53 @@
+"use client";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import Cookies from "js-cookie";
+import { useState } from "react";
+
+type LogoutDialogProps = {
+  openDialog: boolean;
+  setOpenDialog: (open: boolean) => void;
+};
+
+export function LogoutDialog({ openDialog, setOpenDialog }: LogoutDialogProps) {
+  const [logoutLoading, setLogoutLoading] = useState(false);
+  const handleLogout = () => {
+    Cookies.remove("ACCESS_TOKEN");
+    Cookies.remove("USER_ROLE");
+    localStorage.removeItem("user");
+    setLogoutLoading(true);
+    window.location.href = "/login";
+  };
+
+  return (
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Logout</DialogTitle>
+          <DialogDescription>Are you sure want to logout?</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <div className="flex items-center gap-3 mt-4">
+            <Button
+              variant={"outline"}
+              onClick={() => setOpenDialog(false)}
+              disabled={logoutLoading}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleLogout} disabled={logoutLoading}>
+              {logoutLoading ? "Loading.." : "Logout"}
+            </Button>
+          </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
