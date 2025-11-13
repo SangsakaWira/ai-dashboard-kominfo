@@ -13,12 +13,12 @@ import {
   TrendingDown,
 } from "lucide-react";
 import { OccupancyPanel } from "@/components/dashboard/OccupancyPanel";
-import { getMe } from "@/services/api";
+import { authService } from "@/services/auth.service";
 
 export default function Dashboard() {
   const me = async () => {
     try {
-      const res = await getMe()
+      const res = await authService.getMe()
       console.log(res)
     } catch (error) {
       console.error(error)

@@ -1,8 +1,9 @@
-'use client'
+"use client";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAllCctv } from "@/services/cctv.service";
 import {
   Maximize,
   Pause,
@@ -17,7 +18,7 @@ import React from "react";
 type Props = {};
 
 export default function StreamsPage({}: Props) {
-  const [selectedCamera, setSelectedCamera] = React.useState("Camera 1");
+  const [selectedCamera, setSelectedCamera] = React.useState("");
   const [cctvPlaying, setCctvPlaying] = React.useState(true);
   const [cctvMuted, setCctvMuted] = React.useState(false);
 
@@ -115,7 +116,12 @@ export default function StreamsPage({}: Props) {
         ></iframe>
       ),
     },
-  ];
+  ]
+
+  const { data: all, isLoading: allLoading } = useAllCctv();
+  const { data: selected, isLoading: selectedLoading } = useAllCctv(
+    selectedCamera.length !== 0 ? { name: selectedCamera } : undefined
+  );
   return (
     <div>
       <div className="grid grid-cols-1 gap-6">
@@ -132,7 +138,7 @@ export default function StreamsPage({}: Props) {
                   value={selectedCamera}
                   onChange={(e) => setSelectedCamera(e.target.value)}
                 >
-                  {cameras.map((camera) => (
+                  {all?.map((camera) => (
                     <option key={camera.id} value={camera.name}>
                       {camera.name}
                     </option>
@@ -148,13 +154,19 @@ export default function StreamsPage({}: Props) {
                 <div className="relative bg-black rounded-lg overflow-hidden">
                   <div className="aspect-video bg-gray-900 flex items-center justify-center">
                     {/* <iframe width="620" height="350" src="https://www.youtube.com/embed/3gjO-Ifaig0" title="APACE - 22.033.11K" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> */}
-                    <iframe
-                      src="https://www.youtube.com/embed/3gjO-Ifaig0?autoplay=1&mute=1"
-                      width="100%"
-                      height="100%"
-                      style={{ border: "none" }}
-                      allowFullScreen
-                    />
+                    {selectedLoading ? (
+                      <p>Loading video...</p>
+                    ) : selected ? (
+                      <iframe
+                        src={selected[0].stream_url}
+                        width="100%"
+                        height="100%"
+                        style={{ border: "none" }}
+                        allowFullScreen
+                      />
+                    ) : (
+                      <p>Pilih CCTV untuk menampilkan video</p>
+                    )}
                   </div>
 
                   {/* Stream Controls */}
@@ -214,7 +226,7 @@ export default function StreamsPage({}: Props) {
               <div className="lg:col-span-2">
                 <h3 className="text-lg font-semibold mb-4">Semua Kamera</h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {cameras.map((camera) => (
+                  {all?.map((camera) => (
                     <div
                       key={camera.id}
                       className={`relative bg-gray-900 rounded-lg overflow-hidden cursor-pointer transition-all ${
@@ -225,13 +237,13 @@ export default function StreamsPage({}: Props) {
                       onClick={() => setSelectedCamera(camera.name)}
                     >
                       <div className="aspect-video bg-gray-800 flex items-center justify-center">
-                        {/* <div className="text-center text-white">
-                                              <Video className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                                              <p className="text-xs opacity-75">
-                                                {camera.name.split(" - ")[0]}
-                                              </p>
-                                            </div> */}
-                        {camera.frame}
+                        <div className="text-center text-white">
+                          <Video className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                          <p className="text-xs opacity-75">
+                            {camera.name.split(" - ")[0]}
+                          </p>
+                        </div>
+                        {/* {camera.} */}
                       </div>
                       <div className="absolute top-2 right-2">
                         {getCameraStatusBadge(camera.status)}

@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FormEvent, useState } from "react";
-import { forgotPassword, login } from "@/services/api";
+import { authService } from "@/services/auth.service";
 
 export function ForgotPasswordForm({
   className,
@@ -24,7 +24,7 @@ export function ForgotPasswordForm({
   async function handleForgotPassword(e: FormEvent) {
     e.preventDefault();
     try {
-      await forgotPassword(formData);
+      await authService.forgotPassword(formData);
     } catch (error) {
       console.error(error);
     }
