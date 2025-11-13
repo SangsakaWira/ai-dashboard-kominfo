@@ -13,25 +13,54 @@ import {
   TrendingDown,
 } from "lucide-react";
 import { OccupancyPanel } from "@/components/dashboard/OccupancyPanel";
-import { authService } from "@/services/auth.service";
+// import { authService } from "@/services/auth.service";
+import { useDashboardSummary } from "@/services/dashboard.service";
+import { SummaryCard } from "@/components/dashboard/SummaryCard";
 
 export default function Dashboard() {
-  const me = async () => {
-    try {
-      const res = await authService.getMe()
-      console.log(res)
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  const {data: summary, isLoading: summaryLoading} = useDashboardSummary()
 
-  useEffect(() => {
-    me()
-  }, [])
+  const summaryCards = [
+    {
+      title: "Jumlah CCTV",
+      value: summary?.cctv_total ?? 0,
+      icon: <CameraIcon className="mr-2 h-4 w-4 text-primary" />,
+      subtitle: "+12% from average",
+      trendIcon: <TrendingUp className="mr-1 h-3 w-3 text-green-500" />,
+      isLoading: summaryLoading
+    },
+    {
+      title: "CCTV Offline",
+      value: summary?.cctv_offline ?? 0,
+      icon: <Activity className="mr-2 h-4 w-4 text-primary" />,
+      subtitle: "3%",
+      trendIcon: <TrendingDown className="mr-1 h-3 w-3 text-red-500" />,
+      isLoading: summaryLoading
+    },
+    {
+      title: "Banjir Terdeteksi",
+      value: summary?.flood_detection ?? 0,
+      icon: <GlassWaterIcon className="mr-2 h-4 w-4 text-primary" />,
+      subtitle: "2 high priority",
+      isLoading: summaryLoading
+    },
+    {
+      title: "Peringatan",
+      value: summary?.alert ?? 0,
+      icon: <AlertTriangle className="mr-2 h-4 w-4 text-destructive" />,
+      subtitle: "2 high priority",
+      isLoading: summaryLoading
+    },
+  ]
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-card border">
+
+        {summaryCards.map((item,i) => (
+          <SummaryCard key={i} {...item} />
+        ))}
+
+        {/* <Card className="bg-card border">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium flex items-center">
               <CameraIcon className="mr-2 h-4 w-4 text-primary" />
@@ -39,7 +68,7 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-foreground">42</div>
+            <div className="text-3xl font-bold text-foreground">{summary?.cctv_total ?? 0}</div>
             <p className="text-xs text-muted-foreground flex items-center">
               <TrendingUp className="mr-1 h-3 w-3 text-green-500" />
               +12% from average
@@ -54,7 +83,7 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-foreground">3</div>
+            <div className="text-3xl font-bold text-foreground">{summary?.cctv_offline ?? 0}</div>
             <p className="text-xs text-muted-foreground flex items-center">
               <TrendingDown className="mr-1 h-3 w-3 text-red-500" />
               3%
@@ -69,7 +98,7 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-foreground">3</div>
+            <div className="text-3xl font-bold text-foreground">{summary?.flood_detection ?? 0}</div>
             <p className="text-xs text-muted-foreground">2 high priority</p>
           </CardContent>
         </Card>
@@ -81,10 +110,10 @@ export default function Dashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-foreground">3</div>
+            <div className="text-3xl font-bold text-foreground">{summary?.alert ?? 0}</div>
             <p className="text-xs text-muted-foreground">2 high priority</p>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

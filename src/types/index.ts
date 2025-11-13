@@ -52,6 +52,15 @@ export interface PayloadForgotPassword {
   email: string;
 }
 
+// dashboard
+export interface DashboardSummary {
+  cctv_total: number;
+    cctv_online: number;
+    cctv_offline: number;
+    flood_detection: number;
+    alert: number;
+}
+
 // cctv
 export interface CCTV {
   id: number;
