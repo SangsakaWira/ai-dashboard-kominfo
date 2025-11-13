@@ -59,5 +59,18 @@ export interface CCTV {
   status: string;
   latitude: string;
   longitude: string;
+  location_id: number;
+  location_name: string;
   stream_url: string;
+}
+
+// location
+export interface Location {
+	id: number
+    name: string
+     latitude: string
+      longitude: string
+      capacity_building: number
+      zone_type: string
+      description: string
 }
