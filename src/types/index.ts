@@ -107,8 +107,8 @@ export interface OccupancyZones {
   utilization: number
   status: string
   peak: number
-  peak_time: Date
-  last_update: Date
+  peak_time: string
+  last_update: string
 }
 
 export interface OccupancyChart {

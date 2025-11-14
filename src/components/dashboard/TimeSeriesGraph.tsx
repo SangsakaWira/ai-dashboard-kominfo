@@ -357,7 +357,7 @@ const TimeSeriesGraph: React.FC<TimeSeriesGraphProps> = ({
                         axisLine={false}
                       />
                       <YAxis
-                        domain={[0, maxValue]}
+                        domain={[0, maxValue / zoomLevel]}
                         tick={{ fontSize: 12 }}
                         tickMargin={10}
                         axisLine={false}
@@ -476,7 +476,7 @@ const TimeSeriesGraph: React.FC<TimeSeriesGraphProps> = ({
                         tick={{ fontSize: 12 }}
                         tickMargin={10}
                       />
-                      <YAxis domain={[0, maxValue]} tick={{ fontSize: 12 }} />
+                      <YAxis domain={[0, maxValue / zoomLevel]} tick={{ fontSize: 12 }} />
                       <Tooltip
                         content={<CustomTooltip />}
                       />
@@ -683,7 +683,7 @@ const TimeSeriesGraph: React.FC<TimeSeriesGraphProps> = ({
                         tickMargin={10}
                       />
 
-                      <YAxis domain={[0, maxValue]} tick={{ fontSize: 12 }} />
+                      <YAxis domain={[0, maxValue / zoomLevel]} tick={{ fontSize: 12 }} />
 
                       <Tooltip
                         content={<CustomTooltip />}
