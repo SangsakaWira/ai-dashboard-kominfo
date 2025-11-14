@@ -55,10 +55,10 @@ export interface PayloadForgotPassword {
 // dashboard
 export interface DashboardSummary {
   cctv_total: number;
-    cctv_online: number;
-    cctv_offline: number;
-    flood_detection: number;
-    alert: number;
+  cctv_online: number;
+  cctv_offline: number;
+  flood_detection: number;
+  alert: number;
 }
 
 // cctv
@@ -75,11 +75,47 @@ export interface CCTV {
 
 // location
 export interface Location {
-	id: number
-    name: string
-     latitude: string
-      longitude: string
-      capacity_building: number
-      zone_type: string
-      description: string
+  id: number
+  name: string
+  latitude: string
+  longitude: string
+  capacity_building: number
+  zone_type: string
+  description: string
+}
+
+// occupancy
+export interface OccupancyCurrent {
+  cctv_id: number
+  totalIn: number
+  totalOut: number
+  currentOccupancy: number
+  buildingCapacity: number
+  occupancyPercentage: number
+  occupancyRate: number
+  occupancyTrend: string
+  isNearCapacity: boolean
+  isOverCapacity: boolean
+  occupancyStatus: string
+}
+
+export interface OccupancyZones {
+  id: number
+  zone: string
+  current: number
+  capacity: number
+  utilization: number
+  status: string
+  peak: number
+  peak_time: Date
+  last_update: Date
+}
+
+export interface OccupancyChart {
+  label: string
+  start?: string
+  end?: string
+  count_in: number
+  count_out: number
+  net: number
 }
