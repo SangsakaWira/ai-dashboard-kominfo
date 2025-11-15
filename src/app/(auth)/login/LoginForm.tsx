@@ -12,8 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
-import { login } from "@/services/api";
 import Cookies from 'js-cookie'
+import { authService } from "@/services/auth.service";
 
 export function LoginForm({
   className,
@@ -29,7 +29,7 @@ export function LoginForm({
     e.preventDefault();
     setLoading(true)
     try {
-      const res = await login(formData);
+      const res = await authService.login(formData)
       Cookies.set("ACCESS_TOKEN", res.data.accessToken)
       window.location.href = "/"
     } catch (error: any) {
