@@ -6,6 +6,11 @@ export interface ApiResponse<T> {
   links?: Record<string, any>;
 }
 
+export interface MetaPage {
+  currentPage: number;
+  totalPages: number;
+}
+
 // Auth
 export interface AuthData {
   accessToken: string;
@@ -75,47 +80,112 @@ export interface CCTV {
 
 // location
 export interface Location {
-  id: number
-  name: string
-  latitude: string
-  longitude: string
-  capacity_building: number
-  zone_type: string
-  description: string
+  id: number;
+  name: string;
+  latitude: string;
+  longitude: string;
+  capacity_building: number;
+  zone_type: string;
+  description: string;
 }
 
 // occupancy
 export interface OccupancyCurrent {
-  cctv_id: number
-  totalIn: number
-  totalOut: number
-  currentOccupancy: number
-  buildingCapacity: number
-  occupancyPercentage: number
-  occupancyRate: number
-  occupancyTrend: string
-  isNearCapacity: boolean
-  isOverCapacity: boolean
-  occupancyStatus: string
+  cctv_id: number;
+  totalIn: number;
+  totalOut: number;
+  currentOccupancy: number;
+  buildingCapacity: number;
+  occupancyPercentage: number;
+  occupancyRate: number;
+  occupancyTrend: string;
+  isNearCapacity: boolean;
+  isOverCapacity: boolean;
+  occupancyStatus: string;
 }
 
 export interface OccupancyZones {
-  id: number
-  zone: string
-  current: number
-  capacity: number
-  utilization: number
-  status: string
-  peak: number
-  peak_time: string
-  last_update: string
+  id: number;
+  zone: string;
+  current: number;
+  capacity: number;
+  utilization: number;
+  status: string;
+  peak: number;
+  peak_time: string;
+  last_update: string;
 }
 
 export interface OccupancyChart {
-  label: string
-  start?: string
-  end?: string
-  count_in: number
-  count_out: number
-  net: number
+  label: string;
+  start?: string;
+  end?: string;
+  count_in: number;
+  count_out: number;
+  net: number;
+}
+
+// Alert
+export interface Alert {
+  id: number;
+  is_read: boolean;
+  level: string;
+  message: string;
+  reference_id: number;
+  title: string;
+  type: string;
+  created_at: Date;
+}
+
+// Flood
+export interface FloodSpot {
+  id: number;
+  latitude: number;
+  longitude: number;
+  severity: string;
+  depth: number;
+  source: string;
+  description: string;
+  location_id: number;
+}
+
+export interface FloodReport {
+  id: number;
+  latitude: number;
+  longitude: number;
+  reporter_name: string;
+  reporter_phone: string;
+  description: string;
+  photo_url: string;
+  status: string;
+  source: string;
+  location_id: number;
+}
+
+// Sensor
+export interface Sensor {
+  id: number;
+  location_id: number;
+  key: string;
+  name: string;
+  unit: string;
+  threshold_low: number;
+  threshold_high: number;
+  is_active: boolean;
+  latitude: string;
+  longitude: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface SensorPayload {
+  name: string
+  key: string
+  latitude?: string
+  longitude?: string
+  unit?: string
+  threshold_low?: number;
+  threshold_high?: number;
+  location_id?: number;
+  is_active?: boolean;
 }

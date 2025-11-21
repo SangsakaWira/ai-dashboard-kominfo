@@ -1,13 +1,20 @@
+'use client'
 import AlertSystem from "@/components/dashboard/AlertSystem";
 import LiveFeedPanel from "@/components/dashboard/LiveFeedPanel";
 import MapView from "@/components/dashboard/MapView";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useFloodReport, useFloodSpot } from "@/services/flood.service";
 import { BarChart3 } from "lucide-react";
 import React from "react";
 
 type Props = {};
 
 export default function FloodDetectionPage({}: Props) {
+  const {data: floodReportData} = useFloodReport()
+  const {data: floodSpotData} = useFloodSpot()
+
+  console.log(floodReportData)
+  console.log(floodSpotData)
   return (
     <div>
       {/* <TabsContent value="flood-detection">

@@ -35,16 +35,16 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: Props) {
     { id: "overview", label: "Overview", link: "/", icon: Home },
     { id: "cctv", label: "Streams", link: "/streams", icon: Video },
     { id: "locations", label: "Locations", link: "/locations", icon: MapIcon },
-    {
-      id: "vandalism",
-      label: "Crime Detections",
-      link: "/crime-detections",
-      icon: GlassesIcon,
-    },
+    // {
+    //   id: "vandalism",
+    //   label: "Crime Detections",
+    //   link: "/crime-detections",
+    //   icon: GlassesIcon,
+    // },
     {
       id: "occupancy",
-      label: "People Analytics",
-      link: "/people-analytics",
+      label: "Sensors",
+      link: "/sensors",
       icon: Users,
     },
     {

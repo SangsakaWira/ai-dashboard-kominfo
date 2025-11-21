@@ -1,66 +1,33 @@
-"use client";
-
-import React, { useState } from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import React from 'react'
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
-  Bell,
-  BellOff,
-  AlertTriangle,
-  Info,
-  CheckCircle,
-  X,
-  ChevronRight,
+  AlertTriangleIcon,
+  CheckCircleIcon,
+  InfoIcon,
+  XIcon,
 } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Alert } from "@/types";
-import { format } from "date-fns";
-import { useRouter } from "next/navigation";
+import { Alert, MetaPage } from '@/types';
+import { format } from 'date-fns';
 
-// interface Alert {
-//   id: string;
-//   type: "warning" | "info" | "critical";
-//   message: string;
-//   timestamp: Date;
-//   zone: string;
-//   read: boolean;
-// }
-
-interface AlertSystemProps {
-  alerts?: Alert[];
-  onDismiss?: (id: number) => void;
-  onEscalate?: (id: number) => void;
-  onConfigureThresholds?: () => void;
+type Props = {
+    data: Alert[]
+    meta: MetaPage
+    onPageChange: (page: number) => void;
 }
 
-export default function AlertSystem({
-  alerts,
-  onDismiss = () => {},
-  onEscalate = () => {},
-  onConfigureThresholds = () => {},
-}: AlertSystemProps) {
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  const router = useRouter()
-
-  const getAlertIcon = (type: string) => {
+export function AllAlertsContent({data,meta,onPageChange}: Props) {
+    const getAlertIcon = (type: string) => {
     switch (type) {
       case "danger":
-        return <AlertTriangle className="h-5 w-5 text-destructive" />;
+        return <AlertTriangleIcon className="h-5 w-5 text-destructive" />;
       case "warning":
-        return <AlertTriangle className="h-5 w-5 text-amber-500" />;
+        return <AlertTriangleIcon className="h-5 w-5 text-amber-500" />;
       case "info":
-        return <Info className="h-5 w-5 text-blue-500" />;
+        return <InfoIcon className="h-5 w-5 text-blue-500" />;
       default:
-        return <Info className="h-5 w-5" />;
+        return <InfoIcon className="h-5 w-5" />;
     }
   };
 
@@ -76,24 +43,14 @@ export default function AlertSystem({
         return <Badge>Unknown</Badge>;
     }
   };
-
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  };
-
   return (
     <Card className="w-full h-full bg-background border shadow-md">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-center">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
-            {notificationsEnabled ? (
-              <Bell className="h-5 w-5 text-primary" />
-            ) : (
-              <BellOff className="h-5 w-5 text-muted-foreground" />
-            )}
             Alert System
           </CardTitle>
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground">
               {notificationsEnabled ? "Notifications On" : "Notifications Off"}
             </span>
@@ -101,15 +58,14 @@ export default function AlertSystem({
               checked={notificationsEnabled}
               onCheckedChange={setNotificationsEnabled}
             />
-          </div>
+          </div> */}
         </div>
       </CardHeader>
-
-      <CardContent className="p-4">
-        {alerts && alerts.length > 0 ? (
-          <ScrollArea className="h-[280px] pr-4">
+      <div className="grid grid-cols-1 gap-6">
+        <CardContent className="p-4">
+          {data && data.length > 0 ? (
             <div className="space-y-3">
-              {alerts.slice(0,3).map((alert) => (
+              {data.slice(0, 10).map((alert) => (
                 <div
                   key={alert.id}
                   className={`p-3 rounded-md border ${alert.is_read ? "bg-background" : "bg-muted/30"} ${alert.type === "critical" ? "border-destructive/50" : "border-border"}`}
@@ -134,9 +90,9 @@ export default function AlertSystem({
                       variant="ghost"
                       size="sm"
                       className="h-6 w-6 p-0"
-                      onClick={() => onDismiss(alert.id)}
+                      // onClick={() => onDismiss(alert.id)}
                     >
-                      <X className="h-4 w-4" />
+                      <XIcon className="h-4 w-4" />
                     </Button>
                   </div>
 
@@ -146,7 +102,7 @@ export default function AlertSystem({
                         size="sm"
                         variant="destructive"
                         className="text-xs"
-                        onClick={() => onEscalate(alert.id)}
+                        // onClick={() => onEscalate(alert.id)}
                       >
                         Escalate
                       </Button>
@@ -155,34 +111,39 @@ export default function AlertSystem({
                 </div>
               ))}
             </div>
-          </ScrollArea>
-        ) : (
-          <div className="h-[280px] flex flex-col items-center justify-center text-center p-4">
-            <CheckCircle className="h-12 w-12 text-primary/50 mb-2" />
-            <h3 className="font-medium">No Active Alerts</h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              All systems operating normally
-            </p>
-          </div>
-        )}
-      </CardContent>
+          ) : (
+            <div className="h-[280px] flex flex-col items-center justify-center text-center p-4">
+              <CheckCircleIcon className="h-12 w-12 text-primary/50 mb-2" />
+              <h3 className="font-medium">No Active Alerts</h3>
+              <p className="text-sm text-muted-foreground mt-1">
+                All systems operating normally
+              </p>
+            </div>
+          )}
+        </CardContent>
+      </div>
 
-      <Separator />
-
-      <CardFooter className="pt-4 flex justify-between">
-        <Button variant="outline" size="sm" onClick={onConfigureThresholds}>
-          Configure Thresholds
-        </Button>
+      <div className="flex justify-center items-center gap-x-4 pt-4">
         <Button
-          variant="ghost"
-          size="sm"
-          className="text-xs flex items-center gap-1"
-          onClick={() => router.push("/alerts/all")}
+          variant="outline"
+          disabled={meta.currentPage <= 1}
+          onClick={() => onPageChange(meta.currentPage - 1)}
         >
-          View All Alerts
-          <ChevronRight className="h-4 w-4" />
+          Previous
         </Button>
-      </CardFooter>
+
+        <p className="text-sm text-muted-foreground">
+          Page {meta.currentPage} of {meta.totalPages}
+        </p>
+
+        <Button
+          variant="outline"
+          disabled={meta.currentPage >= meta.totalPages}
+          onClick={() => onPageChange(meta.currentPage + 1)}
+        >
+          Next
+        </Button>
+      </div>
     </Card>
-  );
+  )
 }

@@ -12,8 +12,8 @@ import MainLayout from "@/components/MainLayout";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Vision AI - Dashboard Palembang",
-  description: "A modern full-stack starter template powered by Next.js",
+  title: "SiTajir",
+  description: "SiTajir",
 };
 
 export default function RootLayout({
