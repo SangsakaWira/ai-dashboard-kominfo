@@ -14,6 +14,14 @@ export const locationService = {
     delete: (id: number) => `/location/${id}`,
 }
 
+export const cctvService = {
+    list: "/cctv",
+    detail: (id: number) => `/cctv/${id}`,
+    create: "/cctv",
+    update: (id: number) => `/cctv/${id}`,
+    delete: (id: number) => `/cctv/${id}`,
+}
+
 export const alertService = {
     list: "/alert",
     update: (id: number) => `/alert/${id}/read`,

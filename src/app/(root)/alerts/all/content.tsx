@@ -48,7 +48,7 @@ export function AllAlertsContent({data,meta,onPageChange}: Props) {
       <CardHeader className="pb-2">
         <div className="flex justify-between items-center">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
-            Alert System
+            Alert 
           </CardTitle>
           {/* <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground">
@@ -123,7 +123,7 @@ export function AllAlertsContent({data,meta,onPageChange}: Props) {
         </CardContent>
       </div>
 
-      <div className="flex justify-center items-center gap-x-4 pt-4">
+      <div className="flex justify-center items-center gap-x-4 pt-4 mb-5">
         <Button
           variant="outline"
           disabled={meta.currentPage <= 1}

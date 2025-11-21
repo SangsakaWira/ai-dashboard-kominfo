@@ -70,12 +70,23 @@ export interface DashboardSummary {
 export interface CCTV {
   id: number;
   name: string;
-  status: string;
+  status: "online" | "offline";
   latitude: string;
   longitude: string;
   location_id: number;
   location_name: string;
   stream_url: string;
+  category: string
+}
+
+export interface CCTVPayload {
+  name: string;
+  status?: "online" | "offline";
+  latitude?: string;
+  longitude?: string;
+  location_name?: string;
+  stream_url?: string;
+  category?: string;
 }
 
 // location

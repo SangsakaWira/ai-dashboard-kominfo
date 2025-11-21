@@ -201,7 +201,6 @@ export function EditSensorContent({ id }: Props) {
             name="location_id"
             render={({ field }) => {
               const { data: locations, isLoading } = useAllLocation();
-              console.log(field.value)
               return (
                 <FormItem>
                   <FormLabel>Location</FormLabel>

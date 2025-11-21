@@ -8,13 +8,13 @@ import { useRemove } from "@/hooks/useRemove";
 
 interface ActionCellProps {
   // onEdit: () => void;
-  onDelete: () => void;
+  // onDelete: () => void;
   edit: string
   pathDelete: string
   itemId: number
 }
 
-export const ActionCell = ({ onDelete, edit, pathDelete, itemId }: ActionCellProps) => {
+export const ActionCell = ({ edit, pathDelete, itemId }: ActionCellProps) => {
   const [openAlert, setOpenAlert] = React.useState(false);
   const router = useRouter()
   const removeItem = useRemove(pathDelete, itemId)

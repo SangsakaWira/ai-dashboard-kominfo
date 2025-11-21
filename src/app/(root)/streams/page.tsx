@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAllCctv } from "@/services/cctv.service";
+import { useAllCctv } from "@/hooks/cctv";
 import {
   Maximize,
   Pause,
@@ -13,6 +13,7 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 type Props = {};
@@ -29,94 +30,6 @@ export default function StreamsPage({}: Props) {
       <Badge variant="destructive">Offline</Badge>
     );
   };
-
-  const cameras = [
-    {
-      id: "cam1",
-      name: "Camera 1 - Pintu Gerbang DPRD",
-      status: "online",
-      frame: (
-        <iframe
-          src="https://cctv.balitower.co.id/Bendungan-Hilir-003-700014_3/embed.html"
-          width="100%"
-          height="100%"
-          style={{ border: "none" }}
-          allowFullScreen
-        />
-      ),
-    },
-    {
-      id: "cam2",
-      name: "Camera 2 - Jalan Ahmad Yani",
-      status: "online",
-      frame: (
-        <iframe
-          src="https://cctv.balitower.co.id/Jati-Pulo-001-702017_2/embed.html"
-          width="100%"
-          height="100%"
-          style={{ border: "none" }}
-          allowFullScreen
-        ></iframe>
-      ),
-    },
-    {
-      id: "cam3",
-      name: "Camera 3 - Kantor Walikota",
-      status: "offline",
-      frame: (
-        <iframe
-          src="https://cctv.balitower.co.id/Senayan-004-705087_3/embed.html"
-          width="100%"
-          height="100%"
-          style={{ border: "none" }}
-          allowFullScreen
-        ></iframe>
-      ),
-    },
-    {
-      id: "cam4",
-      name: "Camera 4 - Jalan Merdeka",
-      status: "online",
-      frame: (
-        <iframe
-          src="https://cctv.balitower.co.id/Cengkareng-Barat-013-702131_2/embed.html"
-          width="100%"
-          height="100%"
-          style={{ border: "none" }}
-          allowFullScreen
-        ></iframe>
-      ),
-    },
-    {
-      id: "cam5",
-      name: "Camera 5 - Jalan Kecamatan Plaju",
-      status: "online",
-      frame: (
-        // <iframe width="620" height="350" src="https://www.youtube.com/embed/yBKMI8-08Q4" title="APACE - 22037" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        <iframe
-          src="https://www.youtube.com/embed/yBKMI8-08Q4?autoplay=1&mute=1"
-          width="100%"
-          height="100%"
-          style={{ border: "none" }}
-          allowFullScreen
-        ></iframe>
-      ),
-    },
-    {
-      id: "cam6",
-      name: "Camera 6 - Pintu Gerbang DPRD Belakang",
-      status: "online",
-      frame: (
-        <iframe
-          src="https://cctv.balitower.co.id/Gelora-017-700470_8/embed.html"
-          width="100%"
-          height="100%"
-          style={{ border: "none" }}
-          allowFullScreen
-        ></iframe>
-      ),
-    },
-  ]
 
   const { data: all, isLoading: allLoading } = useAllCctv();
   const { data: selected, isLoading: selectedLoading } = useAllCctv(
@@ -224,7 +137,12 @@ export default function StreamsPage({}: Props) {
 
               {/* Camera Grid */}
               <div className="lg:col-span-2">
-                <h3 className="text-lg font-semibold mb-4">Semua Kamera</h3>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold mb-4">Semua Kamera</h3>
+                  <Link href={"/cctv"}>
+                    <Button variant={"link"}>Manage CCTV</Button>
+                  </Link>
+                </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {all?.map((camera) => (
                     <div
@@ -261,8 +179,6 @@ export default function StreamsPage({}: Props) {
           </CardContent>
         </Card>
       </div>
-      {/* <TabsContent value="cctv">
-      </TabsContent> */}
     </div>
   );
 }
