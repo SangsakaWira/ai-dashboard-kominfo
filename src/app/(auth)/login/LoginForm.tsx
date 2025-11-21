@@ -30,6 +30,7 @@ export function LoginForm({
     setLoading(true)
     try {
       const res = await authService.login(formData)
+      console.log(res);
       Cookies.set("ACCESS_TOKEN", res.data.accessToken)
       window.location.href = "/"
     } catch (error: any) {
