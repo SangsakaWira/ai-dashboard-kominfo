@@ -51,7 +51,7 @@ export default function StreamsPage({}: Props) {
                   value={selectedCamera}
                   onChange={(e) => setSelectedCamera(e.target.value)}
                 >
-                  {all?.map((camera) => (
+                  {all?.map((camera:any) => (
                     <option key={camera.id} value={camera.name}>
                       {camera.name}
                     </option>
@@ -144,7 +144,7 @@ export default function StreamsPage({}: Props) {
                   </Link>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {all?.map((camera) => (
+                  {all?.map((camera:any) => (
                     <div
                       key={camera.id}
                       className={`relative bg-gray-900 rounded-lg overflow-hidden cursor-pointer transition-all ${

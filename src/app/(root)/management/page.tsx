@@ -165,7 +165,7 @@ export default function ManagementPage({ }: Props) {
                 </TableHeader>
                 {isLoading ? <TableSkeleton /> : (
                   <TableBody>
-                    {data.map((row) => {
+                    {data.map((row:any) => {
                       // const utilization = Math.round(
                       //   (row.current / row.capacity) * 100
                       // );
