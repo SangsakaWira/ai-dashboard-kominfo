@@ -7,8 +7,10 @@ import "../globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Vision AI - Authentication",
-  description: "Vision AI Authentication",
+  title: "SiTajir - Authentication",
+  description: "SiTajir Authentication",
+  // title: "Vision AI - Authentication",
+  // description: "Vision AI Authentication",
 };
 
 export default function AuthLayout({

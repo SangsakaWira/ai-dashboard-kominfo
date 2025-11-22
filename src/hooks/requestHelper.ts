@@ -21,6 +21,11 @@ export const updateData = async <T>(url: string, data?: any): Promise<ApiRespons
   return res.data;
 };
 
+export const updatePatchData = async <T>(url: string, data?: any): Promise<ApiResponse<T>> => {
+  const res = await api.patch<ApiResponse<T>>(url, data);
+  return res.data;
+};
+
 export const deleteData = async <T>(url: string, params?: RequestParams): Promise<ApiResponse<T>> => {
   const res = await api.delete<ApiResponse<T>>(url, { params });
   return res.data;

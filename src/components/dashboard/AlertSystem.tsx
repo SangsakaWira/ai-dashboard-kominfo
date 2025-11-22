@@ -22,59 +22,38 @@ import {
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Alert } from "@/types";
+import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
-interface Alert {
-  id: string;
-  type: "warning" | "info" | "critical";
-  message: string;
-  timestamp: Date;
-  zone: string;
-  read: boolean;
-}
+// interface Alert {
+//   id: string;
+//   type: "warning" | "info" | "critical";
+//   message: string;
+//   timestamp: Date;
+//   zone: string;
+//   read: boolean;
+// }
 
 interface AlertSystemProps {
   alerts?: Alert[];
-  onDismiss?: (id: string) => void;
-  onEscalate?: (id: string) => void;
+  onDismiss?: (id: number) => void;
+  onEscalate?: (id: number) => void;
   onConfigureThresholds?: () => void;
 }
 
 export default function AlertSystem({
-  alerts = [
-    {
-      id: "1",
-      type: "critical",
-      message: "Occupancy exceeds maximum capacity in Zone A",
-      timestamp: new Date(),
-      zone: "Zone A",
-      read: false,
-    },
-    {
-      id: "2",
-      type: "warning",
-      message: "Unusual crowd formation detected in Zone B",
-      timestamp: new Date(Date.now() - 15 * 60000),
-      zone: "Zone B",
-      read: false,
-    },
-    {
-      id: "3",
-      type: "info",
-      message: "Traffic flow normal in all zones",
-      timestamp: new Date(Date.now() - 30 * 60000),
-      zone: "All Zones",
-      read: true,
-    },
-  ],
+  alerts,
   onDismiss = () => {},
   onEscalate = () => {},
   onConfigureThresholds = () => {},
 }: AlertSystemProps) {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const router = useRouter()
 
   const getAlertIcon = (type: string) => {
     switch (type) {
-      case "critical":
+      case "danger":
         return <AlertTriangle className="h-5 w-5 text-destructive" />;
       case "warning":
         return <AlertTriangle className="h-5 w-5 text-amber-500" />;
@@ -87,8 +66,8 @@ export default function AlertSystem({
 
   const getAlertBadge = (type: string) => {
     switch (type) {
-      case "critical":
-        return <Badge variant="destructive">Critical</Badge>;
+      case "danger":
+        return <Badge variant="destructive">Danger</Badge>;
       case "warning":
         return <Badge className="bg-amber-500">Warning</Badge>;
       case "info":
@@ -127,27 +106,27 @@ export default function AlertSystem({
       </CardHeader>
 
       <CardContent className="p-4">
-        {alerts.length > 0 ? (
+        {alerts && alerts.length > 0 ? (
           <ScrollArea className="h-[280px] pr-4">
             <div className="space-y-3">
-              {alerts.map((alert) => (
+              {alerts.slice(0,3).map((alert) => (
                 <div
                   key={alert.id}
-                  className={`p-3 rounded-md border ${alert.read ? "bg-background" : "bg-muted/30"} ${alert.type === "critical" ? "border-destructive/50" : "border-border"}`}
+                  className={`p-3 rounded-md border ${alert.is_read ? "bg-background" : "bg-muted/30"} ${alert.type === "critical" ? "border-destructive/50" : "border-border"}`}
                 >
                   <div className="flex justify-between items-start">
                     <div className="flex gap-3 items-start">
-                      {getAlertIcon(alert.type)}
+                      {getAlertIcon(alert.level)}
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          {getAlertBadge(alert.type)}
+                          {getAlertBadge(alert.level)}
                           <span className="text-xs text-muted-foreground">
-                            {formatTime(alert.timestamp)}
+                            {format(new Date(alert.created_at), "hh:mm a")}
                           </span>
                         </div>
                         <p className="text-sm">{alert.message}</p>
                         <p className="text-xs text-muted-foreground mt-1">
-                          {alert.zone}
+                          {alert.type}
                         </p>
                       </div>
                     </div>
@@ -198,6 +177,7 @@ export default function AlertSystem({
           variant="ghost"
           size="sm"
           className="text-xs flex items-center gap-1"
+          onClick={() => router.push("/alerts/all")}
         >
           View All Alerts
           <ChevronRight className="h-4 w-4" />
