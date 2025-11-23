@@ -15,11 +15,4 @@ export const useFloodSpot = (params?: {
 
 // Flood Report
 
-export const useFloodReport = (params?: {
-  page?: number;
-  limit?: number;
-  sort?: string;
-  status?: "pending" | "verified" | "rejected" | "resolved";
-  source?: string;
-  location_id?: number;
-}) => useApi<FloodReport[]>("/flood/report", params);
+

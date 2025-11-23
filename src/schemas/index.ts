@@ -10,4 +10,17 @@ export const cctvSchema = z.object({
   location_name: z.string().optional(),
 })
 
+export const reportSchema = z.object({
+  latitude: z.string().min(1, "Latitude wajib diisi"),
+  longitude: z.string().min(1, "Longtitude wajib diisi"),
+  location_id: z.number().optional(),
+  reporter_name: z.string().optional(),
+  reporter_phone: z.string().optional(),
+  description: z.string().optional(),
+  photo_url: z.string().optional(),
+  source: z.string().optional(),
+});
+
+export type ReportPayload = z.infer<typeof reportSchema>;
+
 export type CctvPayload = z.infer<typeof cctvSchema>

@@ -53,6 +53,12 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: Props) {
       link: "/flood-detection",
       icon: Map,
     },
+    {
+      id: "flood-report",
+      label: "Flood Report",
+      link: "/flood-report",
+      icon: Map,
+    },
     { id: "table", label: "Management", link: "/management", icon: TableIcon },
     { id: "historical", label: "Historical", link: "/historical", icon: Clock },
     { id: "alerts", label: "Alerts", link: "/alerts", icon: AlertTriangle },

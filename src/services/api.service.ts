@@ -22,6 +22,22 @@ export const cctvService = {
     delete: (id: number) => `/cctv/${id}`,
 }
 
+export const floodReportService = {
+    list: "/flood/report",
+    detail: (id: number) => `/flood/report/${id}`,
+    create: "/flood/report",
+    update: (id: number) => `/flood/report/${id}`,
+    delete: (id: number) => `/flood/report/${id}`,
+}
+
+export const floodSpotService = {
+    list: "/flood/spot",
+    detail: (id: number) => `/flood/spot/${id}`,
+    create: "/flood/spot",
+    update: (id: number) => `/flood/spot/${id}`,
+    delete: (id: number) => `/flood/spot/${id}`,
+}
+
 export const alertService = {
     list: "/alert",
     update: (id: number) => `/alert/${id}/read`,

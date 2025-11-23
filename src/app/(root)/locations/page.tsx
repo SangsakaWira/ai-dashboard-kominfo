@@ -1,6 +1,6 @@
 'use client'
 
-import { useAllLocation } from "@/services/location.service";
+import { useAllLocation } from "@/hooks/locations";
 import { LatLngExpression } from "leaflet";
 import dynamic from "next/dynamic";
 import React from "react";

@@ -3,11 +3,13 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import "../globals.css";
-import Footer from "@/components/Footer";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import Header from "@/components/Header";
-import { Sidebar } from "@/components/Sidebar";
+// import Footer from "@/components/Footer";
+// import { ScrollArea } from "@/components/ui/scroll-area";
+// import Header from "@/components/Header";
+// import { Sidebar } from "@/components/Sidebar";
 import MainLayout from "@/components/MainLayout";
+import "leaflet/dist/leaflet.css";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
