@@ -18,7 +18,7 @@ export interface UploadResponse {
   data: {
     secure_url: string;
   };
-};
+}
 
 // Auth
 export interface AuthData {
@@ -160,13 +160,25 @@ export interface Alert {
 // Flood
 export interface FloodSpot {
   id: number;
-  latitude: number;
-  longitude: number;
+  latitude: string;
+  longitude: string;
   severity: string;
   depth: number;
   source: string;
   description: string;
   location_id: number;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface FloodSpotPayload {
+  latitude: string
+  longitude: string
+  location_id?: number
+  severity?: string
+  depth?: number
+  source?: string
+  description?: string
 }
 
 export interface FloodReport {

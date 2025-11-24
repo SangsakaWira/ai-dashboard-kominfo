@@ -21,6 +21,16 @@ export const reportSchema = z.object({
   source: z.string().optional(),
 });
 
-export type ReportPayload = z.infer<typeof reportSchema>;
+export const spotSchema = z.object({
+  latitude: z.string().min(1, "Latitude wajib diisi"),
+  longitude: z.string().min(1, "Longtitude wajib diisi"),
+  location_id: z.number().optional(),
+  severity: z.string().optional(),
+  depth: z.number().optional(),
+  description: z.string().optional(),
+  source: z.string().optional(),
+});
 
+export type ReportPayload = z.infer<typeof reportSchema>;
+export type SpotPayload = z.infer<typeof spotSchema>;
 export type CctvPayload = z.infer<typeof cctvSchema>
