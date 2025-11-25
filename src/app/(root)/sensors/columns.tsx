@@ -50,6 +50,7 @@ export const sensorColumns: ColumnDef<Sensor>[] = [
           edit={`/sensors/edit/${sensor.id}`}
           pathDelete={`/sensor`}
           itemId={sensor.id}
+          detail={`/sensors/${sensor.id}`}
         />
       );
     },

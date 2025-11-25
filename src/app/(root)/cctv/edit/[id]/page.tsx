@@ -9,9 +9,7 @@ export default async function EditCctvPage({
   const id = (await params).id;
   return (
     <section>
-      <div className="container">
         <EditCctvContent id={id as string} />
-      </div>
     </section>
   );
 }

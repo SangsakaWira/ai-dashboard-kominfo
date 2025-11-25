@@ -3,6 +3,12 @@
 const nextConfig = {
     images: {
         domains: ['images.unsplash.com'],
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "api-cctv.palembangkota.site"
+            }
+        ]
     }
 };
 

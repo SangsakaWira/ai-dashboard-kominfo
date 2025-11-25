@@ -17,6 +17,7 @@ import {
   Video,
   MapIcon,
   LogOutIcon,
+  MapPinned,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -52,6 +53,18 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: Props) {
       label: "Flood Detection",
       link: "/flood-detection",
       icon: Map,
+    },
+    {
+      id: "flood-report",
+      label: "Flood Report",
+      link: "/flood-report",
+      icon: Map,
+    },
+    {
+      id: "flood-spot",
+      label: "Flood Spot",
+      link: "/flood-spot",
+      icon: MapPinned,
     },
     { id: "table", label: "Management", link: "/management", icon: TableIcon },
     { id: "historical", label: "Historical", link: "/historical", icon: Clock },

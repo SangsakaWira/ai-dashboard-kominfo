@@ -11,6 +11,15 @@ export interface MetaPage {
   totalPages: number;
 }
 
+// Upload
+export interface UploadResponse {
+  status: string;
+  message: string;
+  data: {
+    secure_url: string;
+  };
+}
+
 // Auth
 export interface AuthData {
   accessToken: string;
@@ -76,7 +85,7 @@ export interface CCTV {
   location_id: number;
   location_name: string;
   stream_url: string;
-  category: string
+  category: string;
 }
 
 export interface CCTVPayload {
@@ -151,19 +160,31 @@ export interface Alert {
 // Flood
 export interface FloodSpot {
   id: number;
-  latitude: number;
-  longitude: number;
+  latitude: string;
+  longitude: string;
   severity: string;
   depth: number;
   source: string;
   description: string;
   location_id: number;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface FloodSpotPayload {
+  latitude: string
+  longitude: string
+  location_id?: number
+  severity?: string
+  depth?: number
+  source?: string
+  description?: string
 }
 
 export interface FloodReport {
   id: number;
-  latitude: number;
-  longitude: number;
+  latitude: string;
+  longitude: string;
   reporter_name: string;
   reporter_phone: string;
   description: string;
@@ -171,6 +192,18 @@ export interface FloodReport {
   status: string;
   source: string;
   location_id: number;
+  created_at: Date;
+}
+
+export interface FloodReportPayload {
+  latitude: string;
+  longitude: string;
+  location_id?: number;
+  reporter_name?: string;
+  reporter_phone?: string;
+  description?: string;
+  photo_url?: string;
+  source?: string;
 }
 
 // Sensor
@@ -190,11 +223,11 @@ export interface Sensor {
 }
 
 export interface SensorPayload {
-  name: string
-  key: string
-  latitude?: string
-  longitude?: string
-  unit?: string
+  name: string;
+  key: string;
+  latitude?: string;
+  longitude?: string;
+  unit?: string;
   threshold_low?: number;
   threshold_high?: number;
   location_id?: number;

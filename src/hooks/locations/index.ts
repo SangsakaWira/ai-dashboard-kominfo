@@ -9,3 +9,7 @@ export const useAllLocation = (params?: {
   name: string | null;
   zone_type?: string;
 }) => useApi<Location[]>(locationService.list, params);
+
+export const useLocationDetail = (id?: number) => {
+  return useApi<Location>(id ? locationService.detail(id) : null);
+};

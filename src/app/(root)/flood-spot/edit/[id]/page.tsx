@@ -1,7 +1,7 @@
 import React from "react";
-import { EditSensorContent } from "./content";
+import { EditSpotContent } from "./content";
 
-export default async function EditSensorPage({
+export default async function EditFloodSpotPage({
   params,
 }: {
   params: Promise<{ id: string }>;
@@ -9,7 +9,7 @@ export default async function EditSensorPage({
   const id = (await params).id;
   return (
     <section>
-        <EditSensorContent id={id as string} />
+      <EditSpotContent id={id as string} />
     </section>
   );
 }
