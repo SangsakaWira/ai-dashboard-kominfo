@@ -8,11 +8,21 @@ import { TableIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { sensorColumns } from "./columns";
+import { usePaginationParams } from "@/hooks/usePaginationParams";
 
 type Props = {};
 
 export default function SensorsPage({}: Props) {
-  const { data = [], isLoading } = useSensors();
+  const { page, setPage, limit, setLimit } = usePaginationParams(1, 10);
+  const {
+    data = [],
+    isLoading,
+    meta,
+    links,
+  } = useSensors({
+    page,
+    limit,
+  });
 
   // const getThresholdBadge = (status: string) => {
   //   switch (status.toLowerCase()) {
@@ -44,7 +54,16 @@ export default function SensorsPage({}: Props) {
             </div>
           </CardHeader>
           <CardContent>
-            <DataTable columns={sensorColumns} data={data} loading={isLoading} />
+            <DataTable
+              columns={sensorColumns}
+              data={data}
+              loading={isLoading}
+              currentPage={meta?.currentPage ?? 1}
+              totalPages={meta?.totalPages ?? 1}
+              hasNext={!!links?.next}
+              hasPrev={!!links?.prev}
+              onPageChange={setPage}
+            />
           </CardContent>
         </Card>
       </div>

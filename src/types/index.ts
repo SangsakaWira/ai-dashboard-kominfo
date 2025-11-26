@@ -2,13 +2,24 @@ export interface ApiResponse<T> {
   status?: string;
   message?: string;
   data: T;
-  meta?: Record<string, any>;
-  links?: Record<string, any>;
+  meta?: {
+    page: MetaPage
+  }
+  links?: LinksPage
 }
 
 export interface MetaPage {
   currentPage: number;
   totalPages: number;
+  totalData: number;
+  itemPerPage: number
+}
+
+export interface LinksPage {
+  first: string | null
+  last: string | null
+  next: string | null
+  prev: string | null
 }
 
 // Upload

@@ -1,25 +1,62 @@
-'use client'
+"use client";
 import { useAlerts } from "@/hooks/alerts";
 import React from "react";
 import { AllAlertsContent } from "./content";
+import { DataTable } from "@/components/ui/data-table";
+import { alertColumns } from "../columns";
+import { AlertFilters } from "../AlerFilters";
 
 type Props = {};
 
 export default function AllAlertsPage({}: Props) {
   const [page, setPage] = React.useState(1);
-  const { data, meta } = useAlerts({
+  const [filter, setFilter] = React.useState<{ level?: string; type?: string; title?: string }>(
+    {}
+  );
+  const {
+    data = [],
+    meta,
+    links,
+    isLoading,
+  } = useAlerts({
     page,
     limit: 10,
+    level: filter.level,
+    type: filter.type,
+    title: filter.title
   });
 
   return (
-    <AllAlertsContent
-      data={data || []}
-      meta={{
-        currentPage: meta?.page.currentPage ?? 1,
-        totalPages: meta?.page.totalPages ?? 1,
-      }}
-      onPageChange={setPage}
-    />
+    <div className="p-6">
+      <h1 className="text-xl font-semibold mb-4">Alerts</h1>
+      <AlertFilters
+        level={filter.level}
+        type={filter.type}
+        title={filter.title}
+        onChange={(f) => {
+          setFilter(f);
+          setPage(1);
+        }}
+      />
+
+      <DataTable
+        columns={alertColumns}
+        data={data}
+        currentPage={meta?.currentPage ?? 1}
+        totalPages={meta?.totalPages ?? 1}
+        hasNext={!!links?.next}
+        hasPrev={!!links?.prev}
+        onPageChange={setPage}
+        loading={isLoading}
+      />
+    </div>
+    // <AllAlertsContent
+    //   data={data || []}
+    //   meta={{
+    //     currentPage: meta?.page.currentPage ?? 1,
+    //     totalPages: meta?.page.totalPages ?? 1,
+    //   }}
+    //   onPageChange={setPage}
+    // />
   );
 }

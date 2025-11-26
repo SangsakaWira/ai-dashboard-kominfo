@@ -7,11 +7,13 @@ import { TableIcon } from "lucide-react";
 import Link from "next/link";
 import { useFloodSpot } from "@/hooks/flood-spot";
 import { floodSpotColumns } from "./columns";
+import { usePaginationParams } from "@/hooks/usePaginationParams";
 
 type Props = {};
 
 export default function FloodReportPage({}: Props) {
-  const { data = [], isLoading } = useFloodSpot();
+  const { page, setPage, limit, setLimit } = usePaginationParams(1, 10);
+  const { data = [], isLoading, meta, links } = useFloodSpot();
 
   return (
     <Card className="bg-card border">
@@ -31,6 +33,11 @@ export default function FloodReportPage({}: Props) {
           columns={floodSpotColumns}
           data={data}
           loading={isLoading}
+          currentPage={meta?.currentPage ?? 1}
+          totalPages={meta?.totalPages ?? 1}
+          hasNext={!!links?.next}
+          hasPrev={!!links?.prev}
+          onPageChange={setPage}
         />
       </CardContent>
     </Card>

@@ -37,7 +37,7 @@ export function useApi<T>(
   return {
     response: data,
     data: data?.data,
-    meta: data?.meta,
+    meta: data?.meta?.page,
     links: data?.links,
     message: data?.message,
     error,
