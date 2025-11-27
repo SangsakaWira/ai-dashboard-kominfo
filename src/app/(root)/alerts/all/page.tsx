@@ -1,15 +1,16 @@
 "use client";
 import { useAlerts } from "@/hooks/alerts";
 import React from "react";
-import { AllAlertsContent } from "./content";
+// import { AllAlertsContent } from "./content";
 import { DataTable } from "@/components/ui/data-table";
 import { alertColumns } from "../columns";
 import { AlertFilters } from "../AlerFilters";
+import { usePaginationParams } from "@/hooks/usePaginationParams";
 
 type Props = {};
 
 export default function AllAlertsPage({}: Props) {
-  const [page, setPage] = React.useState(1);
+  const { page, setPage, limit, setLimit } = usePaginationParams(1, 10);
   const [filter, setFilter] = React.useState<{ level?: string; type?: string; title?: string }>(
     {}
   );
