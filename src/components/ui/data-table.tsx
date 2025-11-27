@@ -17,6 +17,12 @@ import {
 } from "@/components/ui/table";
 import { Skeleton } from "./skeleton";
 import { Button } from "./button";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronsLeftIcon,
+  ChevronsRightIcon,
+} from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -116,54 +122,49 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
 
-      <div className="flex items-center justify-between py-4 max-w-sm mx-auto">
-        <div className="flex gap-2">
-        {/* FIRST */}
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => onPageChange(1)}
-          disabled={isFirst}
-        >
-          First
-        </Button>
-
-        {/* PREVIOUS */}
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={isFirst}
-        >
-          Previous
-        </Button>
-      </div>
-
+      <div className="flex items-center justify-between py-4 max-w-xs ml-auto">
         <p className="text-sm">
           Page <strong>{currentPage}</strong> of {totalPages}
         </p>
 
-        <div className="flex gap-2">
-        {/* NEXT */}
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={isLast}
-        >
-          Next
-        </Button>
+        <div className="flex gap-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onPageChange(1)}
+            disabled={isFirst}
+          >
+            <ChevronsLeftIcon />
+          </Button>
 
-        {/* LAST */}
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => onPageChange(totalPages)}
-          disabled={isLast}
-        >
-          Last
-        </Button>
-      </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={isFirst}
+          >
+            <ChevronLeftIcon />
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={isLast}
+          >
+            <ChevronRightIcon />
+          </Button>
+
+          {/* LAST */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onPageChange(totalPages)}
+            disabled={isLast}
+          >
+            <ChevronsRightIcon />
+          </Button>
+        </div>
       </div>
     </div>
   );
