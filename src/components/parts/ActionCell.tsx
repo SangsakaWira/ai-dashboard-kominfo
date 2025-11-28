@@ -1,5 +1,5 @@
 "use client";
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import { MoreHorizontalIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -11,6 +11,14 @@ import {
   TooltipTrigger,
   TooltipProvider,
 } from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface ActionCellProps {
   // onEdit: () => void;
@@ -38,31 +46,22 @@ export const ActionCell = ({
   return (
     <>
       <div className="flex items-center gap-2">
-        {detail && (
-          <TooltipComp content="See Detail">
-            <Button onClick={() => router.push(detail)} size={"sm"}>
-              <Eye size={16} />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontalIcon className="h-4 w-4" />
             </Button>
-          </TooltipComp>
-        )}
-        <TooltipComp content="Edit">
-          <Button
-            onClick={() => router.push(edit)}
-            variant={"secondary"}
-            size={"sm"}
-          >
-            <Pencil size={16} />
-          </Button>
-        </TooltipComp>
-        <TooltipComp content="Delete">
-          <Button
-            onClick={() => setOpenAlert(true)}
-            variant={"destructive"}
-            size={"sm"}
-          >
-            <Trash2 size={16} />
-          </Button>
-        </TooltipComp>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {detail && (
+              <DropdownMenuItem onClick={() => router.push(detail)}>View Detail</DropdownMenuItem>
+            )}
+            <DropdownMenuItem onClick={() => router.push(edit)}>Edit</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => setOpenAlert(true)}>Delete</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <AlertAction
         showDeleteDialog={openAlert}

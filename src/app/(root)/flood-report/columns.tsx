@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { floodReportService } from "@/services/api.service";
 import { FloodReport } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
+import { formatDistanceToNow } from "date-fns";
 
 export const floodReportColumns: ColumnDef<FloodReport>[] = [
   {
@@ -56,9 +57,14 @@ export const floodReportColumns: ColumnDef<FloodReport>[] = [
   },
   {
     accessorKey: "created_at",
-    header: "Date",
-    cell: ({row}) => (
-    <p>{new Date(row.original.created_at).toLocaleString("id-ID")}</p>)
+    header: "Created at",
+    cell: ({ row }) => (
+      <p>
+        {formatDistanceToNow(new Date(row.original.created_at), {
+          addSuffix: true,
+        })}
+      </p>
+    ),
   },
   {
     id: "actions",
