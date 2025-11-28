@@ -18,6 +18,10 @@ import {
   MapIcon,
   LogOutIcon,
   MapPinned,
+  MapPin,
+  Gauge,
+  Waves,
+  ClipboardList,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -35,30 +39,24 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: Props) {
   const sidebarItems = [
     { id: "overview", label: "Overview", link: "/", icon: Home },
     { id: "cctv", label: "Streams", link: "/streams", icon: Video },
-    { id: "locations", label: "Locations", link: "/locations", icon: MapIcon },
-    // {
-    //   id: "vandalism",
-    //   label: "Crime Detections",
-    //   link: "/crime-detections",
-    //   icon: GlassesIcon,
-    // },
+    { id: "locations", label: "Locations", link: "/locations", icon: MapPin },
     {
-      id: "occupancy",
+      id: "sensors",
       label: "Sensors",
       link: "/sensors",
-      icon: Users,
+      icon: Gauge,
     },
     {
       id: "flood-detection",
       label: "Flood Detection",
       link: "/flood-detection",
-      icon: Map,
+      icon: Waves,
     },
     {
       id: "flood-report",
       label: "Flood Report",
       link: "/flood-report",
-      icon: Map,
+      icon: ClipboardList,
     },
     {
       id: "flood-spot",

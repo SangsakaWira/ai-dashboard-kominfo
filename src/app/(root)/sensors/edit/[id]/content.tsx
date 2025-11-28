@@ -16,8 +16,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useAllLocation } from "@/hooks/locations";
+import { ButtonCancel } from "@/components/parts/ButtonCancel";
 
 type Props = {
   id: string;
@@ -83,40 +90,42 @@ export function EditSensorContent({ id }: Props) {
   }
 
   return (
-    <div className="max-w-xl mx-auto space-y-8 py-6">
+    <div className="max-w-5xl space-y-8 py-6">
       <h1 className="text-2xl font-semibold">Edit Sensor</h1>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* Name */}
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Sensor Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Sensor Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Name */}
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Sensor Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Sensor Name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          {/* Key */}
-          <FormField
-            control={form.control}
-            name="key"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Key</FormLabel>
-                <FormControl>
-                  <Input placeholder="Key" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            {/* Key */}
+            <FormField
+              control={form.control}
+              name="key"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Key</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Key" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           {/* Latitude & Longitude */}
           <div className="grid grid-cols-2 gap-4">
@@ -149,20 +158,61 @@ export function EditSensorContent({ id }: Props) {
             />
           </div>
 
-          {/* Unit */}
-          <FormField
-            control={form.control}
-            name="unit"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Unit</FormLabel>
-                <FormControl>
-                  <Input placeholder="Unit" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Unit */}
+            <FormField
+              control={form.control}
+              name="unit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Unit</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Unit" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* Location */}
+            <FormField
+              control={form.control}
+              name="location_id"
+              render={({ field }) => {
+                const { data: locations, isLoading } = useAllLocation();
+                return (
+                  <FormItem>
+                    <FormLabel>Location</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={(value) => field.onChange(value)}
+                        value={field.value ? field.value.toString() : undefined}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Pilih lokasi" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          {isLoading && (
+                            <SelectItem value="loading" disabled>
+                              Loading...
+                            </SelectItem>
+                          )}
+
+                          {locations?.map((loc) => (
+                            <SelectItem key={loc.id} value={loc.id.toString()}>
+                              {loc.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+          </div>
 
           {/* Thresholds */}
           <div className="grid grid-cols-2 gap-4">
@@ -195,52 +245,12 @@ export function EditSensorContent({ id }: Props) {
             />
           </div>
 
-          {/* Location */}
-          <FormField
-            control={form.control}
-            name="location_id"
-            render={({ field }) => {
-              const { data: locations, isLoading } = useAllLocation();
-              return (
-                <FormItem>
-                  <FormLabel>Location</FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={(value) => field.onChange(value)}
-                      value={field.value ? field.value.toString() : undefined}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Pilih lokasi" />
-                      </SelectTrigger>
-
-                      <SelectContent>
-                        {isLoading && (
-                          <SelectItem value="loading" disabled>
-                            Loading...
-                          </SelectItem>
-                        )}
-
-                        {locations?.map((loc) => (
-                          <SelectItem key={loc.id} value={loc.id.toString()}>
-                            {loc.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-
           {/* Active Status */}
           <FormField
             control={form.control}
             name="is_active"
             render={({ field }) => (
-              <FormItem className="flex items-center justify-between border p-3 rounded-lg">
+              <FormItem className="flex flex-col gap-y-1">
                 <FormLabel>Active</FormLabel>
                 <FormControl>
                   <Switch
@@ -252,9 +262,12 @@ export function EditSensorContent({ id }: Props) {
             )}
           />
 
-          <Button type="submit" disabled={isMutating} className="w-full">
-            {isMutating ? "Saving..." : "Save Changes"}
-          </Button>
+          <div className="flex items-center gap-x-2">
+            <ButtonCancel href="/sensors" />
+            <Button type="submit" disabled={isMutating}>
+              {isMutating ? "Saving..." : "Save Changes"}
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 import { FloodReportPayload, Location } from "@/types";
 import { ReportPayload, reportSchema } from "@/schemas";
 import { uploadFile } from "@/hooks/requestHelper";
+import { ButtonCancel } from "@/components/parts/ButtonCancel";
 
 type Props = {
   onSubmit: (payload: FloodReportPayload) => void;
@@ -124,35 +125,37 @@ export function ReportForm({
           />
         </div>
 
-        {/* Reporter Name */}
-        <FormField
-          control={form.control}
-          name="reporter_name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nama Pelapor</FormLabel>
-              <FormControl>
-                <Input placeholder="Nama lengkap..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Reporter Name */}
+          <FormField
+            control={form.control}
+            name="reporter_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nama Pelapor</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nama lengkap..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* Reporter Phone */}
-        <FormField
-          control={form.control}
-          name="reporter_phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>No Telepon</FormLabel>
-              <FormControl>
-                <Input placeholder="08xxxx..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* Reporter Phone */}
+          <FormField
+            control={form.control}
+            name="reporter_phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>No Telepon</FormLabel>
+                <FormControl>
+                  <Input placeholder="08xxxx..." {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         {/* Description */}
         <FormField
@@ -174,7 +177,7 @@ export function ReportForm({
           control={form.control}
           name="photo_url"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-fit">
               <FormLabel>Foto</FormLabel>
               <FormControl>
                 <Input
@@ -206,15 +209,18 @@ export function ReportForm({
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={isMutating}>
-          {isMutating
-            ? mode === "create"
-              ? "Creating..."
-              : "Saving..."
-            : mode === "create"
-              ? "Create Report"
-              : "Save Changes"}
-        </Button>
+        <div className="flex gap-x-2">
+          <ButtonCancel href="/flood-report" />
+          <Button type="submit" disabled={isMutating}>
+            {isMutating
+              ? mode === "create"
+                ? "Creating..."
+                : "Saving..."
+              : mode === "create"
+                ? "Create Report"
+                : "Save Changes"}
+          </Button>
+        </div>
       </form>
     </Form>
   );
