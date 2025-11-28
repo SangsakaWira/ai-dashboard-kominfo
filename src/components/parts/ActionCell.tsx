@@ -59,7 +59,7 @@ export const ActionCell = ({
             )}
             <DropdownMenuItem onClick={() => router.push(edit)}>Edit</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => setOpenAlert(true)}>Delete</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive hover:!text-destructive hover:!bg-destructive/15" onClick={() => setOpenAlert(true)}>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
