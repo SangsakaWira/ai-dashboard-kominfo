@@ -171,7 +171,7 @@ export default function ManagementPage({ }: Props) {
                       // );
                       return (
                         <TableRow key={row.id}>
-                          <TableCell className="font-medium">
+                          {/* <TableCell className="font-medium">
                             {row.zone}
                           </TableCell>
                           <TableCell>{row.current}</TableCell>
@@ -186,7 +186,6 @@ export default function ManagementPage({ }: Props) {
                                       ? "bg-orange-500"
                                       : "bg-green-500"
                                     }`}
-                                // style={{ width: `${row.utilization}%` }}
                                 ></div>
                               </div>
                               <span className="text-sm font-medium">
@@ -199,7 +198,8 @@ export default function ManagementPage({ }: Props) {
                           <TableCell>{row.peak}</TableCell>
                           <TableCell className="text-muted-foreground">
                             {formatDistanceToNow(new Date(row.last_update), { addSuffix: true })}
-                          </TableCell>
+                          </TableCell> */}
+                          <span></span>
                         </TableRow>
                       );
                     })}

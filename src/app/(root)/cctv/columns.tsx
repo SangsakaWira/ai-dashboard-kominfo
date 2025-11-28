@@ -29,14 +29,14 @@ export const cctvColumns: ColumnDef<CCTV>[] = [
     accessorKey: "location_name",
     header: "Location",
   },
-  {
-    accessorKey: "latitude",
-    header: "Latitude",
-  },
-  {
-    accessorKey: "longitude",
-    header: "Longtitude",
-  },
+  // {
+  //   accessorKey: "latitude",
+  //   header: "Latitude",
+  // },
+  // {
+  //   accessorKey: "longitude",
+  //   header: "Longtitude",
+  // },
   {
     id: "actions",
     cell: ({ row }) => {

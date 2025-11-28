@@ -23,7 +23,7 @@ export function EditReportContent({id}: Props) {
   if (!report) return <p>Loading...</p>
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-5xl">
       <h1 className="text-xl font-semibold mb-4">Edit Report</h1>
 
       <ReportForm

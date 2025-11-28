@@ -16,7 +16,7 @@ export default function AddReportPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-5xl">
       <h1 className="text-xl font-semibold mb-4">Create Report</h1>
 
       <ReportForm

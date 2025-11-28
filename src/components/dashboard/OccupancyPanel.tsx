@@ -18,6 +18,7 @@ import {
   TrendingUp,
   TrendingDown,
   Settings,
+  WavesIcon,
 } from "lucide-react";
 
 interface OccupancyPanelProps {
@@ -75,7 +76,7 @@ export function OccupancyPanel({
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-medium text-muted-foreground">
-                  Current Occupancy
+                  Current Water Level
                 </h3>
                 <div className="flex items-baseline">
                   <span className="text-4xl font-bold">{currentOccupancy}</span>
@@ -85,7 +86,7 @@ export function OccupancyPanel({
                 </div>
               </div>
               <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
-                <Users className="h-8 w-8 text-primary" />
+                <WavesIcon className="h-8 w-8 text-primary" />
               </div>
             </div>
 

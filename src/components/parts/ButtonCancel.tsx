@@ -8,7 +8,7 @@ type Props = {
 
 export function ButtonCancel({ href }: Props) {
   return (
-    <Button variant={"secondary"}>
+    <Button type="button" variant={"secondary"}>
       <Link href={href}>Cancel</Link>
     </Button>
   );
