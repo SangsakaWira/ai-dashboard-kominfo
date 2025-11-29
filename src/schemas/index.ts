@@ -40,6 +40,22 @@ export const locationSchema = z.object({
   zone_type: z.string().optional(),
 });
 
+export const sensorSchema = z.object({
+  name: z.string().min(1, "Nama sensor wajib diisi"),
+  key: z.string().min(1, "Key wajib diisi"),
+  latitude: z.string().optional(),
+  longitude: z.string().optional(),
+  unit: z.string().optional(),
+
+  threshold_low: z.number().optional(),
+  threshold_high: z.number().optional(),
+  location_id: z.number().optional(),
+
+  is_active: z.boolean().optional(),
+});
+
+export type SensorSchemaPayload = z.infer<typeof sensorSchema>;
+
 export type ReportPayload = z.infer<typeof reportSchema>;
 export type SpotPayload = z.infer<typeof spotSchema>;
 export type CctvPayload = z.infer<typeof cctvSchema>

@@ -3,12 +3,12 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import { LatLngExpression } from "leaflet";
-import { Location } from "@/types";
+import { CCTV, Location } from "@/types";
 
 interface MyMapProps {
   // position: LatLngExpression;
   zoom?: number;
-  locations: Location[];
+  locations: CCTV[]
 }
 
 export default function MyMap({ locations, zoom }: MyMapProps) {
@@ -36,7 +36,7 @@ export default function MyMap({ locations, zoom }: MyMapProps) {
           <Popup>
             <div>
               <p className="font-semibold">{c.name}</p>
-              <p>{c.description}</p>
+              {/* <p>{c.name}</p> */}
             </div>
           </Popup>
         </Marker>

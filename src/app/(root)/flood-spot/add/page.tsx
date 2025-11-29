@@ -1,7 +1,5 @@
-"use client"
-// import { useCreateFloodReport } from "@/hooks/flood-report";
+"use client";
 import { useAllLocation } from "@/hooks/locations";
-// import { FloodSpotPayload } from "@/types";
 import { useRouter } from "next/navigation";
 import { SpotForm } from "../SpotForm";
 import { useCreateFloodSpot } from "@/hooks/flood-spot";
@@ -9,12 +7,12 @@ import { SpotPayload } from "@/schemas";
 
 export default function AddSpotPage() {
   const locations = useAllLocation();
-  const { createFloodSpot, isMutating } = useCreateFloodSpot()
-  const router = useRouter()
+  const { createFloodSpot, isMutating } = useCreateFloodSpot();
+  const router = useRouter();
 
   const handleCreate = async (payload: SpotPayload) => {
-    await createFloodSpot(payload)
-    router.push("/flood-spot")
+    await createFloodSpot(payload);
+    router.push("/flood-spot");
   };
 
   return (

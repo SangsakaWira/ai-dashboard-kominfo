@@ -69,21 +69,20 @@ export default function SensorsPage({}: Props) {
                 value={filters.name}
                 onChange={(v) => setFilters((prev) => ({ ...prev, name: v }))}
               />
-              <SelectFilter
+              {/* <SelectFilter
                 value={filters.location_id ?? "all"}
                 onChange={(v) =>
                   setFilters((prev) => ({ ...prev, location_id: v }))
                 }
                 placeholder="Location"
                 allLabel="All Location"
-                // label="Location"
                 options={
                   locations?.map((item) => ({
                     label: item.name,
                     value: item.id.toString(),
                   })) ?? []
                 }
-              />
+              /> */}
             </div>
           </CardHeader>
           <CardContent>

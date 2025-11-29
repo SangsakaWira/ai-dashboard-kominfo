@@ -34,7 +34,7 @@ export function LocationMap({ latitude, longitude }: Props) {
     <div className="w-full h-[300px] rounded-lg overflow-hidden border mt-4">
       <MapContainer
         center={center}
-        zoom={15}
+        zoom={9}
         scrollWheelZoom={false}
         // className="h-full w-full"
         style={{ height: "100%", width: "100%" }}

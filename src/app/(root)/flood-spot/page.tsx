@@ -48,21 +48,20 @@ export default function FloodReportPage({}: Props) {
         </div>
 
         <div className="flex gap-x-2">
-          <SelectFilter
+          {/* <SelectFilter
             value={filters.location_id ?? "all"}
             onChange={(v) =>
               setFilters((prev) => ({ ...prev, location_id: v }))
             }
             placeholder="Location"
             allLabel="All Location"
-            // label="Location"
             options={
               locations?.map((item) => ({
                 label: item.name,
                 value: item.id.toString(),
               })) ?? []
             }
-          />
+          /> */}
           <SelectFilter
             value={filters.severity ?? "all"}
             onChange={(v) =>

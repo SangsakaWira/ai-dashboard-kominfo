@@ -1,12 +1,12 @@
 'use client'
 
-import { Location } from "@/types";
+import { CCTV, Location } from "@/types";
 import { LatLngExpression } from "leaflet";
 import dynamic from "next/dynamic";
 import React from "react";
 
 type Props = {
-    data: Location[]
+    data: CCTV[]
     isLoading: boolean
 };
 
