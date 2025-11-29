@@ -1,5 +1,3 @@
-"use client";
-
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import { useEffect, useState } from "react";
@@ -15,7 +13,7 @@ interface MapPickerProps {
   onChange: (value: { lat: number; lng: number }) => void;
 }
 
-export function MapPicker({ value, onChange }: MapPickerProps) {
+export default function MapPicker({ value, onChange }: MapPickerProps) {
   const defaultPosition = { lat: -2.9549655, lng: 104.680392 };
 
   const initialPosition =

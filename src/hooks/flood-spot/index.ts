@@ -1,4 +1,4 @@
-import { FloodSpot, FloodSpotPayload } from "@/types";
+import { FloodSpot } from "@/types";
 import { useApi } from "../useApi";
 import { floodSpotService } from "@/services/api.service";
 import { useApiMutation } from "../useApiMutation";

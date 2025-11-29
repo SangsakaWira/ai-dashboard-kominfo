@@ -20,11 +20,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { FloodSpotPayload, Location } from "@/types";
+import { Location } from "@/types";
 import { SpotPayload, spotSchema } from "@/schemas";
-import Link from "next/link";
+// import Link from "next/link";
 import { ButtonCancel } from "@/components/parts/ButtonCancel";
-import { MapPicker } from "@/components/parts/MapPicker";
+// import { MapPicker } from "@/components/parts/MapPicker";
+import dynamic from "next/dynamic";
+
+const MapPicker = dynamic(() => import("@/components/parts/MapPicker"), {
+  ssr: false,
+});
 
 type Props = {
   onSubmit: (payload: SpotPayload) => void;

@@ -23,8 +23,12 @@ import {
 } from "@/components/ui/select";
 import { CctvPayload, cctvSchema } from "@/schemas";
 import { ButtonCancel } from "@/components/parts/ButtonCancel";
-import { MapPicker } from "@/components/parts/MapPicker";
 import { CCTVPayload } from "@/types";
+import dynamic from "next/dynamic";
+
+const MapPicker = dynamic(() => import("@/components/parts/MapPicker"), {
+  ssr: false,
+});
 
 type Props = {
   onSubmit: (payload: CCTVPayload) => void;

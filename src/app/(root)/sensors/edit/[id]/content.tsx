@@ -2,32 +2,7 @@
 import { useSensorDetail, useUpdateSensor } from "@/hooks/sensor";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useForm } from "react-hook-form";
-import z from "zod";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useAllLocation } from "@/hooks/locations";
-import { ButtonCancel } from "@/components/parts/ButtonCancel";
-import { MapPicker } from "@/components/parts/MapPicker";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { sensorSchema } from "@/schemas";
 import { SensorPayload } from "@/types";
 import { SensorForm } from "../../SensorForm";
 

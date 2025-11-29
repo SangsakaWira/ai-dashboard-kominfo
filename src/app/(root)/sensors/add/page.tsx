@@ -1,33 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { useApiMutation } from "@/hooks/useApiMutation";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useAllLocation } from "@/hooks/locations";
-import { ButtonCancel } from "@/components/parts/ButtonCancel";
-import { MapPicker } from "@/components/parts/MapPicker";
-import {} from "@/schemas";
+// import {} from "@/schemas";
 import { SensorForm } from "../SensorForm";
 import { useCreateSensor } from "@/hooks/sensor";
 import { SensorPayload } from "@/types";

@@ -21,9 +21,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ButtonCancel } from "@/components/parts/ButtonCancel";
-import { MapPicker } from "@/components/parts/MapPicker";
 import { sensorSchema } from "@/schemas";
 import { Location, SensorPayload } from "@/types";
+import dynamic from "next/dynamic";
+
+const MapPicker = dynamic(() => import("@/components/parts/MapPicker"), {
+  ssr: false,
+});
 
 type Props = {
   onSubmit: (payload: SensorPayload) => void;

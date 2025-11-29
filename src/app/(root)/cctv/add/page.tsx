@@ -1,31 +1,8 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
-
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
 import { useCreateCctv } from "@/hooks/cctv";
-import { CctvPayload, cctvSchema } from "@/schemas";
+import { CctvPayload } from "@/schemas";
 import { useRouter } from "next/navigation";
-import { ButtonCancel } from "@/components/parts/ButtonCancel";
-import { MapPicker } from "@/components/parts/MapPicker";
 import { CctvForm } from "../CctvForm";
 
 export default function CreateCctvPage() {
