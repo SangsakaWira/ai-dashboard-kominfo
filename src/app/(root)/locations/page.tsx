@@ -1,38 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
-import { useAllLocation } from "@/hooks/locations";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { TableIcon } from "lucide-react";
-import Link from "next/link";
-import { SelectFilter } from "@/components/parts/SelectFilter";
+import React from "react";
+// import { useAllLocation } from "@/hooks/locations";
+// import { Button } from "@/components/ui/button";
+// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+// import { DataTable } from "@/components/ui/data-table";
+// import { TableIcon } from "lucide-react";
+// import Link from "next/link";
+// import { SelectFilter } from "@/components/parts/SelectFilter";
 import { usePaginationParams } from "@/hooks/usePaginationParams";
-import { SearchInput } from "@/components/parts/SearchInput";
-import { locationsColumns } from "./columns";
+// import { SearchInput } from "@/components/parts/SearchInput";
+// import { locationsColumns } from "./columns";
 import { LocationsMap } from "./map";
+import { useAllCctv } from "@/hooks/cctv";
 
 type Props = {};
 
 export default function LocationsPage({}: Props) {
   const { page, limit, setPage } = usePaginationParams(1, 10);
-  const [filters, setFilters] = useState<{
-    name?: string;
-  }>({});
-  const {
-    data = [],
-    isLoading,
-    links,
-    meta,
-  } = useAllLocation({
+  // const [filters, setFilters] = useState<{
+  //   name?: string;
+  // }>({});
+  const {data = [], isLoading} = useAllCctv({
     page,
     limit,
-    name: null,
-  });
+    name: null
+  })
   return (
     <div className="space-y-8 pb-10">
-      <Card className="bg-card border">
+      {/* <Card className="bg-card border">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center">
@@ -64,7 +60,7 @@ export default function LocationsPage({}: Props) {
             onPageChange={setPage}
           />
         </CardContent>
-      </Card>
+      </Card> */}
 
       <LocationsMap data={data} isLoading={isLoading} />
     </div>

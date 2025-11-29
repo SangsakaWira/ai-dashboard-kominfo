@@ -24,6 +24,7 @@ import { FloodSpotPayload, Location } from "@/types";
 import { SpotPayload, spotSchema } from "@/schemas";
 import Link from "next/link";
 import { ButtonCancel } from "@/components/parts/ButtonCancel";
+import { MapPicker } from "@/components/parts/MapPicker";
 
 type Props = {
   onSubmit: (payload: SpotPayload) => void;
@@ -48,37 +49,62 @@ export function SpotForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Latitude */}
+        <div className="space-y-4">
+          {/* Map Picker */}
           <FormField
             control={form.control}
             name="latitude"
-            render={({ field }) => (
+            render={() => (
               <FormItem>
-                <FormLabel>Latitude</FormLabel>
-                <FormControl>
-                  <Input placeholder="-2.98..." {...field} />
-                </FormControl>
-                <FormMessage />
+                <FormLabel>Location</FormLabel>
+                <MapPicker
+                  value={{
+                    lat: Number(form.getValues("latitude")) || 0,
+                    lng: Number(form.getValues("longitude")) || 0,
+                  }}
+                  onChange={(pos) => {
+                    form.setValue("latitude", pos.lat.toString());
+                    form.setValue("longitude", pos.lng.toString());
+                  }}
+                />
               </FormItem>
             )}
           />
 
-          {/* Longitude */}
-          <FormField
-            control={form.control}
-            name="longitude"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Longitude</FormLabel>
-                <FormControl>
-                  <Input placeholder="104.74..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {/* Display fields */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Latitude */}
+            <FormField
+              control={form.control}
+              name="latitude"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Latitude</FormLabel>
+                  <FormControl>
+                    <Input {...field} readOnly />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
+            {/* Longitude */}
+            <FormField
+              control={form.control}
+              name="longitude"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Longitude</FormLabel>
+                  <FormControl>
+                    <Input {...field} readOnly />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Location Select */}
           <FormField
             control={form.control}
@@ -143,7 +169,12 @@ export function SpotForm({
               <FormItem>
                 <FormLabel>Depth</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="Depth" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                  <Input
+                    type="number"
+                    placeholder="Depth"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -193,18 +224,17 @@ export function SpotForm({
         />
 
         <div className="flex items-center gap-x-3">
-            <ButtonCancel href="/flood-spot" />
-            <Button type="submit" disabled={isMutating}>
+          <ButtonCancel href="/flood-spot" />
+          <Button type="submit" disabled={isMutating}>
             {isMutating
-                ? mode === "create"
+              ? mode === "create"
                 ? "Creating..."
                 : "Saving..."
-                : mode === "create"
+              : mode === "create"
                 ? "Create Report"
                 : "Save Changes"}
-            </Button>
+          </Button>
         </div>
-
       </form>
     </Form>
   );

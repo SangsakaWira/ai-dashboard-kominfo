@@ -1,55 +1,85 @@
 "use client";
-
+import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import {
   Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
-  SelectTrigger,
   SelectContent,
   SelectItem,
+  SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-// import { useEffect, useState } from "react";
-import { FloodReportPayload, Location } from "@/types";
-import { ReportPayload, reportSchema } from "@/schemas";
-import { uploadFile } from "@/hooks/requestHelper";
 import { ButtonCancel } from "@/components/parts/ButtonCancel";
 import { MapPicker } from "@/components/parts/MapPicker";
+import { sensorSchema } from "@/schemas";
+import { Location, SensorPayload } from "@/types";
 
 type Props = {
-  onSubmit: (payload: FloodReportPayload) => void;
-  defaultValues: FloodReportPayload;
-  locations: Location[];
+  onSubmit: (payload: SensorPayload) => void;
+  defaultValues: SensorPayload;
+  locations?: Location[]
   isMutating?: boolean;
   mode: "create" | "edit";
 };
 
-export function ReportForm({
-  onSubmit,
+export function SensorForm({
   defaultValues,
-  locations,
-  isMutating = false,
   mode,
+  locations,
+  onSubmit,
+  isMutating,
 }: Props) {
-  const form = useForm<ReportPayload>({
-    resolver: zodResolver(reportSchema),
+  const form = useForm<SensorPayload>({
+    resolver: zodResolver(sensorSchema),
     defaultValues,
   });
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Name */}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Sensor Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Sensor Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Key */}
+          <FormField
+            control={form.control}
+            name="key"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Key</FormLabel>
+                <FormControl>
+                  <Input placeholder="Key" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <div className="space-y-4">
           {/* Map Picker */}
           <FormField
@@ -105,8 +135,23 @@ export function ReportForm({
             />
           </div>
         </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Location Select */}
+          {/* Unit */}
+          <FormField
+            control={form.control}
+            name="unit"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Unit</FormLabel>
+                <FormControl>
+                  <Input placeholder="Unit" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* Location */}
           <FormField
             control={form.control}
             name="location_id"
@@ -134,16 +179,32 @@ export function ReportForm({
               </FormItem>
             )}
           />
+        </div>
 
-          {/* Source */}
+        {/* Thresholds */}
+        <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
-            name="source"
+            name="threshold_low"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Source</FormLabel>
+                <FormLabel>Threshold Low</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="threshold_high"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Threshold High</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -151,99 +212,32 @@ export function ReportForm({
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Reporter Name */}
-          <FormField
-            control={form.control}
-            name="reporter_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nama Pelapor</FormLabel>
-                <FormControl>
-                  <Input placeholder="Nama lengkap..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Reporter Phone */}
-          <FormField
-            control={form.control}
-            name="reporter_phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>No Telepon</FormLabel>
-                <FormControl>
-                  <Input placeholder="08xxxx..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        {/* Description */}
+        {/* Active Status */}
         <FormField
           control={form.control}
-          name="description"
+          name="is_active"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Deskripsi</FormLabel>
+            <FormItem className="flex flex-col gap-y-1">
+              <FormLabel>Active</FormLabel>
               <FormControl>
-                <Textarea placeholder="Tulis deskripsi laporan..." {...field} />
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* Photo URL */}
-        <FormField
-          control={form.control}
-          name="photo_url"
-          render={({ field }) => (
-            <FormItem className="w-fit">
-              <FormLabel>Foto</FormLabel>
-              <FormControl>
-                <Input
-                  type="file"
-                  accept="image/*"
-                  // disabled={isUploading}
-                  onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-
-                    field.onChange(file);
-
-                    const res = await uploadFile(file);
-
-                    form.setValue("photo_url", res.data.secure_url);
-                  }}
-                />
-              </FormControl>
-
-              {form.watch("photo_url") && (
-                <img
-                  src={form.watch("photo_url")}
-                  className="h-32 w-32 mt-2 rounded-md object-cover"
-                />
-              )}
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <div className="flex gap-x-2">
-          <ButtonCancel href="/flood-report" />
+        <div className="flex items-center gap-x-3">
+          <ButtonCancel href="/sensors" />
           <Button type="submit" disabled={isMutating}>
             {isMutating
               ? mode === "create"
                 ? "Creating..."
                 : "Saving..."
               : mode === "create"
-                ? "Create Report"
+                ? "Create Sensor"
                 : "Save Changes"}
           </Button>
         </div>

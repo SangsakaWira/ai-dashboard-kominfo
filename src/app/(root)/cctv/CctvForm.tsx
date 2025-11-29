@@ -2,6 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
   Form,
   FormField,
@@ -10,46 +11,74 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectTrigger,
+  SelectValue,
   SelectContent,
   SelectItem,
-  SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-// import { useEffect, useState } from "react";
-import { FloodReportPayload, Location } from "@/types";
-import { ReportPayload, reportSchema } from "@/schemas";
-import { uploadFile } from "@/hooks/requestHelper";
+import { CctvPayload, cctvSchema } from "@/schemas";
 import { ButtonCancel } from "@/components/parts/ButtonCancel";
 import { MapPicker } from "@/components/parts/MapPicker";
+import { CCTVPayload } from "@/types";
 
 type Props = {
-  onSubmit: (payload: FloodReportPayload) => void;
-  defaultValues: FloodReportPayload;
-  locations: Location[];
+  onSubmit: (payload: CCTVPayload) => void;
+  defaultValues: CCTVPayload;
   isMutating?: boolean;
   mode: "create" | "edit";
 };
 
-export function ReportForm({
-  onSubmit,
+export function CctvForm({
   defaultValues,
-  locations,
-  isMutating = false,
   mode,
+  onSubmit,
+  isMutating,
 }: Props) {
-  const form = useForm<ReportPayload>({
-    resolver: zodResolver(reportSchema),
+  const form = useForm<CctvPayload>({
+    resolver: zodResolver(cctvSchema),
     defaultValues,
   });
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Name */}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="CCTV Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Stream URL */}
+          <FormField
+            control={form.control}
+            name="stream_url"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Stream URL</FormLabel>
+                <FormControl>
+                  <Input placeholder="Stream URL" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <div className="space-y-4">
           {/* Map Picker */}
           <FormField
@@ -105,29 +134,27 @@ export function ReportForm({
             />
           </div>
         </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Location Select */}
+          {/* Status */}
           <FormField
             control={form.control}
-            name="location_id"
+            name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Location</FormLabel>
+                <FormLabel>Status</FormLabel>
                 <Select
-                  onValueChange={(v) => field.onChange(Number(v))}
-                  value={field.value ? String(field.value) : undefined}
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Pilih lokasi" />
+                      <SelectValue placeholder="Pilih status" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {locations?.map((loc) => (
-                      <SelectItem key={loc.id} value={String(loc.id)}>
-                        {loc.name}
-                      </SelectItem>
-                    ))}
+                    <SelectItem value="online">Online</SelectItem>
+                    <SelectItem value="offline">Offline</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -135,115 +162,56 @@ export function ReportForm({
             )}
           />
 
-          {/* Source */}
+          {/* Category */}
           <FormField
             control={form.control}
-            name="source"
+            name="category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Source</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
+                <FormLabel>Category</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Category" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="public-area">Public Area</SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Reporter Name */}
-          <FormField
-            control={form.control}
-            name="reporter_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nama Pelapor</FormLabel>
-                <FormControl>
-                  <Input placeholder="Nama lengkap..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Reporter Phone */}
-          <FormField
-            control={form.control}
-            name="reporter_phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>No Telepon</FormLabel>
-                <FormControl>
-                  <Input placeholder="08xxxx..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        {/* Description */}
+        {/* Location Name */}
         <FormField
           control={form.control}
-          name="description"
+          name="location_name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Deskripsi</FormLabel>
+              <FormLabel>Location Name</FormLabel>
               <FormControl>
-                <Textarea placeholder="Tulis deskripsi laporan..." {...field} />
+                <Input placeholder="Location" {...field} />
               </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Photo URL */}
-        <FormField
-          control={form.control}
-          name="photo_url"
-          render={({ field }) => (
-            <FormItem className="w-fit">
-              <FormLabel>Foto</FormLabel>
-              <FormControl>
-                <Input
-                  type="file"
-                  accept="image/*"
-                  // disabled={isUploading}
-                  onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-
-                    field.onChange(file);
-
-                    const res = await uploadFile(file);
-
-                    form.setValue("photo_url", res.data.secure_url);
-                  }}
-                />
-              </FormControl>
-
-              {form.watch("photo_url") && (
-                <img
-                  src={form.watch("photo_url")}
-                  className="h-32 w-32 mt-2 rounded-md object-cover"
-                />
-              )}
-
               <FormMessage />
             </FormItem>
           )}
         />
 
         <div className="flex gap-x-2">
-          <ButtonCancel href="/flood-report" />
+          <ButtonCancel href="/cctv" />
           <Button type="submit" disabled={isMutating}>
             {isMutating
               ? mode === "create"
                 ? "Creating..."
                 : "Saving..."
               : mode === "create"
-                ? "Create Report"
+                ? "Create CCTV"
                 : "Save Changes"}
           </Button>
         </div>
