@@ -10,7 +10,7 @@ export const useRemove = (endpoint: string, id: number) => {
         method: "DELETE",
       });
 
-      mutate(endpoint);
+      mutate((key) => typeof key === "string" && key.startsWith(endpoint));
 
       return res;
     };
