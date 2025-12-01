@@ -12,6 +12,7 @@ import { usePaginationParams } from "@/hooks/usePaginationParams";
 import { useAllLocation } from "@/hooks/locations";
 import { SearchInput } from "@/components/parts/SearchInput";
 import { SelectFilter } from "@/components/parts/SelectFilter";
+import { SortFilter } from "@/components/parts/SortFilter";
 
 type Props = {};
 
@@ -19,6 +20,7 @@ export default function SensorsPage({}: Props) {
   const { page, setPage, limit, setLimit } = usePaginationParams(1, 10);
   const [filters, setFilters] = useState<{
     name?: string;
+    created?: string;
     location_id?: string;
   }>({});
   const {
@@ -29,7 +31,11 @@ export default function SensorsPage({}: Props) {
   } = useSensors({
     page,
     limit,
-    location_id: filters.location_id && filters.location_id !== "all" ? Number(filters.location_id) : undefined,
+    sort: filters.created,
+    location_id:
+      filters.location_id && filters.location_id !== "all"
+        ? Number(filters.location_id)
+        : undefined,
     name: filters.name,
   });
   const { data: locations, isLoading: locationLoading } = useAllLocation();
@@ -68,6 +74,15 @@ export default function SensorsPage({}: Props) {
                 placeholder="Search..."
                 value={filters.name}
                 onChange={(v) => setFilters((prev) => ({ ...prev, name: v }))}
+              />
+              <SortFilter
+                value={filters.created}
+                onChange={(sortObj) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    created: sortObj.created,
+                  }))
+                }
               />
               {/* <SelectFilter
                 value={filters.location_id ?? "all"}

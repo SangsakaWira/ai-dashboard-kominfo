@@ -41,7 +41,7 @@ export const alertColumns: ColumnDef<Alert>[] = [
   },
   {
     accessorKey: "created_at",
-    header: "Created At",
+    header: "Created at",
     cell: ({ row }) => {
       return (
         <span>
@@ -79,17 +79,23 @@ export const alertColumns: ColumnDef<Alert>[] = [
           {alert.is_read ? (
             <Badge variant="outline">Read</Badge>
           ) : (
-            <Button size="sm" onClick={markRead} disabled={isMutating}>
+            <Button
+              size="sm"
+              onClick={markRead}
+              disabled={isMutating}
+              className="text-xs h-auto py-1 px-2"
+            >
               {isMutating ? "..." : "Mark as Read"}
             </Button>
           )}
           <Button
             size={"sm"}
-            variant={"destructive"}
+            variant={"ghost"}
             onClick={handleDelete}
             disabled={deleteMutating}
+            className="text-xs h-auto py-1 px-2"
           >
-            <TrashIcon />
+            <TrashIcon size={12} />
           </Button>
         </div>
       );

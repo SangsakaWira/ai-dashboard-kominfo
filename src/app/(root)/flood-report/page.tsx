@@ -10,6 +10,7 @@ import { useFloodReport } from "@/hooks/flood-report";
 import { usePaginationParams } from "@/hooks/usePaginationParams";
 import { SelectFilter } from "@/components/parts/SelectFilter";
 import { useAllLocation } from "@/hooks/locations";
+import { SortFilter } from "@/components/parts/SortFilter";
 
 type Props = {};
 
@@ -19,6 +20,7 @@ export default function FloodReportPage({}: Props) {
     status?: "pending" | "verified" | "rejected" | "resolved";
     source?: "masyarakat" | "petugas" | "sensor_auto";
     location_id?: string;
+    created?: string;
   }>({});
   const {
     data = [],
@@ -28,11 +30,12 @@ export default function FloodReportPage({}: Props) {
   } = useFloodReport({
     page,
     limit,
+    sort: filters.created,
     status: filters.status,
     location_id: filters.location_id ? Number(filters.location_id) : undefined,
     source: filters.source,
   });
-  const { data: locations, isLoading: locationLoading } = useAllLocation();
+  // const { data: locations, isLoading: locationLoading } = useAllLocation();
 
   return (
     <Card className="bg-card border">
@@ -123,6 +126,15 @@ export default function FloodReportPage({}: Props) {
                 value: "sensor_auto",
               },
             ]}
+          />
+          <SortFilter
+            value={filters.created}
+            onChange={(sortObj) =>
+              setFilters((prev) => ({
+                ...prev,
+                created: sortObj.created,
+              }))
+            }
           />
         </div>
       </CardHeader>
