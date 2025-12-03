@@ -2,17 +2,18 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
-import { LatLngExpression } from "leaflet";
-import { Location } from "@/types";
+// import { LatLngExpression } from "leaflet";
+import { CCTV } from "@/types";
 
 interface MyMapProps {
   // position: LatLngExpression;
   zoom?: number;
-  locations: Location[];
+  locations: CCTV[];
 }
 
 export default function MyMap({ locations, zoom }: MyMapProps) {
-  if (!locations || locations.length === 0) return <p>Lokasi tidak ditemukan.</p>;
+  if (!locations || locations.length === 0)
+    return <p>Lokasi tidak ditemukan.</p>;
 
   const center: [number, number] = [
     parseFloat(locations[0].latitude),
@@ -32,11 +33,36 @@ export default function MyMap({ locations, zoom }: MyMapProps) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
       {locations.map((c) => (
-        <Marker key={c.id}  position={[parseFloat(c.latitude), parseFloat(c.longitude)]}>
+        <Marker
+          key={c.id}
+          position={[parseFloat(c.latitude), parseFloat(c.longitude)]}
+        >
           <Popup>
             <div>
-              <p className="font-semibold">{c.name}</p>
-              <p>{c.description}</p>
+              <h4 className="font-bold">{c.name.toUpperCase()}</h4>
+              <div className="flex items-center gap-2 mt-1">
+                <span className={`flex items-center gap-x-1`}>
+                  <div
+                    className={`w-[10px] h-[10px] rounded-full ${c.status === "offline" ? "bg-red-500" : "bg-green-500"}`}
+                  ></div>{" "}
+                  {c.status}
+                </span>
+                <span className="text-xs bg-gray-200 px-2 py-[2px] rounded-md">
+                  {c.category}
+                </span>
+              </div>
+
+              <div className="text-[13px] mt-2 space-y-1">
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Lokasi</span>
+                  <span>{c.location_name}</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Kapasitas</span>
+                  <span>{c.capacity_building} m³</span>
+                </div>
+              </div>
             </div>
           </Popup>
         </Marker>

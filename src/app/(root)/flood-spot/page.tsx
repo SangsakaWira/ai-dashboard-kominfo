@@ -10,6 +10,7 @@ import { floodSpotColumns } from "./columns";
 import { usePaginationParams } from "@/hooks/usePaginationParams";
 import { useAllLocation } from "@/hooks/locations";
 import { SelectFilter } from "@/components/parts/SelectFilter";
+import { SortFilter } from "@/components/parts/SortFilter";
 
 type Props = {};
 
@@ -19,6 +20,7 @@ export default function FloodReportPage({}: Props) {
     severity?: "ringan" | "sedang" | "parah";
     source?: "masyarakat" | "petugas" | "sensor_auto";
     location_id?: string;
+    created?: string;
   }>({});
   const {
     data = [],
@@ -28,11 +30,12 @@ export default function FloodReportPage({}: Props) {
   } = useFloodSpot({
     page,
     limit,
+    sort: filters.created,
     severity: filters.severity,
     source: filters.source,
     location_id: filters.location_id ? Number(filters.location_id) : undefined,
   });
-  const { data: locations, isLoading: locationLoading } = useAllLocation();
+  // const { data: locations, isLoading: locationLoading } = useAllLocation();
 
   return (
     <Card className="bg-card border">
@@ -48,21 +51,20 @@ export default function FloodReportPage({}: Props) {
         </div>
 
         <div className="flex gap-x-2">
-          <SelectFilter
+          {/* <SelectFilter
             value={filters.location_id ?? "all"}
             onChange={(v) =>
               setFilters((prev) => ({ ...prev, location_id: v }))
             }
             placeholder="Location"
             allLabel="All Location"
-            // label="Location"
             options={
               locations?.map((item) => ({
                 label: item.name,
                 value: item.id.toString(),
               })) ?? []
             }
-          />
+          /> */}
           <SelectFilter
             value={filters.severity ?? "all"}
             onChange={(v) =>
@@ -120,6 +122,15 @@ export default function FloodReportPage({}: Props) {
                 value: "sensor_auto",
               },
             ]}
+          />
+          <SortFilter
+            value={filters.created}
+            onChange={(sortObj) =>
+              setFilters((prev) => ({
+                ...prev,
+                created: sortObj.created,
+              }))
+            }
           />
         </div>
       </CardHeader>

@@ -97,6 +97,7 @@ export interface CCTV {
   location_name: string;
   stream_url: string;
   category: string;
+  capacity_building: number
 }
 
 export interface CCTVPayload {

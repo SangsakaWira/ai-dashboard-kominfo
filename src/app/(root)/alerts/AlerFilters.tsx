@@ -35,7 +35,7 @@ export function AlertFilters({ level, type, title, onChange }: AlertFiltersProps
     return () => clearTimeout(delay);
   }, [localTitle]);
   return (
-    <div className="flex items-center gap-4 py-4">
+    <div className="flex items-center gap-4">
       <Input
         placeholder="Search..."
         className="w-[240px]"

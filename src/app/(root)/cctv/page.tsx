@@ -9,12 +9,13 @@ import React, { useState } from "react";
 import { cctvColumns } from "./columns";
 import { usePaginationParams } from "@/hooks/usePaginationParams";
 import { SearchInput } from "@/components/parts/SearchInput";
+import { SortFilter } from "@/components/parts/SortFilter";
 
 type Props = {};
 
 export default function CctvPage({}: Props) {
   const { page, setPage, limit, setLimit } = usePaginationParams(1, 10);
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<{ name: string; created?: string }>({
     name: "",
   });
 
@@ -26,6 +27,7 @@ export default function CctvPage({}: Props) {
   } = useAllCctv({
     page,
     limit,
+    sort: filters.created,
     name: filters.name,
   });
 
@@ -43,11 +45,20 @@ export default function CctvPage({}: Props) {
             </Link>
           </div>
 
-          <div className="flex max-w-2xl">
+          <div className="flex max-w-2xl gap-2">
             <SearchInput
               placeholder="Search..."
               value={filters.name}
               onChange={(v) => setFilters((prev) => ({ ...prev, name: v }))}
+            />
+            <SortFilter
+              value={filters.created}
+              onChange={(sortObj) =>
+                setFilters((prev) => ({
+                  ...prev,
+                  created: sortObj.created,
+                }))
+              }
             />
           </div>
         </CardHeader>

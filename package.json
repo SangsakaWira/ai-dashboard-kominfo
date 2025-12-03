@@ -75,6 +75,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "hls.js": "^1.6.15",
     "postcss": "^8",
     "tailwind-merge": "^2",
     "tailwindcss": "^3",

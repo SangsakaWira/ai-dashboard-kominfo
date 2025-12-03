@@ -10,6 +10,7 @@ export const useAlerts = (params?: {
   type?: string;
   level?: string;
   title?: string;
+  sort?: string
 }) => useApi<Alert[]>(alertService.list, params);
 
 export const useMarkRead = (id: number) => {

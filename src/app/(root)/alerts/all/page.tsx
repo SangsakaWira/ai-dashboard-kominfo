@@ -6,14 +6,18 @@ import { DataTable } from "@/components/ui/data-table";
 import { alertColumns } from "../columns";
 import { AlertFilters } from "../AlerFilters";
 import { usePaginationParams } from "@/hooks/usePaginationParams";
+import { SortFilter } from "@/components/parts/SortFilter";
 
 type Props = {};
 
 export default function AllAlertsPage({}: Props) {
   const { page, setPage, limit, setLimit } = usePaginationParams(1, 10);
-  const [filter, setFilter] = React.useState<{ level?: string; type?: string; title?: string }>(
-    {}
-  );
+  const [filter, setFilter] = React.useState<{
+    level?: string;
+    type?: string;
+    title?: string;
+    created?: string;
+  }>({});
   const {
     data = [],
     meta,
@@ -22,23 +26,35 @@ export default function AllAlertsPage({}: Props) {
   } = useAlerts({
     page,
     limit: 10,
+    sort: filter.created,
     level: filter.level,
     type: filter.type,
-    title: filter.title
+    title: filter.title,
   });
 
   return (
     <div className="p-6">
       <h1 className="text-xl font-semibold mb-4">Alerts</h1>
-      <AlertFilters
-        level={filter.level}
-        type={filter.type}
-        title={filter.title}
-        onChange={(f) => {
-          setFilter(f);
-          setPage(1);
-        }}
-      />
+      <div className="flex gap-4 mb-4">
+        <AlertFilters
+          level={filter.level}
+          type={filter.type}
+          title={filter.title}
+          onChange={(f) => {
+            setFilter(f);
+            setPage(1);
+          }}
+        />
+        <SortFilter
+          value={filter.created}
+          onChange={(sortObj) =>
+            setFilter((prev) => ({
+              ...prev,
+              created: sortObj.created,
+            }))
+          }
+        />
+      </div>
 
       <DataTable
         columns={alertColumns}
