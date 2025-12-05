@@ -6,6 +6,7 @@ import { useAllLocation } from "@/hooks/locations";
 import { SensorForm } from "../SensorForm";
 import { useCreateSensor } from "@/hooks/sensor";
 import { SensorPayload } from "@/types";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -15,7 +16,11 @@ export default function AddSensorPage({}: Props) {
   const router = useRouter();
 
   const handleCreate = async (payload: SensorPayload) => {
-    await createSensor(payload);
+    await toast.promise(createSensor(payload), {
+      loading: "Menyimpan data Sensor...",
+      success: "Data Sensor berhasil ditambahkan!",
+      error: "Gagal menambahkan Sensor, coba lagi.",
+    });
     router.push("/sensors");
   };
 

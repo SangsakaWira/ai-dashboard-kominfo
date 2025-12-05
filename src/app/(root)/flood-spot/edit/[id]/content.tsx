@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { SpotForm } from "../../SpotForm";
 import { useFloodSpotDetail, useUpdateFloodSpot } from "@/hooks/flood-spot";
 import { SpotPayload } from "@/schemas";
+import { toast } from "sonner";
 
 type Props = {
     id: string
@@ -18,7 +19,11 @@ export function EditSpotContent({id}: Props) {
   const router = useRouter()
 
   const handleUpdate = async (payload: SpotPayload) => {
-    await updateFloodSpot(payload)
+    await toast.promise(updateFloodSpot(payload), {
+      loading: "Menyimpan data Spot...",
+      success: "Data Spot berhasil diupdate!",
+      error: "Gagal edit Spot, coba lagi.",
+    });
     router.push("/flood-spot")
   };
 

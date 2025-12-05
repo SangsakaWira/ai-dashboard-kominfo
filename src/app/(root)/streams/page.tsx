@@ -81,7 +81,7 @@ export default function StreamsPage({}: Props) {
                   {allLoading ? (
                     <>
                       {Array.from({ length: 6 }).map((_, i) => (
-                        <Skeleton className="h-[150px] w-full" />
+                        <Skeleton key={i} className="h-[150px] w-full" />
                       ))}
                     </>
                   ) : all ? (

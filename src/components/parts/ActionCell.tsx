@@ -19,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { toast } from "sonner";
 
 interface ActionCellProps {
   // onEdit: () => void;
@@ -40,7 +41,12 @@ export const ActionCell = ({
   const removeItem = useRemove(pathDelete, itemId);
 
   const handleDelete = async () => {
-    await removeItem.remove();
+    await toast.promise(removeItem.remove(), {
+      loading: "Menghapus item...",
+      success: "Item berhasil dihapus!",
+      error: "Gagal menghapus item, coba lagi.",
+    });
+    // await removeItem.remove();
     setOpenAlert(false);
   };
   return (

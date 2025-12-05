@@ -5,6 +5,7 @@ import { CctvPayload } from "@/schemas";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { CctvForm } from "../../CctvForm";
+import { toast } from "sonner";
 
 export function EditCctvContent({ id }: { id: string }) {
   const { data: cctv } = useCctvDetail(Number(id));
@@ -12,7 +13,11 @@ export function EditCctvContent({ id }: { id: string }) {
   const router = useRouter();
 
   const handleUpdate = async (values: CctvPayload) => {
-    await updateCctv(values);
+    await toast.promise(updateCctv(values), {
+      loading: "Menyimpan data CCTV...",
+      success: "Data CCTV berhasil diupdate!",
+      error: "Gagal edit CCTV, coba lagi.",
+    });
     router.push("/cctv");
   };
 
@@ -37,7 +42,7 @@ export function EditCctvContent({ id }: { id: string }) {
           stream_url: cctv.stream_url,
           location_name: cctv.location_name,
         }}
-        mode="create"
+        mode="edit"
       />
     </div>
   );

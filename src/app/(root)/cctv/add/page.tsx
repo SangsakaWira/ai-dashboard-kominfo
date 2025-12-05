@@ -4,13 +4,18 @@ import { useCreateCctv } from "@/hooks/cctv";
 import { CctvPayload } from "@/schemas";
 import { useRouter } from "next/navigation";
 import { CctvForm } from "../CctvForm";
+import { toast } from "sonner";
 
 export default function CreateCctvPage() {
   const { createCctv, isMutating } = useCreateCctv();
   const router = useRouter();
 
   const handleCreate = async (values: CctvPayload) => {
-    await createCctv(values);
+    await toast.promise(createCctv(values), {
+      loading: "Menyimpan data CCTV...",
+      success: "Data CCTV berhasil ditambahkan!",
+      error: "Gagal menambahkan CCTV, coba lagi.",
+    });
     router.push("/cctv");
   };
 

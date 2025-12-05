@@ -29,6 +29,7 @@ export default function CctvPage({}: Props) {
     limit,
     sort: filters.created,
     name: filters.name,
+    status: "warning"
   });
 
   return (

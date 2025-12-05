@@ -4,6 +4,7 @@ import { useAllLocation } from "@/hooks/locations";
 import { FloodReportPayload } from "@/types";
 import { useRouter } from "next/navigation";
 import { ReportForm } from "../../ReportForm";
+import { toast } from "sonner";
 
 type Props = {
     id: string
@@ -16,7 +17,11 @@ export function EditReportContent({id}: Props) {
   const router = useRouter()
 
   const handleUpdate = async (payload: FloodReportPayload) => {
-    await updateFloodReport(payload)
+    await toast.promise(updateFloodReport(payload), {
+      loading: "Menyimpan data Report...",
+      success: "Data Report berhasil diupdate!",
+      error: "Gagal edit Report, coba lagi.",
+    });
     router.push("/flood-report")
   };
 

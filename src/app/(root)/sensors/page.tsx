@@ -38,7 +38,7 @@ export default function SensorsPage({}: Props) {
         : undefined,
     name: filters.name,
   });
-  const { data: locations, isLoading: locationLoading } = useAllLocation();
+  // const { data: locations, isLoading: locationLoading } = useAllLocation();
 
   // const getThresholdBadge = (status: string) => {
   //   switch (status.toLowerCase()) {

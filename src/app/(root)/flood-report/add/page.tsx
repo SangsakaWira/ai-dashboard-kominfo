@@ -4,6 +4,7 @@ import { useAllLocation } from "@/hooks/locations";
 import { FloodReportPayload } from "@/types";
 import { ReportForm } from "../ReportForm";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function AddReportPage() {
   const locations = useAllLocation();
@@ -11,7 +12,11 @@ export default function AddReportPage() {
   const router = useRouter()
 
   const handleCreate = async (payload: FloodReportPayload) => {
-    await createFloodReport(payload)
+    await toast.promise(createFloodReport(payload), {
+      loading: "Menyimpan data Report...",
+      success: "Data Report berhasil ditambahkan!",
+      error: "Gagal menambahkan Report, coba lagi.",
+    });
     router.push("/flood-report")
   };
 
