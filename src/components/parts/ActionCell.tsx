@@ -18,8 +18,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
+import { getApiErrorMessage } from "@/lib/utils";
 
 interface ActionCellProps {
   // onEdit: () => void;
@@ -41,13 +42,20 @@ export const ActionCell = ({
   const removeItem = useRemove(pathDelete, itemId);
 
   const handleDelete = async () => {
-    await toast.promise(removeItem.remove(), {
+    const req = removeItem.remove();
+
+    void toast.promise(req, {
       loading: "Menghapus item...",
       success: "Item berhasil dihapus!",
-      error: "Gagal menghapus item, coba lagi.",
+      error: (err) => getApiErrorMessage(err),
     });
-    // await removeItem.remove();
-    setOpenAlert(false);
+
+    try {
+      await req;
+      setOpenAlert(false);
+    } catch (error) {
+      setOpenAlert(false);
+    }
   };
   return (
     <>
@@ -61,11 +69,20 @@ export const ActionCell = ({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {detail && (
-              <DropdownMenuItem onClick={() => router.push(detail)}>View Detail</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push(detail)}>
+                View Detail
+              </DropdownMenuItem>
             )}
-            <DropdownMenuItem onClick={() => router.push(edit)}>Edit</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push(edit)}>
+              Edit
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive hover:!text-destructive hover:!bg-destructive/15" onClick={() => setOpenAlert(true)}>Delete</DropdownMenuItem>
+            <DropdownMenuItem
+              className="text-destructive hover:!text-destructive hover:!bg-destructive/15"
+              onClick={() => setOpenAlert(true)}
+            >
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -73,6 +90,7 @@ export const ActionCell = ({
         showDeleteDialog={openAlert}
         setShowDeleteDialog={setOpenAlert}
         onAction={handleDelete}
+        isLoading={removeItem.isMutating}
       />
     </>
   );

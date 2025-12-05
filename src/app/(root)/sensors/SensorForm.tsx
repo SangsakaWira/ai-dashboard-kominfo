@@ -234,7 +234,7 @@ export function SensorForm({
         />
 
         <div className="flex items-center gap-x-3">
-          <ButtonCancel href="/sensors" />
+          <ButtonCancel href="/sensors" isLoading={isMutating} />
           <Button type="submit" disabled={isMutating}>
             {isMutating
               ? mode === "create"

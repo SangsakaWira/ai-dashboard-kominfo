@@ -5,6 +5,7 @@ import { FloodReportPayload } from "@/types";
 import { ReportForm } from "../ReportForm";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { getApiErrorMessage } from "@/lib/utils";
 
 export default function AddReportPage() {
   const locations = useAllLocation();
@@ -12,11 +13,15 @@ export default function AddReportPage() {
   const router = useRouter()
 
   const handleCreate = async (payload: FloodReportPayload) => {
-    await toast.promise(createFloodReport(payload), {
+    const req = createFloodReport(payload);
+
+    void toast.promise(req, {
       loading: "Menyimpan data Report...",
       success: "Data Report berhasil ditambahkan!",
-      error: "Gagal menambahkan Report, coba lagi.",
+      error: (err) => getApiErrorMessage(err),
     });
+
+    await req
     router.push("/flood-report")
   };
 

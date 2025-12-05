@@ -7,6 +7,7 @@ import { SpotForm } from "../../SpotForm";
 import { useFloodSpotDetail, useUpdateFloodSpot } from "@/hooks/flood-spot";
 import { SpotPayload } from "@/schemas";
 import { toast } from "sonner";
+import { getApiErrorMessage } from "@/lib/utils";
 
 type Props = {
     id: string
@@ -19,11 +20,15 @@ export function EditSpotContent({id}: Props) {
   const router = useRouter()
 
   const handleUpdate = async (payload: SpotPayload) => {
-    await toast.promise(updateFloodSpot(payload), {
+    const req = updateFloodSpot(payload);
+
+    void toast.promise(req, {
       loading: "Menyimpan data Spot...",
       success: "Data Spot berhasil diupdate!",
-      error: "Gagal edit Spot, coba lagi.",
+      error: (err) => getApiErrorMessage(err),
     });
+
+    await req
     router.push("/flood-spot")
   };
 

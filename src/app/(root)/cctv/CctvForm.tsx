@@ -260,7 +260,7 @@ export function CctvForm({
         />
 
         <div className="flex gap-x-2">
-          <ButtonCancel href="/cctv" />
+          <ButtonCancel href="/cctv" isLoading={isMutating} />
           <Button type="submit" disabled={isMutating}>
             {isMutating
               ? mode === "create"

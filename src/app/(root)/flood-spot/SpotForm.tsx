@@ -229,7 +229,7 @@ export function SpotForm({
         />
 
         <div className="flex items-center gap-x-3">
-          <ButtonCancel href="/flood-spot" />
+          <ButtonCancel href="/flood-spot" isLoading={isMutating} />
           <Button type="submit" disabled={isMutating}>
             {isMutating
               ? mode === "create"

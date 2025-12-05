@@ -37,7 +37,7 @@ export default function AlertAction({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
           <Button variant="destructive" onClick={onAction} disabled={isLoading}>
             {isLoading ? "Loading.." : button_action}
           </Button>
