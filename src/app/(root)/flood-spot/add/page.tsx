@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { SpotForm } from "../SpotForm";
 import { useCreateFloodSpot } from "@/hooks/flood-spot";
 import { SpotPayload } from "@/schemas";
+import { toast } from "sonner";
+import { getApiErrorMessage } from "@/lib/utils";
 
 export default function AddSpotPage() {
   const locations = useAllLocation();
@@ -11,7 +13,15 @@ export default function AddSpotPage() {
   const router = useRouter();
 
   const handleCreate = async (payload: SpotPayload) => {
-    await createFloodSpot(payload);
+    const req = createFloodSpot(payload);
+
+    void toast.promise(req, {
+      loading: "Menyimpan data Spot...",
+      success: "Data Spot berhasil ditambahkan!",
+      error: (err) => getApiErrorMessage(err),
+    });
+
+    await req
     router.push("/flood-spot");
   };
 

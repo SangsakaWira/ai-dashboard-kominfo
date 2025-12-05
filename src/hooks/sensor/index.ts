@@ -11,6 +11,7 @@ export const useSensors = (params?: {
   key?: string;
   name?: string;
   unit?: string;
+  is_active?: boolean
   location_id?: number;
 }) => useApi<Sensor[]>(sensorService.list, params);
 

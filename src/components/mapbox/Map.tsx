@@ -53,12 +53,12 @@ export default function MyMap({ locations, zoom }: MyMapProps) {
               </div>
 
               <div className="text-[13px] mt-2 space-y-1">
-                <div className="flex justify-between">
+                <div className="flex justify-between gap-x-3">
                   <span className="text-gray-500">Lokasi</span>
-                  <span>{c.location_name}</span>
+                  <span>{`${Number(c.latitude).toFixed(4)}, ${Number(c.longitude).toFixed(4)}`}</span>
                 </div>
 
-                <div className="flex justify-between">
+                <div className="flex justify-between gap-x-3">
                   <span className="text-gray-500">Kapasitas</span>
                   <span>{c.capacity_building} m³</span>
                 </div>

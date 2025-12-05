@@ -5,6 +5,8 @@ import React from "react";
 import { useAllLocation } from "@/hooks/locations";
 import { SensorPayload } from "@/types";
 import { SensorForm } from "../../SensorForm";
+import { toast } from "sonner";
+import { getApiErrorMessage } from "@/lib/utils";
 
 type Props = {
   id: string;
@@ -17,7 +19,15 @@ export function EditSensorContent({ id }: Props) {
   const router = useRouter();
 
   const handleUpdate = async (payload: SensorPayload) => {
-    await updateSensor(payload);
+    const req = updateSensor(payload);
+
+    void toast.promise(updateSensor(payload), {
+      loading: "Menyimpan data Sensor...",
+      success: "Data Sensor berhasil diupdate!",
+      error: (err) => getApiErrorMessage(err),
+    });
+
+    await req
     router.push("/sensors");
   };
 

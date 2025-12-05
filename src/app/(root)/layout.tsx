@@ -9,6 +9,7 @@ import "../globals.css";
 // import { Sidebar } from "@/components/Sidebar";
 import MainLayout from "@/components/MainLayout";
 import "leaflet/dist/leaflet.css";
+import { Toaster } from "@/components/ui/sonner";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -30,6 +31,7 @@ export default function RootLayout({
         <MainLayout>
           {children}
         </MainLayout>
+        <Toaster position="top-center" />
         <TempoInit />
       </body>
     </html>

@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LocationMap } from "@/components/parts/LocationMap";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
+import { DetailTitle } from "@/components/parts/DetailTitle";
 
 type Props = {
   id: string;
@@ -17,20 +18,23 @@ export function DetailFloodReportContent({ id }: Props) {
   return (
     <Card className="bg-card border">
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <DetailTitle backUrl="/flood-report" title="Flood Report" />
+        {/* <div className="flex items-center justify-between">
           <CardTitle className="flex items-center">Detail Report</CardTitle>
-        </div>
+        </div> */}
       </CardHeader>
       <CardContent>
         <div className="space-y-6">
           <div className="flex flex-col md:flex-row gap-6">
-            <Image
-              src={report.photo_url}
-              alt={report.description}
-              width={500}
-              height={500}
-              className="w-full md:w-72 rounded-lg object-cover border"
-            />
+            {report?.photo_url && (
+              <Image
+                src={report.photo_url}
+                alt={report.description}
+                width={500}
+                height={500}
+                className="w-full md:w-72 rounded-lg object-cover border"
+              />
+            )}
 
             <div className="flex-1 space-y-3">
               <h2 className="text-xl font-semibold">{report.reporter_name}</h2>
@@ -66,8 +70,7 @@ export function DetailFloodReportContent({ id }: Props) {
           <div>
             <h3 className="font-semibold mb-2">Lokasi Kejadian</h3>
             <LocationMap
-              latitude={report.latitude}
-              longitude={report.longitude}
+              data={report}
             />
           </div>
         </div>

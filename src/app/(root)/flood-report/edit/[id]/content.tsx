@@ -1,9 +1,11 @@
 "use client"
-import { useCreateFloodReport, useFloodReportDetail, useUpdateFloodReport } from "@/hooks/flood-report";
+import { useFloodReportDetail, useUpdateFloodReport } from "@/hooks/flood-report";
 import { useAllLocation } from "@/hooks/locations";
 import { FloodReportPayload } from "@/types";
 import { useRouter } from "next/navigation";
 import { ReportForm } from "../../ReportForm";
+import { toast } from "sonner";
+import { getApiErrorMessage } from "@/lib/utils";
 
 type Props = {
     id: string
@@ -16,7 +18,15 @@ export function EditReportContent({id}: Props) {
   const router = useRouter()
 
   const handleUpdate = async (payload: FloodReportPayload) => {
-    await updateFloodReport(payload)
+    const req = updateFloodReport(payload);
+
+    void toast.promise(req, {
+      loading: "Menyimpan data Report...",
+      success: "Data Report berhasil diupdate!",
+      error: (err) => getApiErrorMessage(err),
+    });
+
+    await req
     router.push("/flood-report")
   };
 

@@ -10,6 +10,7 @@ export const useAllCctv = (params?: {
   sort?: string;
   name: string | null;
   category?: string;
+  status?: string;
   location_name?: string;
 }) => useApi<CCTV[]>(cctvService.list, params);
 

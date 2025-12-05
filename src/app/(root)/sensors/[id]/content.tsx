@@ -8,6 +8,7 @@ import { useSensorDetail } from "@/hooks/sensor";
 import { useLocationDetail } from "@/hooks/locations";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon } from "lucide-react";
+import { DetailTitle } from "@/components/parts/DetailTitle";
 
 type Props = {
   id: string;
@@ -21,14 +22,15 @@ export function DetailSensorContent({ id }: Props) {
   return (
     <Card className="bg-card border">
       <CardHeader>
+        <DetailTitle backUrl="/sensors" title="Sensor" />
         <div className="flex items-center gap-x-3">
-            {/* <Button variant={'ghost'}><ArrowLeftIcon /></Button> */}
-            <div className="flex items-center gap-x-2">
+          {/* <Button variant={'ghost'}><ArrowLeftIcon /></Button> */}
+          <div className="flex items-center gap-x-2">
             <CardTitle className="flex items-center">{sensor.name}</CardTitle>
             <Badge variant={sensor.is_active ? "default" : "secondary"}>
-                {sensor.is_active ? "Active" : "Inactive"}
+              {sensor.is_active ? "Active" : "Inactive"}
             </Badge>
-            </div>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
@@ -37,7 +39,9 @@ export function DetailSensorContent({ id }: Props) {
             <div className="flex-1 space-y-3">
               <p className="text-sm">Lokasi: {location?.name || "-"}</p>
               <p className="text-sm">Threshold (Low): {sensor.threshold_low}</p>
-              <p className="text-sm">Threshold (High): {sensor.threshold_high}</p>
+              <p className="text-sm">
+                Threshold (High): {sensor.threshold_high}
+              </p>
             </div>
           </div>
 
@@ -45,8 +49,9 @@ export function DetailSensorContent({ id }: Props) {
           <div>
             <h3 className="font-semibold mb-2">Lokasi Sensor</h3>
             <LocationMap
-              latitude={sensor.latitude}
-              longitude={sensor.longitude}
+              data={sensor}
+              // latitude={sensor.latitude}
+              // longitude={sensor.longitude}
             />
           </div>
         </div>

@@ -240,7 +240,7 @@ export function ReportForm({
         />
 
         <div className="flex gap-x-2">
-          <ButtonCancel href="/flood-report" />
+          <ButtonCancel href="/flood-report" isLoading={isMutating} />
           <Button type="submit" disabled={isMutating}>
             {isMutating
               ? mode === "create"

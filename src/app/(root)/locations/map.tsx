@@ -21,7 +21,7 @@ export function LocationsMap({data,isLoading}: Props) {
   if (isLoading) return <p>Loading peta...</p>;
   return (
     <div>
-      <div className="justify-between items-start h-[500px] pb-8">
+      <div className="justify-between items-start h-[calc(100vh-190px)] pb-8">
         <h1 className="mb-5 text-3xl font-bold">Lokasi CCTV</h1>
         <MapWithNoSSR
           zoom={zoom}
