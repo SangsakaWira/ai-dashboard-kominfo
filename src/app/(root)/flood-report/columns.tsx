@@ -8,6 +8,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { formatDistanceToNow } from "date-fns";
 
 export const floodReportColumns: ColumnDef<FloodReport>[] = [
+    {
+    id: "no",
+    header: () => <div className="text-center">No</div>,
+    cell: ({ row }) => (
+      <div className="text-center">{row.index + 1}</div>
+    ),
+  },
   {
     accessorKey: "photo_url",
     header: "Image",

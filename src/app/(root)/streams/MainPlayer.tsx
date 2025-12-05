@@ -35,6 +35,9 @@ export function MainPlayer({ selected, selectedLoading }: Props) {
 
   const streamUrl = selected ? selected.stream_url : "";
 
+  const isYouTubeUrl = (url: string) =>
+  /youtube\.com|youtu\.be/.test(url);
+
   useEffect(() => {
     streamUrlRef.current = streamUrl;
   }, [streamUrl]);
@@ -76,6 +79,16 @@ export function MainPlayer({ selected, selectedLoading }: Props) {
       const videoEl = videoRef.current;
       const currentStreamUrl = streamUrlRef.current;
       const currentMuted = mutedRef.current;
+
+ if (!videoEl || !currentStreamUrl || isYouTubeUrl(currentStreamUrl)) {
+      if (!videoEl || !currentStreamUrl) {
+        console.error(
+          "Cannot load stream: missing video element or stream URL"
+        );
+      }
+      return;
+    }
+
       // const currentVolume = volumeRef.current;
 
       if (!videoEl || !currentStreamUrl) {
@@ -329,7 +342,7 @@ export function MainPlayer({ selected, selectedLoading }: Props) {
           </div>
         )}
 
-        <div className="aspect-video bg-black flex items-center justify-center">
+        {/* <div className="aspect-video bg-black flex items-center justify-center">
           {!selected ? (
             <p className="text-white opacity-60">
               Pilih CCTV untuk menampilkan video
@@ -344,7 +357,34 @@ export function MainPlayer({ selected, selectedLoading }: Props) {
               preload="auto"
             />
           )}
-        </div>
+        </div> */}
+
+        <div className="aspect-video bg-black flex items-center justify-center">
+  {!selected ? (
+    <p className="text-white opacity-60">
+      Pilih CCTV untuk menampilkan video
+    </p>
+  ) : isYouTubeUrl(streamUrl) ? (
+    // 👉 Kalau YouTube pakai iframe
+    <iframe
+      className="w-full h-full"
+      src={streamUrl}
+      title={selected.name}
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
+  ) : (
+    // 👉 Selain YouTube tetap pakai <video> + HLS
+    <video
+      ref={videoRef}
+      autoPlay
+      muted={muted}
+      className="w-full h-full object-contain"
+      playsInline
+      preload="auto"
+    />
+  )}
+</div>
 
         {selected && (
           <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-4 z-10">

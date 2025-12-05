@@ -6,6 +6,13 @@ import { Sensor } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 
 export const sensorColumns: ColumnDef<Sensor>[] = [
+    {
+    id: "no",
+    header: () => <div className="text-center">No</div>,
+    cell: ({ row }) => (
+      <div className="text-center">{row.index + 1}</div>
+    ),
+  },
   {
     accessorKey: "name",
     header: "Sensor Name",

@@ -25,6 +25,8 @@ import { CctvPayload, cctvSchema } from "@/schemas";
 import { ButtonCancel } from "@/components/parts/ButtonCancel";
 import { CCTVPayload } from "@/types";
 import dynamic from "next/dynamic";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 
 const MapPicker = dynamic(() => import("@/components/parts/MapPicker"), {
   ssr: false,
@@ -43,7 +45,7 @@ export function CctvForm({
   onSubmit,
   isMutating,
 }: Props) {
-  const form = useForm<CctvPayload>({
+  const form = useForm<any>({
     resolver: zodResolver(cctvSchema),
     defaultValues,
   });
@@ -141,7 +143,7 @@ export function CctvForm({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Status */}
-          <FormField
+          {/* <FormField
             control={form.control}
             name="status"
             render={({ field }) => (
@@ -164,9 +166,25 @@ export function CctvForm({
                 <FormMessage />
               </FormItem>
             )}
-          />
-
-          {/* Category */}
+          /> */}
+        <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                    <Textarea
+                    rows={3}
+                    placeholder="Catatan kondisi jalan, cuaca, atau info penting lain..."
+                    {...field}
+                    />
+                </FormControl>
+                <FormMessage />
+                </FormItem>
+            )}
+        />
+         {/* Category */}
           <FormField
           control={form.control}
           name="category"
@@ -179,8 +197,52 @@ export function CctvForm({
               <FormMessage />
             </FormItem>
           )}
+        />                      
+        <FormField
+        control={form.control}
+        name="is_active"
+        render={({ field }) => (
+            <FormItem className="flex flex-col gap-2">
+            <div className="flex items-center justify-between">
+                <FormLabel>Status Perangkat</FormLabel>
+                <Switch
+                checked={field.value}
+                onCheckedChange={field.onChange}
+                />
+            </div>
+            <p className="text-xs text-muted-foreground">
+                {field.value ? "Aktif (online)" : "Tidak aktif (offline)"}
+            </p>
+            <FormMessage />
+            </FormItem>
+        )}
         />
+
         </div>
+         <FormField
+            control={form.control}
+            name="resolution"
+            render={({ field }) => (
+            <FormItem>
+                <FormLabel>Resolution</FormLabel>
+                <Select
+                onValueChange={field.onChange}
+                value={field.value ?? ""} // biar nggak undefined
+                >
+                <FormControl>
+                    <SelectTrigger>
+                    <SelectValue placeholder="Pilih resolution" />
+                    </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                    <SelectItem value="1080p">1080p</SelectItem>
+                    <SelectItem value="720p">720p</SelectItem>
+                </SelectContent>
+                </Select>
+                <FormMessage />
+            </FormItem>
+            )}
+        />
 
         {/* Location Name */}
         <FormField

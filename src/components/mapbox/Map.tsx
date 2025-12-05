@@ -43,7 +43,7 @@ export default function MyMap({ locations, zoom }: MyMapProps) {
               <div className="flex items-center gap-2 mt-1">
                 <span className={`flex items-center gap-x-1`}>
                   <div
-                    className={`w-[10px] h-[10px] rounded-full ${c.status === "offline" ? "bg-red-500" : "bg-green-500"}`}
+                    className={`w-[10px] h-[10px] rounded-full ${c.status === "danger" ? "bg-red-500" : "bg-green-500"}`}
                   ></div>{" "}
                   {c.status}
                 </span>

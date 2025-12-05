@@ -4,16 +4,20 @@ export const cctvSchema = z.object({
   name: z.string().min(1, "Name wajib diisi"),
   latitude: z.string().optional(),
   longitude: z.string().optional(),
-  status: z.enum(["online", "offline"]).optional(),
+  is_active: z.boolean().default(true),
+//   status: z.enum(["online", "offline"]).optional(),
+  status: z.enum(["normal", "warning", "danger"]).optional(),
   category: z.string().optional(),
   stream_url: z.string().optional(),
   location_name: z.string().optional(),
+  resolution: z.string().optional(),   
+  description: z.string().optional(), 
 })
 
 export const reportSchema = z.object({
   latitude: z.string().min(1, "Latitude wajib diisi"),
   longitude: z.string().min(1, "Longtitude wajib diisi"),
-  location_id: z.number().optional(),
+  location_id: z.number().nullable().optional(),
   reporter_name: z.string().optional(),
   reporter_phone: z.string().optional(),
   description: z.string().optional(),
@@ -24,7 +28,7 @@ export const reportSchema = z.object({
 export const spotSchema = z.object({
   latitude: z.string().min(1, "Latitude wajib diisi"),
   longitude: z.string().min(1, "Longtitude wajib diisi"),
-  location_id: z.number().optional(),
+  location_id: z.number().nullable().optional(),
   severity: z.string().optional(),
   depth: z.number().optional(),
   description: z.string().optional(),
@@ -49,7 +53,7 @@ export const sensorSchema = z.object({
 
   threshold_low: z.number().optional(),
   threshold_high: z.number().optional(),
-  location_id: z.number().optional(),
+  location_id: z.number().nullable().optional(),
 
   is_active: z.boolean().optional(),
 });

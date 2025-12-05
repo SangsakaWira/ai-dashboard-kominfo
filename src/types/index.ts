@@ -1,3 +1,5 @@
+import { CctvPayload } from "@/schemas";
+
 export interface ApiResponse<T> {
   status?: string;
   message?: string;
@@ -90,7 +92,7 @@ export interface DashboardSummary {
 export interface CCTV {
   id: number;
   name: string;
-  status: "online" | "offline";
+  status: "normal" | "warning" | "danger";
   latitude: string;
   longitude: string;
   location_id: number;
@@ -98,16 +100,28 @@ export interface CCTV {
   stream_url: string;
   category: string;
   capacity_building: number
+  is_active:boolean
+  resolution:string
+  description:string
 }
 
-export interface CCTVPayload {
-  name: string;
-  status?: "online" | "offline";
-  latitude?: string;
-  longitude?: string;
-  location_name?: string;
-  stream_url?: string;
-  category?: string;
+// export interface CCTVPayload {
+//   name: string;
+//   is_active?: boolean;
+//   status?: "online" | "offline";
+//   latitude?: string;
+//   longitude?: string;
+//   location_name?: string;
+//   stream_url?: string;
+//   category?: string;
+// }
+
+export type CCTVPayload = CctvPayload;
+
+export interface CCTV extends CctvPayload {
+  id: number;
+  created_at: string;
+  updated_at: string;
 }
 
 // location
@@ -175,6 +189,7 @@ export interface FloodSpot {
   latitude: string;
   longitude: string;
   severity: string;
+  status: string;
   depth: number;
   source: string;
   description: string;
@@ -210,7 +225,7 @@ export interface FloodReport {
 export interface FloodReportPayload {
   latitude: string;
   longitude: string;
-  location_id?: number;
+  location_id?: number | null;
   reporter_name?: string;
   reporter_phone?: string;
   description?: string;
@@ -242,6 +257,6 @@ export interface SensorPayload {
   unit?: string;
   threshold_low?: number;
   threshold_high?: number;
-  location_id?: number;
+  location_id?: number | null;
   is_active?: boolean;
 }

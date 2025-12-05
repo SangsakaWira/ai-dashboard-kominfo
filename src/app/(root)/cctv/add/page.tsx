@@ -23,9 +23,10 @@ export default function CreateCctvPage() {
         isMutating={isMutating}
         defaultValues={{
           name: "",
+          is_active: true,
           latitude: undefined,
           longitude: undefined,
-          status: "online",
+          status: "normal",
           category: "",
           stream_url: "",
           location_name: "",

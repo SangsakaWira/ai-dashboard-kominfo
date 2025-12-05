@@ -28,6 +28,7 @@ export function EditCctvContent({ id }: { id: string }) {
         onSubmit={handleUpdate}
         isMutating={isMutating}
         defaultValues={{
+          is_active: cctv.is_active,
           name: cctv.name,
           latitude: cctv.latitude,
           longitude: cctv.longitude,

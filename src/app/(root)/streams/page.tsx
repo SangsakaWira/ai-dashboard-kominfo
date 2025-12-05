@@ -15,13 +15,21 @@ type Props = {};
 export default function StreamsPage({}: Props) {
   const [selectedCamera, setSelectedCamera] = React.useState("");
 
-  const getCameraStatusBadge = (status: string) => {
-    return status === "online" ? (
-      <Badge className="bg-green-500">Online</Badge>
-    ) : (
-      <Badge variant="destructive">Offline</Badge>
-    );
-  };
+//   const getCameraStatusBadge = (status: string) => {
+//     return status === "online" ? (
+//       <Badge className="bg-green-500">Online</Badge>
+//     ) : (
+//       <Badge variant="destructive">Offline</Badge>
+//     );
+//   };
+
+  const getCameraStatusBadge = (isActive?: boolean) => {
+  return isActive ? (
+    <Badge className="bg-green-500">Aktif</Badge>
+  ) : (
+    <Badge variant="destructive">Tidak Aktif</Badge>
+  );
+};
 
   const { data: all, isLoading: allLoading } = useAllCctv();
   const { data: selected, isLoading: selectedLoading } = useCctvDetail(
@@ -102,8 +110,11 @@ export default function StreamsPage({}: Props) {
 
                           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
                         </div>
-                        <div className="absolute top-2 right-2">
+                        {/* <div className="absolute top-2 right-2">
                           {getCameraStatusBadge(camera.status)}
+                        </div> */}
+                        <div className="absolute top-2 right-2">
+                        {getCameraStatusBadge(camera.is_active)}
                         </div>
                         <div className="absolute bottom-0 left-0 right-0 px-3 pt-1 pb-2 bg-black/40 backdrop-blur-sm">
                           <p className="text-white text-sm font-semibold truncate">
