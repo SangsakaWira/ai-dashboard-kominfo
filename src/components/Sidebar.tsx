@@ -64,7 +64,7 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: Props) {
       link: "/flood-spot",
       icon: MapPinned,
     },
-    { id: "table", label: "Management", link: "/management", icon: TableIcon },
+    // { id: "table", label: "Management", link: "/management", icon: TableIcon },
     { id: "historical", label: "Historical", link: "/historical", icon: Clock },
     { id: "alerts", label: "Alerts", link: "/alerts", icon: AlertTriangle },
   ];
