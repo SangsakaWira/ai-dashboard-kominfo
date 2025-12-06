@@ -7,8 +7,8 @@ import "../globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SiTajir - Authentication",
-  description: "SiTajir Authentication",
+  title: "SITAJIR - Authentication",
+  description: "SITAJIR Authentication",
   // title: "Vision AI - Authentication",
   // description: "Vision AI Authentication",
 };

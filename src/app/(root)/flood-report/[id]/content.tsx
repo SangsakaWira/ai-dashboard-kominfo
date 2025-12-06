@@ -2,10 +2,14 @@
 import { useFloodReportDetail } from "@/hooks/flood-report";
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LocationMap } from "@/components/parts/LocationMap";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { DetailTitle } from "@/components/parts/DetailTitle";
+import dynamic from "next/dynamic";
+
+const LocationMap = dynamic(() => import("@/components/parts/LocationMap"), {
+  ssr: false,
+});
 
 type Props = {
   id: string;

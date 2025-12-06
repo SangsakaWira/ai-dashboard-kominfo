@@ -17,7 +17,7 @@ type Props = {
   data: any;
 };
 
-export function LocationMap({ data }: Props) {
+export default function LocationMap({ data }: Props) {
   const lat = Number(data.latitude);
   const lng = Number(data.longitude);
 

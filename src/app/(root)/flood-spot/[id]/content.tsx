@@ -1,10 +1,14 @@
 "use client";
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LocationMap } from "@/components/parts/LocationMap";
 import { Badge } from "@/components/ui/badge";
 import { useFloodSpotDetail } from "@/hooks/flood-spot";
 import { DetailTitle } from "@/components/parts/DetailTitle";
+import dynamic from "next/dynamic";
+
+const LocationMap = dynamic(() => import("@/components/parts/LocationMap"), {
+  ssr: false,
+});
 
 type Props = {
   id: string;
