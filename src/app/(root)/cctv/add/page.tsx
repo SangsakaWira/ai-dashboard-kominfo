@@ -14,6 +14,7 @@ export default function CreateCctvPage() {
   const handleCreate = async (values: CctvPayload) => {
     const req = createCctv(values);
     
+    
     void toast.promise(req, {
       loading: "Menyimpan data CCTV...",
       success: "Data CCTV berhasil ditambahkan!",
