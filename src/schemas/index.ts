@@ -28,10 +28,11 @@ export const reportSchema = z.object({
 });
 
 export const spotSchema = z.object({
+  name: z.string().min(1, "Nama spot wajib diisi"),
   latitude: z.string().min(1, "Latitude wajib diisi"),
   longitude: z.string().min(1, "Longtitude wajib diisi"),
   location_id: z.number().nullable().optional(),
-  severity: z.string().optional(),
+  severity: z.string().optional().nullable(),
   depth: z.number().optional(),
   description: z.string().optional(),
   source: z.string().optional(),

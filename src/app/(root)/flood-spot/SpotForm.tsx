@@ -109,6 +109,21 @@ export function SpotForm({
             />
           </div>
         </div>
+        {/* Name */}
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nama Spot</FormLabel>
+              <FormControl>
+                <Input placeholder="Nama spot" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Location Select */}
           <FormField

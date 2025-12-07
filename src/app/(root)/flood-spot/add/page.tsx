@@ -34,6 +34,7 @@ export default function AddSpotPage() {
         locations={locations?.data || []}
         isMutating={isMutating}
         defaultValues={{
+          name: "",
           latitude: "",
           longitude: "",
           location_id: undefined,

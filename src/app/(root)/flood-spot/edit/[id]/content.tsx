@@ -43,6 +43,7 @@ export function EditSpotContent({id}: Props) {
         locations={locations?.data || []}
         isMutating={isMutating}
         defaultValues={{
+          name: spot.name,
           latitude: spot.latitude,
           longitude: spot.longitude,
           location_id: spot.location_id,

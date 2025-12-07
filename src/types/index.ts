@@ -186,6 +186,7 @@ export interface Alert {
 // Flood
 export interface FloodSpot {
   id: number;
+  name: string;
   latitude: string;
   longitude: string;
   severity: string;
@@ -199,6 +200,7 @@ export interface FloodSpot {
 }
 
 export interface FloodSpotPayload {
+  name: string
   latitude: string
   longitude: string
   location_id?: number
