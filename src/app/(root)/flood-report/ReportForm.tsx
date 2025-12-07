@@ -2,6 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState, useEffect } from "react";
 import {
   Form,
   FormField,
@@ -20,6 +21,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 // import { useEffect, useState } from "react";
 import { Location } from "@/types";
 import { ReportPayload, reportSchema } from "@/schemas";
@@ -54,6 +64,18 @@ export function ReportForm({
     resolver: zodResolver(reportSchema),
     defaultValues,
   });
+
+  const [statusDialog, setStatusDialog] = useState<{
+    open: boolean;
+    status: "verified" | "rejected" | null;
+  }>({ open: false, status: null });
+
+  // Update status field when defaultValues changes
+  useEffect(() => {
+    if (defaultValues?.status && defaultValues.status !== form.getValues("status")) {
+      form.setValue("status", defaultValues.status);
+    }
+  }, [defaultValues?.status, form]);
 
   return (
     <Form {...form}>
@@ -220,18 +242,35 @@ export function ReportForm({
                     </SelectContent>
                   </Select>
                 </div>
-                {mode === "edit" && onStatusChange && field.value !== "verified" && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    disabled={isStatusChanging}
-                    onClick={() => {
-                      onStatusChange("verified");
-                    }}
-                  >
-                    {isStatusChanging ? "Memverifikasi..." : "Verify"}
-                  </Button>
+                {mode === "edit" && onStatusChange && (
+                  <div className="flex gap-2 mt-2">
+                    {field.value !== "verified" && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={isStatusChanging}
+                        onClick={() => {
+                          setStatusDialog({ open: true, status: "verified" });
+                        }}
+                      >
+                        {isStatusChanging ? "Memverifikasi..." : "Verify"}
+                      </Button>
+                    )}
+                    {field.value !== "rejected" && (
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        disabled={isStatusChanging}
+                        onClick={() => {
+                          setStatusDialog({ open: true, status: "rejected" });
+                        }}
+                      >
+                        {isStatusChanging ? "Menolak..." : "Reject"}
+                      </Button>
+                    )}
+                  </div>
                 )}
               </div>
               <FormMessage />
@@ -304,6 +343,39 @@ export function ReportForm({
           </Button>
         </div>
       </form>
+
+      <AlertDialog open={statusDialog.open} onOpenChange={(open) => 
+        setStatusDialog(prev => ({ ...prev, open }))
+      }>
+        <AlertDialogContent className="z-[9999]">
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {statusDialog.status === "verified" 
+                ? "Verify Report?" 
+                : "Reject Report?"}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {statusDialog.status === "verified" 
+                ? "Apakah Anda yakin ingin memverifikasi laporan ini? Laporan yang terverifikasi akan ditampilkan di peta flood spot."
+                : "Apakah Anda yakin ingin menolak laporan ini? Laporan yang ditolak tidak akan ditampilkan."}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="flex gap-3 justify-end">
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (statusDialog.status) {
+                  onStatusChange?.(statusDialog.status);
+                }
+                setStatusDialog({ open: false, status: null });
+              }}
+              className={statusDialog.status === "rejected" ? "bg-red-600 hover:bg-red-700" : ""}
+            >
+              {statusDialog.status === "verified" ? "Verify" : "Reject"}
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
     </Form>
   );
 }

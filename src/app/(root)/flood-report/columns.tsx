@@ -59,17 +59,25 @@ export const floodReportColumns: ColumnDef<FloodReport>[] = [
     header: "Status",
     cell: ({ row }) => {
       const flood = row.original;
+      const statusLabel: Record<string, string> = {
+        pending: "Pending",
+        verified: "Verified",
+        rejected: "Rejected",
+        resolved: "Resolved",
+      };
       return (
         <Badge
           className={
             flood.status === "pending"
               ? "bg-yellow-500"
-              : flood.status === "approved"
+              : flood.status === "verified"
                 ? "bg-green-600"
-                : "bg-red-600"
+                : flood.status === "rejected"
+                  ? "bg-red-600"
+                  : "bg-blue-600"
           }
         >
-          {flood.status}
+          {statusLabel[flood.status] || flood.status}
         </Badge>
       );
     },
