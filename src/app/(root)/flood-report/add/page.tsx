@@ -1,7 +1,7 @@
 "use client"
 import { useCreateFloodReport } from "@/hooks/flood-report";
 import { useAllLocation } from "@/hooks/locations";
-import { FloodReportPayload } from "@/types";
+import { ReportPayload } from "@/schemas";
 import { ReportForm } from "../ReportForm";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -12,7 +12,7 @@ export default function AddReportPage() {
   const { createFloodReport, isMutating } = useCreateFloodReport()
   const router = useRouter()
 
-  const handleCreate = async (payload: FloodReportPayload) => {
+  const handleCreate = async (payload: ReportPayload) => {
     const req = createFloodReport(payload);
 
     void toast.promise(req, {
@@ -42,6 +42,8 @@ export default function AddReportPage() {
           description: "",
           photo_url: "",
           source: "",
+          status: undefined,
+          depth: undefined,
         }}
         mode="create"
       />

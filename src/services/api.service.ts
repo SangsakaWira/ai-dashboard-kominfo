@@ -28,6 +28,7 @@ export const floodReportService = {
     create: "/flood/report",
     update: (id: number) => `/flood/report/${id}`,
     delete: (id: number) => `/flood/report/${id}`,
+    changeStatus: (id: number) => `/flood/report/${id}/change-status`,
 }
 
 export const floodSpotService = {

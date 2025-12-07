@@ -39,6 +39,18 @@ export const floodReportColumns: ColumnDef<FloodReport>[] = [
     header: "Description",
   },
   {
+    accessorKey: "reporter_name",
+    header: "Reported by",
+  },
+  {
+    accessorKey: "reporter_phone",
+    header: "Reporter phone",
+  },
+  {
+    accessorKey: "depth",
+    header: "Kedalaman (cm)",
+  },
+  {
     accessorKey: "source",
     header: "Source",
   },

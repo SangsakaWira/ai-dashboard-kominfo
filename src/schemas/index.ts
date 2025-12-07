@@ -23,6 +23,8 @@ export const reportSchema = z.object({
   description: z.string().optional(),
   photo_url: z.string().optional(),
   source: z.string().optional(),
+  status: z.enum(["pending", "verified", "rejected", "resolved"]).optional(),
+  depth: z.number().optional(),
 });
 
 export const spotSchema = z.object({

@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 // import { useEffect, useState } from "react";
-import { FloodReportPayload, Location } from "@/types";
+import { Location } from "@/types";
 import { ReportPayload, reportSchema } from "@/schemas";
 import { uploadFile } from "@/hooks/requestHelper";
 import { ButtonCancel } from "@/components/parts/ButtonCancel";
@@ -32,18 +32,22 @@ const MapPicker = dynamic(() => import("@/components/parts/MapPicker"), {
 });
 
 type Props = {
-  onSubmit: (payload: FloodReportPayload) => void;
-  defaultValues: FloodReportPayload;
+  onSubmit: (payload: ReportPayload) => void;
+  onStatusChange?: (status: "pending" | "verified" | "rejected" | "resolved") => void;
+  defaultValues: ReportPayload;
   locations: Location[];
   isMutating?: boolean;
+  isStatusChanging?: boolean;
   mode: "create" | "edit";
 };
 
 export function ReportForm({
   onSubmit,
+  onStatusChange,
   defaultValues,
   locations,
   isMutating = false,
+  isStatusChanging = false,
   mode,
 }: Props) {
   const form = useForm<ReportPayload>({
@@ -186,6 +190,54 @@ export function ReportForm({
             )}
           />
         </div>
+
+        {/* Status */}
+        <FormField
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Status</FormLabel>
+              <div className="flex gap-2 items-end">
+                <div className="flex-1">
+                  <Select
+                    value={field.value || ""}
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                    }}
+                    disabled={true}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Pilih status" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="pending">Pending</SelectItem>
+                      <SelectItem value="verified">Verified</SelectItem>
+                      <SelectItem value="rejected">Rejected</SelectItem>
+                      <SelectItem value="resolved">Resolved</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                {mode === "edit" && onStatusChange && field.value !== "verified" && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    disabled={isStatusChanging}
+                    onClick={() => {
+                      onStatusChange("verified");
+                    }}
+                  >
+                    {isStatusChanging ? "Memverifikasi..." : "Verify"}
+                  </Button>
+                )}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         {/* Description */}
         <FormField

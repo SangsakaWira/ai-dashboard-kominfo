@@ -219,6 +219,7 @@ export interface FloodReport {
   status: string;
   source: string;
   location_id: number;
+  depth?: number;
   created_at: Date;
 }
 
@@ -231,6 +232,8 @@ export interface FloodReportPayload {
   description?: string;
   photo_url?: string;
   source?: string;
+  status?: string;
+  depth?: number;
 }
 
 // Sensor
