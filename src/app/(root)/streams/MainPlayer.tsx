@@ -35,8 +35,16 @@ export function MainPlayer({ selected, selectedLoading }: Props) {
 
   const streamUrl = selected ? selected.stream_url : "";
 
-  const isYouTubeUrl = (url: string) =>
-  /youtube\.com|youtu\.be/.test(url);
+  const isYouTubeUrl = (url: string) => /youtube\.com|youtu\.be/.test(url);
+
+  function withAutoplay(url: string) {
+    if (url.includes("youtube.com") || url.includes("youtu.be")) {
+      if (url.includes("?")) return url + "&autoplay=1&mute=1";
+      return url + "?autoplay=1&mute=1";
+    }
+
+    return url;
+  }
 
   useEffect(() => {
     streamUrlRef.current = streamUrl;
@@ -80,14 +88,14 @@ export function MainPlayer({ selected, selectedLoading }: Props) {
       const currentStreamUrl = streamUrlRef.current;
       const currentMuted = mutedRef.current;
 
- if (!videoEl || !currentStreamUrl || isYouTubeUrl(currentStreamUrl)) {
-      if (!videoEl || !currentStreamUrl) {
-        console.error(
-          "Cannot load stream: missing video element or stream URL"
-        );
+      if (!videoEl || !currentStreamUrl || isYouTubeUrl(currentStreamUrl)) {
+        if (!videoEl || !currentStreamUrl) {
+          console.error(
+            "Cannot load stream: missing video element or stream URL"
+          );
+        }
+        return;
       }
-      return;
-    }
 
       // const currentVolume = volumeRef.current;
 
@@ -360,33 +368,33 @@ export function MainPlayer({ selected, selectedLoading }: Props) {
         </div> */}
 
         <div className="aspect-video bg-black flex items-center justify-center">
-  {!selected ? (
-    <p className="text-white opacity-60">
-      Pilih CCTV untuk menampilkan video
-    </p>
-  ) : isYouTubeUrl(streamUrl) ? (
-    // 👉 Kalau YouTube pakai iframe
-    <iframe
-      className="w-full h-full"
-      src={streamUrl}
-      title={selected.name}
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-    />
-  ) : (
-    // 👉 Selain YouTube tetap pakai <video> + HLS
-    <video
-      ref={videoRef}
-      autoPlay
-      muted={muted}
-      className="w-full h-full object-contain"
-      playsInline
-      preload="auto"
-    />
-  )}
-</div>
+          {!selected ? (
+            <p className="text-white opacity-60">
+              Pilih CCTV untuk menampilkan video
+            </p>
+          ) : isYouTubeUrl(streamUrl) ? (
+            // 👉 Kalau YouTube pakai iframe
+            <iframe
+              className="w-full h-full"
+              src={withAutoplay(streamUrl)}
+              title={selected.name}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          ) : (
+            // 👉 Selain YouTube tetap pakai <video> + HLS
+            <video
+              ref={videoRef}
+              autoPlay
+              muted={muted}
+              className="w-full h-full object-contain"
+              playsInline
+              preload="auto"
+            />
+          )}
+        </div>
 
-        {selected && (
+        {selected && !isYouTubeUrl(streamUrl) && (
           <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-4 z-10">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
@@ -436,7 +444,9 @@ export function MainPlayer({ selected, selectedLoading }: Props) {
                   size="sm"
                   className="text-white hover:bg-white/20"
                   onClick={toggleTheatre}
-                  aria-label={theatre ? "Exit theatre mode" : "Enter theatre mode"}
+                  aria-label={
+                    theatre ? "Exit theatre mode" : "Enter theatre mode"
+                  }
                 >
                   {theatre ? (
                     <Minimize className="w-4 h-4" />
@@ -447,7 +457,7 @@ export function MainPlayer({ selected, selectedLoading }: Props) {
               </div>
 
               <div className="flex items-center gap-4">
-                <span className="text-white text-sm font-medium">
+                <span className="text-white text-sm font-semibold">
                   {selected.name}
                 </span>
                 {/* CLOCK */}

@@ -9,32 +9,36 @@ import Link from "next/link";
 import React from "react";
 import { MainPlayer } from "./MainPlayer";
 import { Skeleton } from "@/components/ui/skeleton";
+import { CctvStreamPlayer } from "@/components/parts/CctvStreamPlayer";
+import { getVideoThumbnail } from "@/lib/utils";
 
 type Props = {};
 
 export default function StreamsPage({}: Props) {
-  const [selectedCamera, setSelectedCamera] = React.useState("");
+  const [selectedCamera, setSelectedCamera] = React.useState<number | null>(
+    null
+  );
+  const { data: all, isLoading: allLoading } = useAllCctv();
 
-//   const getCameraStatusBadge = (status: string) => {
-//     return status === "online" ? (
-//       <Badge className="bg-green-500">Online</Badge>
-//     ) : (
-//       <Badge variant="destructive">Offline</Badge>
-//     );
-//   };
+  const activeCameraId = selectedCamera ?? all?.[0]?.id;
 
   const getCameraStatusBadge = (isActive?: boolean) => {
-  return isActive ? (
-    <Badge className="bg-green-500">Aktif</Badge>
-  ) : (
-    <Badge variant="destructive">Tidak Aktif</Badge>
-  );
-};
+    return isActive ? (
+      <Badge className="bg-green-500">Aktif</Badge>
+    ) : (
+      <Badge variant="destructive">Tidak Aktif</Badge>
+    );
+  };
 
-  const { data: all, isLoading: allLoading } = useAllCctv();
   const { data: selected, isLoading: selectedLoading } = useCctvDetail(
-    Number(selectedCamera)
+    Number(activeCameraId ?? 0)
   );
+
+  React.useEffect(() => {
+    if (!selectedCamera && all?.length) {
+      setSelectedCamera(all[0].id);
+    }
+  }, [all, selectedCamera]);
 
   return (
     <div>
@@ -49,8 +53,8 @@ export default function StreamsPage({}: Props) {
               <div className="flex items-center space-x-2">
                 <select
                   className="h-9 rounded-md border border-input bg-background px-3 py-1 text-sm"
-                  value={selectedCamera}
-                  onChange={(e) => setSelectedCamera(e.target.value)}
+                  value={selectedCamera?.toString()}
+                  onChange={(e) => setSelectedCamera(Number(e.target.value))}
                 >
                   {all?.map((camera) => (
                     <option key={camera.id} value={camera.id.toString()}>
@@ -89,16 +93,23 @@ export default function StreamsPage({}: Props) {
                       <div
                         key={camera.id}
                         className={`relative bg-gray-900 rounded-lg overflow-hidden cursor-pointer transition-all ${
-                          selectedCamera === camera.id.toString()
+                          selectedCamera === camera.id
                             ? "ring-2 ring-primary"
                             : "hover:ring-1 ring-gray-400"
                         }`}
-                        onClick={() => setSelectedCamera(camera.id.toString())}
+                        onClick={() => setSelectedCamera(camera.id)}
                       >
                         <div className="aspect-video w-full bg-black relative">
-                          {camera.thumbnail ? (
+                          {/* {camera.stream_url ? (
+                            <CctvStreamPlayer url={camera.stream_url} />
+                          ) : (
+                            <div className="flex items-center justify-center h-full text-white/70">
+                              <Video className="h-10 w-10 opacity-40 mb-1" />
+                            </div>
+                          )} */}
+                          {camera.stream_url ? (
                             <img
-                              src={camera.thumbnail}
+                              src={getVideoThumbnail(camera.stream_url)}
                               alt={camera.name}
                               className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition"
                             />
@@ -110,11 +121,8 @@ export default function StreamsPage({}: Props) {
 
                           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
                         </div>
-                        {/* <div className="absolute top-2 right-2">
-                          {getCameraStatusBadge(camera.status)}
-                        </div> */}
                         <div className="absolute top-2 right-2">
-                        {getCameraStatusBadge(camera.is_active)}
+                          {getCameraStatusBadge(camera.is_active)}
                         </div>
                         <div className="absolute bottom-0 left-0 right-0 px-3 pt-1 pb-2 bg-black/40 backdrop-blur-sm">
                           <p className="text-white text-sm font-semibold truncate">

@@ -38,3 +38,24 @@ export function getApiErrorMessage(error: unknown): string {
   return "Terjadi kesalahan. Coba lagi.";
 }
 
+export function isYoutube(url: string) {
+  return url.includes("youtube.com") || url.includes("youtu.be");
+}
+
+export function isHls(url: string) {
+  return url.endsWith(".m3u8");
+}
+
+export function getVideoThumbnail(url: string) {
+  if (isYoutube(url)) {
+    const id = url.includes("/embed/")
+      ? url.split("/embed/")[1].split("?")[0]
+      : url.split("v=")[1]?.split("&")[0];
+
+    return id
+      ? `https://img.youtube.com/vi/${id}/hqdefault.jpg`
+      : "/video-placeholder.png";
+  }
+
+  return "/video-placeholder.png";
+}
