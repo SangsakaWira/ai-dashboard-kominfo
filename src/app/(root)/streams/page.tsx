@@ -96,17 +96,23 @@ export default function StreamsPage({}: Props) {
                         onClick={() => setSelectedCamera(camera.id.toString())}
                       >
                         <div className="aspect-video w-full bg-black relative">
-                          {camera.thumbnail ? (
-                            <img
-                              src={camera.thumbnail}
-                              alt={camera.name}
+                          {/* {camera.thumbnail ? (
+                            <iframe
+                              src={camera.stream_url}
+                              title={camera.name}
                               className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition"
                             />
                           ) : (
                             <div className="flex items-center justify-center h-full text-white/70">
                               <Video className="h-10 w-10 opacity-40 mb-1" />
                             </div>
-                          )}
+                          )} */}
+
+                           <iframe
+                              src={camera.stream_url}
+                              title={camera.name}
+                              className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition"
+                            />
 
                           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
                         </div>
