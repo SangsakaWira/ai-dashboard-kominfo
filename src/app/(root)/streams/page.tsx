@@ -12,24 +12,24 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {};
 
-export default function StreamsPage({}: Props) {
+export default function StreamsPage({ }: Props) {
   const [selectedCamera, setSelectedCamera] = React.useState("");
 
-//   const getCameraStatusBadge = (status: string) => {
-//     return status === "online" ? (
-//       <Badge className="bg-green-500">Online</Badge>
-//     ) : (
-//       <Badge variant="destructive">Offline</Badge>
-//     );
-//   };
+  //   const getCameraStatusBadge = (status: string) => {
+  //     return status === "online" ? (
+  //       <Badge className="bg-green-500">Online</Badge>
+  //     ) : (
+  //       <Badge variant="destructive">Offline</Badge>
+  //     );
+  //   };
 
   const getCameraStatusBadge = (isActive?: boolean) => {
-  return isActive ? (
-    <Badge className="bg-green-500">Aktif</Badge>
-  ) : (
-    <Badge variant="destructive">Tidak Aktif</Badge>
-  );
-};
+    return isActive ? (
+      <Badge className="bg-green-500">Aktif</Badge>
+    ) : (
+      <Badge variant="destructive">Tidak Aktif</Badge>
+    );
+  };
 
   const { data: all, isLoading: allLoading } = useAllCctv();
   const { data: selected, isLoading: selectedLoading } = useCctvDetail(
@@ -64,10 +64,18 @@ export default function StreamsPage({}: Props) {
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Main Stream */}
-              <MainPlayer
-                selected={selected}
-                selectedLoading={selectedLoading}
-              />
+              {selectedCamera !== "" && (<>
+                <MainPlayer
+                  selected={selected}
+                  selectedLoading={selectedLoading}
+                />
+                <Button className="w-full" onClick={() => {
+                  setSelectedCamera("")
+                }}>Remove Main Player</Button>
+              </>
+              )}
+
+
 
               {/* Camera Grid */}
               <div className="lg:col-span-2">
@@ -88,11 +96,10 @@ export default function StreamsPage({}: Props) {
                     all.map((camera: any) => (
                       <div
                         key={camera.id}
-                        className={`relative bg-gray-900 rounded-lg overflow-hidden cursor-pointer transition-all ${
-                          selectedCamera === camera.id.toString()
+                        className={`relative bg-gray-900 rounded-lg overflow-hidden cursor-pointer transition-all ${selectedCamera === camera.id.toString()
                             ? "ring-2 ring-primary"
                             : "hover:ring-1 ring-gray-400"
-                        }`}
+                          }`}
                         onClick={() => setSelectedCamera(camera.id.toString())}
                       >
                         <div className="aspect-video w-full bg-black relative">
@@ -108,11 +115,11 @@ export default function StreamsPage({}: Props) {
                             </div>
                           )} */}
 
-                           <iframe
-                              src={camera.stream_url}
-                              title={camera.name}
-                              className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition"
-                            />
+                          <iframe
+                            src={camera.stream_url}
+                            title={camera.name}
+                            className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition"
+                          />
 
                           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
                         </div>
@@ -120,7 +127,7 @@ export default function StreamsPage({}: Props) {
                           {getCameraStatusBadge(camera.status)}
                         </div> */}
                         <div className="absolute top-2 right-2">
-                        {getCameraStatusBadge(camera.is_active)}
+                          {getCameraStatusBadge(camera.is_active)}
                         </div>
                         <div className="absolute bottom-0 left-0 right-0 px-3 pt-1 pb-2 bg-black/40 backdrop-blur-sm">
                           <p className="text-white text-sm font-semibold truncate">

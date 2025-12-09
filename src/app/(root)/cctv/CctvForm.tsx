@@ -75,9 +75,9 @@ export function CctvForm({
             name="stream_url"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Stream URL</FormLabel>
+                <FormLabel>Stream URL (Add for Youtube Autoplay: ?autoplay=1&mute=1&controls=1)</FormLabel>
                 <FormControl>
-                  <Input placeholder="Stream URL" {...field} />
+                  <Input placeholder="Example (https://youtu.be/embed/3bfrCv_b48I?autoplay=1&mute=1&controls=1)" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
