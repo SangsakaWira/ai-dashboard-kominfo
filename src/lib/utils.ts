@@ -1,5 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -38,3 +40,6 @@ export function getApiErrorMessage(error: unknown): string {
   return "Terjadi kesalahan. Coba lagi.";
 }
 
+export function formatDateTime(date: string | Date) {
+  return format(new Date(date), "d MMM yyyy HH.mm", { locale: id });
+}

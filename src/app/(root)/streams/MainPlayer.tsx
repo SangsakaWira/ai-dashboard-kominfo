@@ -17,9 +17,10 @@ import { CCTV } from "@/types";
 type Props = {
   selected?: CCTV;
   selectedLoading: boolean;
+  onRemoveMainPlayer: () => void
 };
 
-export function MainPlayer({ selected, selectedLoading }: Props) {
+export function MainPlayer({ selected, selectedLoading, onRemoveMainPlayer }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsRef = useRef<Hls | null>(null);
   const reconnectTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -360,21 +361,15 @@ export function MainPlayer({ selected, selectedLoading }: Props) {
         </div> */}
 
         <div className="aspect-video bg-black flex items-center justify-center">
-  {!selected ? (
-    <p className="text-white opacity-60">
-      Pilih CCTV untuk menampilkan video
-    </p>
-  ) : isYouTubeUrl(streamUrl) ? (
-    // 👉 Kalau YouTube pakai iframe
+  {isYouTubeUrl(streamUrl) ? (
     <iframe
       className="w-full h-full"
       src={streamUrl}
-      title={selected.name}
+      title={selected?.name || "CCTV Stream"}
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen
     />
   ) : (
-    // 👉 Selain YouTube tetap pakai <video> + HLS
     <video
       ref={videoRef}
       autoPlay
@@ -386,7 +381,7 @@ export function MainPlayer({ selected, selectedLoading }: Props) {
   )}
 </div>
 
-        {selected && (
+        {selected && !isYouTubeUrl(streamUrl) && (
           <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-4 z-10">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
@@ -460,6 +455,7 @@ export function MainPlayer({ selected, selectedLoading }: Props) {
           </div>
         )}
       </div>
+      <Button className="w-full mt-5" onClick={onRemoveMainPlayer}>Remove Main Player</Button>
     </div>
   );
 }

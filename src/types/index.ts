@@ -193,6 +193,7 @@ export interface FloodSpot {
   status: string;
   depth: number;
   source: string;
+  condition_status: string
   description: string;
   location_id: number;
   created_at: Date;
@@ -212,6 +213,7 @@ export interface FloodSpotPayload {
 
 export interface FloodReport {
   id: number;
+  name: string
   latitude: string;
   longitude: string;
   reporter_name: string;
@@ -222,7 +224,9 @@ export interface FloodReport {
   source: string;
   location_id: number;
   depth?: number;
+  depth_label?: string;
   created_at: Date;
+  updated_at: Date;
 }
 
 export interface FloodReportPayload {
@@ -252,6 +256,7 @@ export interface Sensor {
   longitude: string;
   created_at: Date;
   updated_at: Date;
+  max_level: number
 }
 
 export interface SensorPayload {

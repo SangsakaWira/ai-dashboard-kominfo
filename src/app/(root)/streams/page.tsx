@@ -68,14 +68,13 @@ export default function StreamsPage({ }: Props) {
                 <MainPlayer
                   selected={selected}
                   selectedLoading={selectedLoading}
+                  onRemoveMainPlayer={() => setSelectedCamera("")}
                 />
-                <Button className="w-full" onClick={() => {
+                {/* <Button className="w-full" onClick={() => {
                   setSelectedCamera("")
-                }}>Remove Main Player</Button>
+                }}>Remove Main Player</Button> */}
               </>
               )}
-
-
 
               {/* Camera Grid */}
               <div className="lg:col-span-2">
