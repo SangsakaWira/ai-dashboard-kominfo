@@ -46,12 +46,12 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: Props) {
       link: "/sensors",
       icon: Gauge,
     },
-    {
-      id: "flood-detection",
-      label: "Flood Detection",
-      link: "/flood-detection",
-      icon: Waves,
-    },
+    // {
+    //   id: "flood-detection",
+    //   label: "Flood Detection",
+    //   link: "/flood-detection",
+    //   icon: Waves,
+    // },
     {
       id: "flood-report",
       label: "Flood Report",
