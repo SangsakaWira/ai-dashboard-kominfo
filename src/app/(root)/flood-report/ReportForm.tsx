@@ -43,7 +43,9 @@ const MapPicker = dynamic(() => import("@/components/parts/MapPicker"), {
 
 type Props = {
   onSubmit: (payload: ReportPayload) => void;
-  onStatusChange?: (status: "pending" | "verified" | "rejected" | "resolved") => void;
+  onStatusChange?: (
+    status: "pending" | "verified" | "rejected" | "resolved"
+  ) => void;
   defaultValues: ReportPayload;
   locations: Location[];
   isMutating?: boolean;
@@ -72,7 +74,10 @@ export function ReportForm({
 
   // Update status field when defaultValues changes
   useEffect(() => {
-    if (defaultValues?.status && defaultValues.status !== form.getValues("status")) {
+    if (
+      defaultValues?.status &&
+      defaultValues.status !== form.getValues("status")
+    ) {
       form.setValue("status", defaultValues.status);
     }
   }, [defaultValues?.status, form]);
@@ -301,21 +306,32 @@ export function ReportForm({
             <FormItem className="w-fit">
               <FormLabel>Foto</FormLabel>
               <FormControl>
-                <Input
-                  type="file"
-                  accept="image/*"
-                  // disabled={isUploading}
-                  onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
+                <div>
+                  <label
+                    htmlFor="photo-upload"
+                    className="inline-flex items-center px-4 py-2 border 
+                   text-white text-sm rounded-md cursor-pointer transition"
+                  >
+                    Choose File
+                  </label>
 
-                    field.onChange(file);
+                  <Input
+                    id="photo-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
 
-                    const res = await uploadFile(file);
+                      field.onChange(file);
 
-                    form.setValue("photo_url", res.data.secure_url);
-                  }}
-                />
+                      const res = await uploadFile(file);
+
+                      form.setValue("photo_url", res.data.secure_url);
+                    }}
+                  />
+                </div>
               </FormControl>
 
               {form.watch("photo_url") && (
@@ -344,18 +360,19 @@ export function ReportForm({
         </div>
       </form>
 
-      <AlertDialog open={statusDialog.open} onOpenChange={(open) => 
-        setStatusDialog(prev => ({ ...prev, open }))
-      }>
+      <AlertDialog
+        open={statusDialog.open}
+        onOpenChange={(open) => setStatusDialog((prev) => ({ ...prev, open }))}
+      >
         <AlertDialogContent className="z-[9999]">
           <AlertDialogHeader>
             <AlertDialogTitle>
-              {statusDialog.status === "verified" 
-                ? "Verify Report?" 
+              {statusDialog.status === "verified"
+                ? "Verify Report?"
                 : "Reject Report?"}
             </AlertDialogTitle>
             <AlertDialogDescription>
-              {statusDialog.status === "verified" 
+              {statusDialog.status === "verified"
                 ? "Apakah Anda yakin ingin memverifikasi laporan ini? Laporan yang terverifikasi akan ditampilkan di peta flood spot."
                 : "Apakah Anda yakin ingin menolak laporan ini? Laporan yang ditolak tidak akan ditampilkan."}
             </AlertDialogDescription>
@@ -369,7 +386,11 @@ export function ReportForm({
                 }
                 setStatusDialog({ open: false, status: null });
               }}
-              className={statusDialog.status === "rejected" ? "bg-red-600 hover:bg-red-700" : ""}
+              className={
+                statusDialog.status === "rejected"
+                  ? "bg-red-600 hover:bg-red-700"
+                  : ""
+              }
             >
               {statusDialog.status === "verified" ? "Verify" : "Reject"}
             </AlertDialogAction>

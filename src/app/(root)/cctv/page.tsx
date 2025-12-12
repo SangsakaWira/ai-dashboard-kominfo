@@ -29,53 +29,55 @@ export default function CctvPage({}: Props) {
     limit,
     sort: filters.created,
     name: filters.name,
-    status: "warning"
+    status: "warning",
   });
 
   return (
     <div>
-      <Card className="bg-card border">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center">
-              <TableIcon className="mr-2 h-5 w-5" />
-              CCTV Table
-            </CardTitle>
-            <Link href={"/cctv/add"}>
-              <Button>Create CCTV</Button>
-            </Link>
-          </div>
+      <div className="grid grid-cols-1 gap-6">
+        <Card className="bg-card border">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center">
+                <TableIcon className="mr-2 h-5 w-5" />
+                CCTV Table
+              </CardTitle>
+              <Link href={"/cctv/add"}>
+                <Button>Create CCTV</Button>
+              </Link>
+            </div>
 
-          <div className="flex max-w-2xl gap-2">
-            <SearchInput
-              placeholder="Search..."
-              value={filters.name}
-              onChange={(v) => setFilters((prev) => ({ ...prev, name: v }))}
+            <div className="flex flex-wrap max-w-2xl gap-2">
+              <SearchInput
+                placeholder="Search..."
+                value={filters.name}
+                onChange={(v) => setFilters((prev) => ({ ...prev, name: v }))}
+              />
+              <SortFilter
+                value={filters.created}
+                onChange={(sortObj) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    created: sortObj.created,
+                  }))
+                }
+              />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <DataTable
+              columns={cctvColumns}
+              data={data}
+              currentPage={meta?.currentPage ?? 1}
+              totalPages={meta?.totalPages ?? 1}
+              hasNext={!!links?.next}
+              hasPrev={!!links?.prev}
+              onPageChange={setPage}
+              loading={isLoading}
             />
-            <SortFilter
-              value={filters.created}
-              onChange={(sortObj) =>
-                setFilters((prev) => ({
-                  ...prev,
-                  created: sortObj.created,
-                }))
-              }
-            />
-          </div>
-        </CardHeader>
-        <CardContent>
-          <DataTable
-            columns={cctvColumns}
-            data={data}
-            currentPage={meta?.currentPage ?? 1}
-            totalPages={meta?.totalPages ?? 1}
-            hasNext={!!links?.next}
-            hasPrev={!!links?.prev}
-            onPageChange={setPage}
-            loading={isLoading}
-          />
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

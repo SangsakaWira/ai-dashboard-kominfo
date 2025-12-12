@@ -5,23 +5,23 @@ export interface ApiResponse<T> {
   message?: string;
   data: T;
   meta?: {
-    page: MetaPage
-  }
-  links?: LinksPage
+    page: MetaPage;
+  };
+  links?: LinksPage;
 }
 
 export interface MetaPage {
   currentPage: number;
   totalPages: number;
   totalData: number;
-  itemPerPage: number
+  itemPerPage: number;
 }
 
 export interface LinksPage {
-  first: string | null
-  last: string | null
-  next: string | null
-  prev: string | null
+  first: string | null;
+  last: string | null;
+  next: string | null;
+  prev: string | null;
 }
 
 // Upload
@@ -99,10 +99,10 @@ export interface CCTV {
   location_name: string;
   stream_url: string;
   category: string;
-  capacity_building: number
-  is_active:boolean
-  resolution:string
-  description:string
+  capacity_building: number;
+  is_active: boolean;
+  resolution: string;
+  description: string;
 }
 
 // export interface CCTVPayload {
@@ -193,7 +193,7 @@ export interface FloodSpot {
   status: string;
   depth: number;
   source: string;
-  condition_status: string
+  condition_status: string;
   description: string;
   location_id: number;
   created_at: Date;
@@ -201,19 +201,19 @@ export interface FloodSpot {
 }
 
 export interface FloodSpotPayload {
-  name: string
-  latitude: string
-  longitude: string
-  location_id?: number
-  severity?: string
-  depth?: number
-  source?: string
-  description?: string
+  name: string;
+  latitude: string;
+  longitude: string;
+  location_id?: number;
+  severity?: string;
+  depth?: number;
+  source?: string;
+  description?: string;
 }
 
 export interface FloodReport {
   id: number;
-  name: string
+  name: string;
   latitude: string;
   longitude: string;
   reporter_name: string;
@@ -256,7 +256,11 @@ export interface Sensor {
   longitude: string;
   created_at: Date;
   updated_at: Date;
-  max_level: number
+  max_level: number;
+  latest_value: number;
+  last_connected: Date;
+  signal: number;
+  battery: number;
 }
 
 export interface SensorPayload {
@@ -269,4 +273,18 @@ export interface SensorPayload {
   threshold_high?: number;
   location_id?: number | null;
   is_active?: boolean;
+}
+
+// Water Level
+export interface WaterLevel {
+  sensor_id: number;
+  unit: string;
+  labels: string[];
+  values: number[];
+  threshold: number;
+  threshold_percentage: number;
+  current_level: number;
+  percentage: number;
+  trend: string;
+  max_level: number;
 }

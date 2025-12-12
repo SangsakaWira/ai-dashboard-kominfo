@@ -20,30 +20,60 @@ import {
   Settings,
   WavesIcon,
 } from "lucide-react";
+import { Location, WaterLevel } from "@/types";
+import {
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  Cell,
+} from "recharts";
 
 interface OccupancyPanelProps {
-  zones?: string[];
+  zones?: Location[];
   currentOccupancy?: number;
   maxCapacity?: number;
   trend?: "up" | "down" | "stable";
   alertThreshold?: number;
+  hourly?: WaterLevel;
+  daily?: WaterLevel;
+  weekly?: WaterLevel;
+}
+
+function formatChartData(source?: WaterLevel) {
+  const { labels = [], values = [] } = source || {};
+  return labels.map((label, i) => ({
+    name: label,
+    value: values[i] ?? 0,
+  }));
 }
 
 export function OccupancyPanel({
-  zones = [
-    "Main Entrance",
-    "Lobby",
-    "Cafeteria",
-    "Office Area",
-    "Meeting Rooms",
-  ],
+  zones = [],
   currentOccupancy = 42,
   maxCapacity = 100,
   trend = "up",
   alertThreshold = 80,
+  daily,
+  hourly,
+  weekly,
 }: OccupancyPanelProps) {
-  const [selectedZone, setSelectedZone] = useState(zones[0]);
+  const [selectedZone, setSelectedZone] = useState(zones?.[0]?.name);
   const [threshold, setThreshold] = useState(alertThreshold);
+
+  // const chartData = React.useMemo(() => {
+  //   if (mode === "hourly") return formatChartData(dataHourly);
+  //   if (mode === "daily") return formatChartData(dataDaily);
+  //   if (mode === "weekly") return formatChartData(dataWeekly);
+  //   return [];
+  // }, [mode, dataHourly, dataDaily, dataWeekly]);
+
+  // const threshold = data?.threshold;
+  // const unit = data?.unit ?? "";
+  // const trend = data?.trend;
 
   const occupancyPercentage = (currentOccupancy / maxCapacity) * 100;
   const isNearCapacity = occupancyPercentage >= threshold;
@@ -51,7 +81,9 @@ export function OccupancyPanel({
   return (
     <Card className="w-full bg-background shadow-md">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-xl font-bold">Availibility Sensor AWLR</CardTitle>
+        <CardTitle className="text-xl font-bold">
+          Availibility Sensor AWLR
+        </CardTitle>
         <div className="flex items-center space-x-2">
           <Select value={selectedZone} onValueChange={setSelectedZone}>
             <SelectTrigger className="w-[180px]">
@@ -59,8 +91,8 @@ export function OccupancyPanel({
             </SelectTrigger>
             <SelectContent>
               {zones.map((zone) => (
-                <SelectItem key={zone} value={zone}>
-                  {zone}
+                <SelectItem key={zone.id} value={zone.name}>
+                  {zone.name}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -149,54 +181,75 @@ export function OccupancyPanel({
                 <TabsTrigger value="weekly">Weekly</TabsTrigger>
               </TabsList>
               <TabsContent value="hourly" className="pt-4">
-                <div className="h-[180px] flex items-end justify-between space-x-1">
-                  {Array.from({ length: 12 }).map((_, i) => {
-                    const height = Math.floor(Math.random() * 100);
-                    return (
-                      <div key={i} className="flex flex-col items-center">
-                        <div
-                          className={`w-6 ${height > threshold ? "bg-red-500" : "bg-primary"} rounded-t`}
-                          style={{ height: `${height}%` }}
-                        ></div>
-                        <span className="text-xs mt-1">{i + 1}h</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </TabsContent>
-              <TabsContent value="daily" className="pt-4">
-                <div className="h-[180px] flex items-end justify-between space-x-2">
-                  {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
-                    (day, i) => {
+                {!hourly ? (
+                  <div className="h-[180px] flex items-end justify-between space-x-2">
+                    {Array.from({ length: 12 }).map((_, i) => {
                       const height = Math.floor(Math.random() * 100);
                       return (
                         <div key={i} className="flex flex-col items-center">
                           <div
-                            className={`w-8 ${height > threshold ? "bg-red-500" : "bg-primary"} rounded-t`}
-                            style={{ height: `${height}%` }}
+                            className={`w-6 ${height > threshold ? "bg-red-500" : "bg-primary"} rounded-t`}
+                            style={{ height: `${height}px` }}
                           ></div>
-                          <span className="text-xs mt-1">{day}</span>
+                          <span className="text-xs mt-1">{i + 1}h</span>
                         </div>
                       );
-                    },
-                  )}
-                </div>
+                    })}
+                  </div>
+                ) : (
+                  <WaterLevelBarChart
+                    data={formatChartData(hourly)}
+                    threshold={threshold}
+                  />
+                )}
+              </TabsContent>
+              <TabsContent value="daily" className="pt-4">
+                {!daily ? (
+                  <div className="h-[180px] flex items-end justify-between space-x-2">
+                    {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
+                      (day, i) => {
+                        const height = Math.floor(Math.random() * 100);
+                        return (
+                          <div key={i} className="flex flex-col items-center">
+                            <div
+                              className={`w-8 ${height > threshold ? "bg-red-500" : "bg-primary"} rounded-t`}
+                              style={{ height: `${height}px` }}
+                            ></div>
+                            <span className="text-xs mt-1">{day}</span>
+                          </div>
+                        );
+                      }
+                    )}
+                  </div>
+                ) : (
+                  <WaterLevelBarChart
+                    data={formatChartData(daily)}
+                    threshold={threshold}
+                  />
+                )}
               </TabsContent>
               <TabsContent value="weekly" className="pt-4">
-                <div className="h-[180px] flex items-end justify-between space-x-4">
-                  {["Week 1", "Week 2", "Week 3", "Week 4"].map((week, i) => {
-                    const height = Math.floor(Math.random() * 100);
-                    return (
-                      <div key={i} className="flex flex-col items-center">
-                        <div
-                          className={`w-12 ${height > threshold ? "bg-red-500" : "bg-primary"} rounded-t`}
-                          style={{ height: `${height}%` }}
-                        ></div>
-                        <span className="text-xs mt-1">{week}</span>
-                      </div>
-                    );
-                  })}
-                </div>
+                {!weekly ? (
+                  <div className="h-[180px] flex items-end justify-between space-x-4">
+                    {["Week 1", "Week 2", "Week 3", "Week 4"].map((week, i) => {
+                      const height = Math.floor(Math.random() * 100);
+                      return (
+                        <div key={i} className="flex flex-col items-center">
+                          <div
+                            className={`w-12 ${height > threshold ? "bg-red-500" : "bg-primary"} rounded-t`}
+                            style={{ height: `${height}px` }}
+                          ></div>
+                          <span className="text-xs mt-1">{week}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <WaterLevelBarChart
+                    data={formatChartData(weekly)}
+                    threshold={threshold}
+                  />
+                )}
               </TabsContent>
             </Tabs>
           </div>
@@ -220,5 +273,53 @@ export function OccupancyPanel({
         </div>
       </CardContent>
     </Card>
+  );
+}
+
+function WaterLevelBarChart({
+  data,
+  threshold,
+}: {
+  data: { name: string; value: number }[];
+  threshold: number;
+}) {
+  return (
+    <div className="h-[180px] flex items-end justify-between space-x-1">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+
+          <XAxis
+            dataKey="name"
+            tick={{ fontSize: 11 }}
+            axisLine={false}
+            tickLine={false}
+            interval={Math.max(0, Math.floor(data.length / 8))}
+          />
+
+          <YAxis
+            tick={{ fontSize: 11 }}
+            axisLine={false}
+            tickLine={false}
+            allowDecimals={false}
+            width={40}
+          />
+
+          <Tooltip
+            formatter={(value: any) => `${value} cm`}
+            labelFormatter={(label: any) => `Waktu: ${label}`}
+          />
+
+          <Bar dataKey="value">
+            {data.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={entry.value > threshold ? "#ef4444" : "#fafafa"}
+              />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
