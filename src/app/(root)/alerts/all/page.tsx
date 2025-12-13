@@ -33,39 +33,41 @@ export default function AllAlertsPage({}: Props) {
   });
 
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-semibold mb-4">Alerts</h1>
-      <div className="flex gap-4 mb-4">
-        <AlertFilters
-          level={filter.level}
-          type={filter.type}
-          title={filter.title}
-          onChange={(f) => {
-            setFilter(f);
-            setPage(1);
-          }}
-        />
-        <SortFilter
-          value={filter.created}
-          onChange={(sortObj) =>
-            setFilter((prev) => ({
-              ...prev,
-              created: sortObj.created,
-            }))
-          }
+    <div className="grid grid-cols-1 gap-6 p-0 md:p-6">
+      <div>
+        <h1 className="text-xl font-semibold mb-4">Alerts</h1>
+        <div className="flex flex-wrap gap-4 mb-4">
+          <AlertFilters
+            level={filter.level}
+            type={filter.type}
+            title={filter.title}
+            onChange={(f) => {
+              setFilter(f);
+              setPage(1);
+            }}
+          />
+          <SortFilter
+            value={filter.created}
+            onChange={(sortObj) =>
+              setFilter((prev) => ({
+                ...prev,
+                created: sortObj.created,
+              }))
+            }
+          />
+        </div>
+
+        <DataTable
+          columns={alertColumns}
+          data={data}
+          currentPage={meta?.currentPage ?? 1}
+          totalPages={meta?.totalPages ?? 1}
+          hasNext={!!links?.next}
+          hasPrev={!!links?.prev}
+          onPageChange={setPage}
+          loading={isLoading}
         />
       </div>
-
-      <DataTable
-        columns={alertColumns}
-        data={data}
-        currentPage={meta?.currentPage ?? 1}
-        totalPages={meta?.totalPages ?? 1}
-        hasNext={!!links?.next}
-        hasPrev={!!links?.prev}
-        onPageChange={setPage}
-        loading={isLoading}
-      />
     </div>
     // <AllAlertsContent
     //   data={data || []}

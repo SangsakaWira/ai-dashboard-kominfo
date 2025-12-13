@@ -69,7 +69,7 @@ export default function SensorsPage({}: Props) {
               </Button>
             </div>
 
-            <div className="flex gap-x-2">
+            <div className="flex flex-col md:flex-row gap-2">
               <SearchInput
                 placeholder="Search..."
                 value={filters.name}

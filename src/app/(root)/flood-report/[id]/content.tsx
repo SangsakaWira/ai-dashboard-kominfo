@@ -1,12 +1,18 @@
 "use client";
 import { useFloodReportDetail } from "@/hooks/flood-report";
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { DetailTitle } from "@/components/parts/DetailTitle";
 import dynamic from "next/dynamic";
 import { formatDateTime } from "@/lib/utils";
+import {
+  CalendarDaysIcon,
+  MapPinIcon,
+  PhoneIcon,
+  UserIcon,
+} from "lucide-react";
 
 const LocationMap = dynamic(() => import("@/components/parts/LocationMap"), {
   ssr: false,
@@ -21,65 +27,133 @@ export function DetailFloodReportContent({ id }: Props) {
 
   if (!report) return <p>Loading...</p>;
   return (
-    <Card className="bg-card border">
-      <CardHeader>
-        <DetailTitle backUrl="/flood-report" title="Flood Report" />
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-6">
+    <div className="">
+      <DetailTitle backUrl="/flood-report" title="Kembali ke Daftar Report" />
+      {/* <CardHeader>
+      </CardHeader> */}
+      <div>
+        <div className="space-y-6 mt-10">
           <div className="flex flex-col gap-6">
             {report?.photo_url && (
               <Image
                 src={report.photo_url}
                 alt={report.description}
-                width={500}
-                height={500}
-                className="w-auto rounded-lg"
+                width={800}
+                height={800}
+                className="w-auto h-[450px] 2xl:h-[550px] object-fill rounded-lg"
               />
             )}
 
-            <div className="flex-1 space-y-3">
-              <h2 className="text-xl font-semibold">{report.name}</h2>
-              <p className="text-sm">{report.description}</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div className="md:col-span-2">
+                <Card>
+                  <CardContent className="pt-6">
+                    <h2 className="text-xl font-semibold">{report.name}</h2>
 
-              <div className="my-2 space-y-1">
-                <div className="text-sm"><strong>Kedalaman:</strong> {report.depth} cm/{report.depth_label}</div>
-                <div className="text-sm"><strong>Sumber:</strong> {report.source}</div>
+                    <div className="my-5">
+                      <div className="flex items-center gap-x-2">
+                        <MapPinIcon size={18} />
+                        <h3 className="font-semibold">Lokasi Kejadian</h3>
+                      </div>
+                      {/* <LocationMap data={report} /> */}
+                    </div>
+
+                    <div>
+                      <p className="mb-2 text-xs text-muted-foreground">
+                        Deskripsi
+                      </p>
+                      <p className="font-semibold">{report.description}</p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-5">
+                      <div className="mt-4">
+                        <div className="flex flex-col">
+                          <p className="text-xs text-muted-foreground">
+                            Kedalaman
+                          </p>
+                          <p className="font-semibold">
+                            {report.depth} cm/
+                            {report.depth_label}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="mt-4">
+                        <div className="flex flex-col">
+                          <p className="text-xs text-muted-foreground">
+                            Sumber
+                          </p>
+                          <p className="font-semibold">{report.source}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
+              <div className="md:col-span-1">
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="text-base font-semibold">
+                      Informasi Laporan
+                    </div>
 
-              <div className="text-base font-semibold">Pelapor:</div>
-              <div className="mt-2 space-y-1">
-                <div className="text-sm"><strong>Nama:</strong> {report.reporter_name}</div>
-                <div className="text-sm"><strong>Telepon:</strong> {report.reporter_phone}</div>
-                <div className="text-sm"><strong>Waktu Laporan:</strong> {formatDateTime(report.created_at)} WIB</div>
+                    <div className="mt-4 space-y-2">
+                      <div className="flex items-center gap-x-4 border-b py-3">
+                        <UserIcon size={18} />
+                        <div className="flex flex-col">
+                          <p className="text-xs text-muted-foreground">
+                            Nama Pelapor
+                          </p>
+                          <p className="font-semibold">
+                            {report.reporter_name}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-x-4 border-b py-3">
+                        <PhoneIcon size={18} />
+                        <div className="flex flex-col">
+                          <p className="text-xs text-muted-foreground">
+                            No Telepon Pelapor
+                          </p>
+                          <p className="font-semibold">
+                            {report.reporter_phone}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-x-4 border-b py-3">
+                        <CalendarDaysIcon size={18} />
+                        <div className="flex flex-col">
+                          <p className="text-xs text-muted-foreground">
+                            Waktu Laporan
+                          </p>
+                          <p className="font-semibold">
+                            {formatDateTime(report.created_at)} WIB
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="!mt-4 flex flex-col items-start gap-y-2">
+                        <p className="text-xs text-muted-foreground">Status</p>
+                        <Badge
+                          className={`capitalize 
+                            ${
+                              report.status === "pending"
+                                ? "bg-yellow-500"
+                                : report.status === "verified"
+                                  ? "bg-green-600"
+                                  : "bg-red-600"
+                            }
+                          `}
+                        >
+                          {report.status}
+                        </Badge>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
-
-              {/* <div className="text-sm">
-                <strong>Status:</strong>{" "}
-                <Badge
-                  className={
-                    report.status === "pending"
-                      ? "bg-yellow-500"
-                      : report.status === "approved"
-                        ? "bg-green-600"
-                        : "bg-red-600"
-                  }
-                >
-                  {report.status}
-                </Badge>
-              </div> */}
             </div>
           </div>
-
-          {/* MAP */}
-          <div>
-            <h3 className="font-semibold mb-2">Lokasi Kejadian</h3>
-            <LocationMap
-              data={report}
-            />
-          </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

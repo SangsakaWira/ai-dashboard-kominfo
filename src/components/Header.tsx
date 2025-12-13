@@ -9,8 +9,8 @@ type Props = {
 
 export default function Header({setSidebarOpen}: Props) {
   return (
-    <header className="h-16 border-b bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/50">
-      <div className="flex h-full items-center justify-between px-6">
+    <header className="h-auto md:h-16 border-b bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/50">
+      <div className="flex flex-col md:flex-row h-full md:items-center justify-between px-6 pb-3 md:pb-0 gap-y-3">
         <div className="flex items-center space-x-4">
           <Button
             variant="ghost"
