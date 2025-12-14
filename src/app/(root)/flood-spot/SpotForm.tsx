@@ -61,7 +61,7 @@ export function SpotForm({
             name="latitude"
             render={() => (
               <FormItem>
-                <FormLabel>Location</FormLabel>
+                <FormLabel>Lokasi</FormLabel>
                 <MapPicker
                   value={{
                     lat: Number(form.getValues("latitude")) || 0,
@@ -131,7 +131,7 @@ export function SpotForm({
             name="location_id"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Location</FormLabel>
+                <FormLabel>Lokasi</FormLabel>
                 <Select
                   onValueChange={(v) => field.onChange(Number(v))}
                   value={field.value ? String(field.value) : undefined}
@@ -160,7 +160,7 @@ export function SpotForm({
             name="severity"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Severity</FormLabel>
+                <FormLabel>Keparahan</FormLabel>
                 <Select
                   onValueChange={(v) => field.onChange(v)}
                   value={field.value ? String(field.value) : undefined}
@@ -187,7 +187,7 @@ export function SpotForm({
             name="depth"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Depth</FormLabel>
+                <FormLabel>Kedalaman</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -207,7 +207,7 @@ export function SpotForm({
             name="source"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Source</FormLabel>
+                <FormLabel>Sumber</FormLabel>
                 <Select
                   onValueChange={(v) => field.onChange(v)}
                   value={field.value ? String(field.value) : undefined}

@@ -27,6 +27,13 @@ import { CCTVPayload } from "@/types";
 import dynamic from "next/dynamic";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { InfoIcon } from "lucide-react";
 
 const MapPicker = dynamic(() => import("@/components/parts/MapPicker"), {
   ssr: false,
@@ -39,12 +46,7 @@ type Props = {
   mode: "create" | "edit";
 };
 
-export function CctvForm({
-  defaultValues,
-  mode,
-  onSubmit,
-  isMutating,
-}: Props) {
+export function CctvForm({ defaultValues, mode, onSubmit, isMutating }: Props) {
   const form = useForm<any>({
     resolver: zodResolver(cctvSchema),
     defaultValues,
@@ -60,7 +62,7 @@ export function CctvForm({
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Nama</FormLabel>
                 <FormControl>
                   <Input placeholder="CCTV Name" {...field} />
                 </FormControl>
@@ -75,9 +77,28 @@ export function CctvForm({
             name="stream_url"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Stream URL (Youtube: https://youtube.com/embed/[code]?autoplay=1&mute=1&controls=1)</FormLabel>
+                {/* <FormLabel>Stream URL (Youtube: https://youtube.com/embed/[code]?autoplay=1&mute=1&controls=1)</FormLabel> */}
+                <FormLabel className="flex items-center gap-x-1 !mb-[1.1rem]">
+                  <span>Stream URL</span>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <InfoIcon size={14} className="text-neutral-300" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>
+                          Example:
+                          https://youtube.com/embed/[code]?autoplay=1&mute=1&controls=1
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </FormLabel>
                 <FormControl>
-                  <Input placeholder="Example (https://youtube.com/embed/3bfrCv_b48I?autoplay=1&mute=1&controls=1)" {...field} />
+                  <Input
+                    placeholder="Example https://youtube.com/embed/[code]?..."
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -92,7 +113,7 @@ export function CctvForm({
             name="latitude"
             render={() => (
               <FormItem>
-                <FormLabel>Location</FormLabel>
+                <FormLabel>Lokasi</FormLabel>
                 <MapPicker
                   value={{
                     lat: Number(form.getValues("latitude")) || 0,
@@ -167,81 +188,80 @@ export function CctvForm({
               </FormItem>
             )}
           /> */}
-        <FormField
+          <FormField
             control={form.control}
             name="description"
             render={({ field }) => (
-                <FormItem>
-                <FormLabel>Description</FormLabel>
+              <FormItem>
+                <FormLabel>Deskripsi</FormLabel>
                 <FormControl>
-                    <Textarea
+                  <Textarea
                     rows={3}
                     placeholder="Catatan kondisi jalan, cuaca, atau info penting lain..."
                     {...field}
-                    />
+                  />
                 </FormControl>
                 <FormMessage />
-                </FormItem>
+              </FormItem>
             )}
-        />
-         {/* Category */}
+          />
+          {/* Category */}
           <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Kategori</FormLabel>
+                <FormControl>
+                  <Input placeholder="Category" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="is_active"
+            render={({ field }) => (
+              <FormItem className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <FormLabel>Status Perangkat</FormLabel>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {field.value ? "Aktif (online)" : "Tidak aktif (offline)"}
+                </p>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <FormField
           control={form.control}
-          name="category"
+          name="resolution"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Category</FormLabel>
-              <FormControl>
-                <Input placeholder="Category" {...field} />
-              </FormControl>
+              <FormLabel>Resolusi</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                value={field.value ?? ""} // biar nggak undefined
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih resolution" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="1080p">1080p</SelectItem>
+                  <SelectItem value="720p">720p</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
-        />                      
-        <FormField
-        control={form.control}
-        name="is_active"
-        render={({ field }) => (
-            <FormItem className="flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-                <FormLabel>Status Perangkat</FormLabel>
-                <Switch
-                checked={field.value}
-                onCheckedChange={field.onChange}
-                />
-            </div>
-            <p className="text-xs text-muted-foreground">
-                {field.value ? "Aktif (online)" : "Tidak aktif (offline)"}
-            </p>
-            <FormMessage />
-            </FormItem>
-        )}
-        />
-
-        </div>
-         <FormField
-            control={form.control}
-            name="resolution"
-            render={({ field }) => (
-            <FormItem>
-                <FormLabel>Resolution</FormLabel>
-                <Select
-                onValueChange={field.onChange}
-                value={field.value ?? ""} // biar nggak undefined
-                >
-                <FormControl>
-                    <SelectTrigger>
-                    <SelectValue placeholder="Pilih resolution" />
-                    </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                    <SelectItem value="1080p">1080p</SelectItem>
-                    <SelectItem value="720p">720p</SelectItem>
-                </SelectContent>
-                </Select>
-                <FormMessage />
-            </FormItem>
-            )}
         />
 
         {/* Location Name */}
@@ -250,7 +270,7 @@ export function CctvForm({
           name="location_name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Location Name</FormLabel>
+              <FormLabel>Nama Lokasi</FormLabel>
               <FormControl>
                 <Input placeholder="Location" {...field} />
               </FormControl>

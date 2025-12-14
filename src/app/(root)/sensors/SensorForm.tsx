@@ -59,9 +59,9 @@ export function SensorForm({
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Sensor Name</FormLabel>
+                <FormLabel>Nama Sensor</FormLabel>
                 <FormControl>
-                  <Input placeholder="Sensor Name" {...field} />
+                  <Input placeholder="Nama Sensor" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -91,7 +91,7 @@ export function SensorForm({
             name="latitude"
             render={() => (
               <FormItem>
-                <FormLabel>Location</FormLabel>
+                <FormLabel>Lokasi</FormLabel>
                 <MapPicker
                   value={{
                     lat: Number(form.getValues("latitude")) || 0,
@@ -161,7 +161,7 @@ export function SensorForm({
             name="location_id"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Location</FormLabel>
+                <FormLabel>Lokasi</FormLabel>
                 <Select
                   onValueChange={(v) => field.onChange(Number(v))}
                   value={field.value ? String(field.value) : undefined}
@@ -222,7 +222,7 @@ export function SensorForm({
           name="is_active"
           render={({ field }) => (
             <FormItem className="flex flex-col gap-y-1">
-              <FormLabel>Active</FormLabel>
+              <FormLabel>Aktif</FormLabel>
               <FormControl>
                 <Switch
                   checked={field.value}
