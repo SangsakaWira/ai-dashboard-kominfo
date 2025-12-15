@@ -81,7 +81,7 @@ export function CctvForm({ defaultValues, mode, onSubmit, isMutating }: Props) {
                 <FormLabel className="flex items-center gap-x-1 !mb-[1.1rem]">
                   <span>Stream URL</span>
                   <TooltipProvider>
-                    <Tooltip>
+                    <Tooltip delayDuration={0}>
                       <TooltipTrigger>
                         <InfoIcon size={14} className="text-neutral-300" />
                       </TooltipTrigger>
@@ -96,7 +96,8 @@ export function CctvForm({ defaultValues, mode, onSubmit, isMutating }: Props) {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Example https://youtube.com/embed/[code]?..."
+                    placeholder="Example https://youtube.com/embed/[code]?autoplay=1&mute=1&controls=1"
+                    className="truncate placeholder:text-ellipsis placeholder:overflow-hidden placeholder:whitespace-nowrap"
                     {...field}
                   />
                 </FormControl>
@@ -213,7 +214,7 @@ export function CctvForm({ defaultValues, mode, onSubmit, isMutating }: Props) {
               <FormItem>
                 <FormLabel>Kategori</FormLabel>
                 <FormControl>
-                  <Input placeholder="Category" {...field} />
+                  <Input placeholder="Kategori" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

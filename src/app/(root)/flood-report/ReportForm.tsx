@@ -178,7 +178,7 @@ export function ReportForm({
               <FormItem>
                 <FormLabel>Sumber</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input placeholder="Sumber" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

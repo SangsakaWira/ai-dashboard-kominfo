@@ -167,7 +167,7 @@ export function SpotForm({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Severity" />
+                      <SelectValue placeholder="Keparahan" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -191,7 +191,7 @@ export function SpotForm({
                 <FormControl>
                   <Input
                     type="number"
-                    placeholder="Depth"
+                    placeholder="Kedalaman"
                     {...field}
                     onChange={(e) => field.onChange(Number(e.target.value))}
                   />
@@ -214,7 +214,7 @@ export function SpotForm({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Source" />
+                      <SelectValue placeholder="Sumber" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
