@@ -46,6 +46,8 @@ export function EditCctvContent({ id }: { id: string }) {
           category: cctv.category,
           stream_url: cctv.stream_url,
           location_name: cctv.location_name,
+          description: cctv.description,
+          resolution: cctv.resolution
         }}
         mode="edit"
       />

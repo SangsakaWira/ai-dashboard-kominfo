@@ -92,7 +92,7 @@ export function ReportForm({
             name="latitude"
             render={() => (
               <FormItem>
-                <FormLabel>Location</FormLabel>
+                <FormLabel>Lokasi</FormLabel>
                 <MapPicker
                   value={{
                     lat: Number(form.getValues("latitude")) || 0,
@@ -147,7 +147,7 @@ export function ReportForm({
             name="location_id"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Location</FormLabel>
+                <FormLabel>Lokasi</FormLabel>
                 <Select
                   onValueChange={(v) => field.onChange(Number(v))}
                   value={field.value ? String(field.value) : undefined}
@@ -176,9 +176,9 @@ export function ReportForm({
             name="source"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Source</FormLabel>
+                <FormLabel>Sumber</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input placeholder="Sumber" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -312,7 +312,7 @@ export function ReportForm({
                     className="inline-flex items-center px-4 py-2 border 
                    text-white text-sm rounded-md cursor-pointer transition"
                   >
-                    Choose File
+                    Pilih File
                   </label>
 
                   <Input

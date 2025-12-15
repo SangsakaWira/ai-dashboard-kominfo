@@ -45,6 +45,8 @@ export default function CreateCctvPage() {
           category: "",
           stream_url: "",
           location_name: "",
+          description: "",
+          resolution: ""
         }}
         mode="create"
       />
