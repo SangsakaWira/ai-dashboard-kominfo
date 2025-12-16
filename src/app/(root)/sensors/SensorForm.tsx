@@ -74,10 +74,27 @@ export function SensorForm({
             name="key"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Key</FormLabel>
-                <FormControl>
-                  <Input placeholder="Key" {...field} />
-                </FormControl>
+                <FormLabel>Type</FormLabel>
+                {mode === "create" ? (
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value ?? undefined}
+                  >
+                    <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih tipe sensor" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="z-[1000]">
+                      <SelectItem value="water_level">Water Level</SelectItem>
+                      <SelectItem value="rainfall">Rainfall</SelectItem>
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <FormControl>
+                    <Input placeholder="Key" {...field} />
+                  </FormControl>
+                )}
                 <FormMessage />
               </FormItem>
             )}
@@ -171,7 +188,7 @@ export function SensorForm({
                       <SelectValue placeholder="Pilih lokasi" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className="z-[1000]">
                     {locations?.map((loc) => (
                       <SelectItem key={loc.id} value={String(loc.id)}>
                         {loc.name}
