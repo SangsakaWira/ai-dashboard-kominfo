@@ -262,6 +262,7 @@ export interface Sensor {
   signal: number;
   battery: number;
   codenumber: string;
+  external_url?: string;
 }
 
 export interface SensorPayload {
@@ -274,6 +275,9 @@ export interface SensorPayload {
   threshold_high?: number;
   location_id?: number | null;
   is_active?: boolean;
+  codenumber?: string;
+  external_url?: string;
+  project?: string;
 }
 
 // Water Level

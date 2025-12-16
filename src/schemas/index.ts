@@ -53,6 +53,8 @@ export const sensorSchema = z.object({
   latitude: z.string().optional(),
   longitude: z.string().optional(),
   unit: z.string().optional(),
+  codenumber: z.string().optional(),
+  external_url: z.string().optional(),
 
   threshold_low: z.number().optional(),
   threshold_high: z.number().optional(),

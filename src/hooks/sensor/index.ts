@@ -31,7 +31,10 @@ export const useCreateSensor = () => {
   const createSensor = async (payload: SensorPayload) => {
     const result = await trigger({
       method: "POST",
-      data: payload,
+      data: {
+        ...payload,
+        project: "SITAJIR",
+      },
     });
 
     mutate(sensorService.list);

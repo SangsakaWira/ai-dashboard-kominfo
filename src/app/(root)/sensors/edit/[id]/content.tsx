@@ -53,6 +53,8 @@ export function EditSensorContent({ id }: Props) {
           threshold_high: sensor.threshold_high,
           location_id: sensor.location_id,
           is_active: sensor.is_active,
+          codenumber: sensor.codenumber,
+          external_url: sensor.external_url,
         }}
         mode="edit"
       />

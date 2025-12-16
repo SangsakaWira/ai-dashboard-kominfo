@@ -202,6 +202,38 @@ export function SensorForm({
           />
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Code Number */}
+          <FormField
+            control={form.control}
+            name="codenumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Code Number</FormLabel>
+                <FormControl>
+                  <Input placeholder="Code Number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* External URL */}
+          <FormField
+            control={form.control}
+            name="external_url"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>External URL</FormLabel>
+                <FormControl>
+                  <Input placeholder="https://example.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         {/* Thresholds */}
         <div className="grid grid-cols-2 gap-4">
           <FormField
