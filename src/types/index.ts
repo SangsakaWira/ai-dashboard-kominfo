@@ -249,8 +249,8 @@ export interface Sensor {
   key: string;
   name: string;
   unit: string;
-  threshold_low: number;
-  threshold_high: number;
+  threshold_low: number | null;
+  threshold_high: number | null;
   is_active: boolean;
   latitude: string;
   longitude: string;
@@ -271,8 +271,8 @@ export interface SensorPayload {
   latitude?: string;
   longitude?: string;
   unit?: string;
-  threshold_low?: number;
-  threshold_high?: number;
+  threshold_low?: number | null;
+  threshold_high?: number | null;
   location_id?: number | null;
   is_active?: boolean;
   codenumber?: string;
