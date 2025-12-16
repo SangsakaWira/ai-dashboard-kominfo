@@ -13,7 +13,12 @@ export const useSensors = (params?: {
   unit?: string;
   is_active?: boolean
   location_id?: number;
-}) => useApi<Sensor[]>(sensorService.list, params);
+  project?: string;
+}) =>
+  useApi<Sensor[]>(sensorService.list, {
+    project: "SITAJIR",
+    ...params,
+  });
 
 export const useSensorDetail = (id?: number) => {
   return useApi<Sensor>(id ? sensorService.detail(id) : null);

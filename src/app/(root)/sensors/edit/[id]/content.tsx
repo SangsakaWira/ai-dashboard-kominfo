@@ -45,7 +45,7 @@ export function EditSensorContent({ id }: Props) {
         isMutating={isMutating}
         defaultValues={{
           name: sensor.name,
-          key: sensor.name,
+          key: sensor.key,
           latitude: sensor.latitude,
           longitude: sensor.longitude,
           unit: sensor.unit,

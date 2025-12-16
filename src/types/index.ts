@@ -261,6 +261,7 @@ export interface Sensor {
   last_connected: Date;
   signal: number;
   battery: number;
+  codenumber: string;
 }
 
 export interface SensorPayload {
