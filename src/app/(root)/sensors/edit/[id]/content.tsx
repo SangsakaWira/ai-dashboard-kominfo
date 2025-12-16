@@ -55,6 +55,7 @@ export function EditSensorContent({ id }: Props) {
           is_active: sensor.is_active,
           codenumber: sensor.codenumber,
           external_url: sensor.external_url,
+          image_url: sensor.image_url,
         }}
         mode="edit"
       />

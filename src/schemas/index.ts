@@ -55,6 +55,7 @@ export const sensorSchema = z.object({
   unit: z.string().optional(),
   codenumber: z.string().optional(),
   external_url: z.string().optional(),
+  image_url: z.string().optional(),
 
   threshold_low: z.number().nullable().optional(),
   threshold_high: z.number().nullable().optional(),

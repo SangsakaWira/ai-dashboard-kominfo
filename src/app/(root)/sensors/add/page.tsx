@@ -49,6 +49,7 @@ export default function AddSensorPage({}: Props) {
           is_active: true,
           codenumber: "",
           external_url: "",
+          image_url: "",
         }}
         mode="create"
       />

@@ -40,6 +40,15 @@ export function DetailSensorContent({ id }: Props) {
             Sensor Type: <span className="font-medium">{sensor.key}</span>
           </p>
         </CardHeader>
+        {sensor.image_url && (
+          <CardContent className="pt-0">
+            <img
+              src={sensor.image_url}
+              alt={sensor.name}
+              className="mt-2 h-40 w-full max-w-md rounded-md object-cover border"
+            />
+          </CardContent>
+        )}
       </Card>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

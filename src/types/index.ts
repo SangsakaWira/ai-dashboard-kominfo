@@ -263,6 +263,7 @@ export interface Sensor {
   battery: number;
   codenumber: string;
   external_url?: string;
+  image_url?: string;
 }
 
 export interface SensorPayload {
@@ -278,6 +279,7 @@ export interface SensorPayload {
   codenumber?: string;
   external_url?: string;
   project?: string;
+  image_url?: string;
 }
 
 // Water Level

@@ -46,6 +46,22 @@ export const sensorColumns: ColumnDef<Sensor>[] = [
     cell: ({ row }) => <div className="text-center">{row.index + 1}</div>,
   },
   {
+    accessorKey: "photo_url",
+    header: "Image",
+    cell: ({ row }) => {
+      const sensor = row.original;
+      return (
+        <>
+          {sensor.image_url ? (
+            <img src={sensor.image_url} className="h-12 w-20 rounded-md object-cover border" />
+          ) : (
+            <span className="text-muted-foreground text-xs">No Photo</span>
+          )}
+        </>
+      );
+    },
+  },
+  {
     accessorKey: "name",
     header: "Sensor Name",
   },
@@ -53,9 +69,7 @@ export const sensorColumns: ColumnDef<Sensor>[] = [
     accessorKey: "key",
     header: "Type",
     cell: ({ row }) => (
-      <Badge className={getSensorTypeBadgeClass(row.original.key)}>
-        {formatSensorLabel(row.original.key)}
-      </Badge>
+      <Badge className={getSensorTypeBadgeClass(row.original.key)}>{formatSensorLabel(row.original.key)}</Badge>
     ),
   },
   {
