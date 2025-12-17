@@ -249,8 +249,8 @@ export interface Sensor {
   key: string;
   name: string;
   unit: string;
-  threshold_low: number;
-  threshold_high: number;
+  threshold_low: number | null;
+  threshold_high: number | null;
   is_active: boolean;
   latitude: string;
   longitude: string;
@@ -261,6 +261,9 @@ export interface Sensor {
   last_connected: Date;
   signal: number;
   battery: number;
+  codenumber: string;
+  external_url?: string;
+  image_url?: string;
 }
 
 export interface SensorPayload {
@@ -269,10 +272,14 @@ export interface SensorPayload {
   latitude?: string;
   longitude?: string;
   unit?: string;
-  threshold_low?: number;
-  threshold_high?: number;
+  threshold_low?: number | null;
+  threshold_high?: number | null;
   location_id?: number | null;
   is_active?: boolean;
+  codenumber?: string;
+  external_url?: string;
+  project?: string;
+  image_url?: string;
 }
 
 // Water Level

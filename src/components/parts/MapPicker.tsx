@@ -15,6 +15,11 @@ interface MapPickerProps {
 
 export default function MapPicker({ value, onChange }: MapPickerProps) {
   const defaultPosition = { lat: -2.9549655, lng: 104.680392 };
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const initialPosition =
     value && value.lat !== 0 && value.lng !== 0 ? value : defaultPosition;
@@ -37,6 +42,14 @@ export default function MapPicker({ value, onChange }: MapPickerProps) {
     });
 
     return <Marker position={position} icon={markerIcon} />;
+  }
+
+  if (!isClient) {
+    return (
+      <div className="rounded-md overflow-hidden border">
+        <div style={{ height: "300px", width: "100%" }} />
+      </div>
+    );
   }
 
   return (

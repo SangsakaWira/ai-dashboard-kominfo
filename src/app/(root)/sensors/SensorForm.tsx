@@ -24,6 +24,7 @@ import { ButtonCancel } from "@/components/parts/ButtonCancel";
 import { sensorSchema } from "@/schemas";
 import { Location, SensorPayload } from "@/types";
 import dynamic from "next/dynamic";
+import { uploadFile } from "@/hooks/requestHelper";
 
 const MapPicker = dynamic(() => import("@/components/parts/MapPicker"), {
   ssr: false,
@@ -74,10 +75,27 @@ export function SensorForm({
             name="key"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Key</FormLabel>
-                <FormControl>
-                  <Input placeholder="Key" {...field} />
-                </FormControl>
+                <FormLabel>Type</FormLabel>
+                {mode === "create" ? (
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value ?? undefined}
+                  >
+                    <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih tipe sensor" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="z-[1000]">
+                      <SelectItem value="water_level">Water Level</SelectItem>
+                      <SelectItem value="rainfall">Rainfall</SelectItem>
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <FormControl>
+                    <Input placeholder="Key" {...field} />
+                  </FormControl>
+                )}
                 <FormMessage />
               </FormItem>
             )}
@@ -171,7 +189,7 @@ export function SensorForm({
                       <SelectValue placeholder="Pilih lokasi" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className="z-[1000]">
                     {locations?.map((loc) => (
                       <SelectItem key={loc.id} value={String(loc.id)}>
                         {loc.name}
@@ -184,6 +202,82 @@ export function SensorForm({
             )}
           />
         </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Code Number */}
+          <FormField
+            control={form.control}
+            name="codenumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Code Number</FormLabel>
+                <FormControl>
+                  <Input placeholder="Code Number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* External URL */}
+          <FormField
+            control={form.control}
+            name="external_url"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>External URL</FormLabel>
+                <FormControl>
+                  <Input placeholder="https://example.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        {/* Image */}
+        <FormField
+          control={form.control}
+          name="image_url"
+          render={({ field }) => (
+            <FormItem className="w-fit">
+              <FormLabel>Photo</FormLabel>
+              <FormControl>
+                <div>
+                  <label
+                    htmlFor="sensor-photo-upload"
+                    className="inline-flex items-center px-4 py-2 border text-white text-sm rounded-md cursor-pointer transition"
+                  >
+                    Pilih File
+                  </label>
+
+                  <Input
+                    id="sensor-photo-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+
+                      const res = await uploadFile(file);
+                      form.setValue("image_url", res.data.secure_url);
+                    }}
+                  />
+                </div>
+              </FormControl>
+
+              {form.watch("image_url") && (
+                <img
+                  src={form.watch("image_url")}
+                  className="h-32 w-32 mt-2 rounded-md object-cover"
+                />
+              )}
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         {/* Thresholds */}
         <div className="grid grid-cols-2 gap-4">

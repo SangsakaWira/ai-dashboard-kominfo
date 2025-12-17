@@ -47,6 +47,9 @@ export default function AddSensorPage({}: Props) {
           threshold_high: undefined,
           location_id: undefined,
           is_active: true,
+          codenumber: "",
+          external_url: "",
+          image_url: "",
         }}
         mode="create"
       />
