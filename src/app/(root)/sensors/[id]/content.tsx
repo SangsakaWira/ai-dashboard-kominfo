@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+// import { Badge } from "@/components/ui/badge";
 import { useSensorDetail } from "@/hooks/sensor";
-import { useLocationDetail } from "@/hooks/locations";
+// import { useLocationDetail } from "@/hooks/locations";
 import { DetailTitle } from "@/components/parts/DetailTitle";
 import dynamic from "next/dynamic";
 import { formatDateTime, isValidLatLng } from "@/lib/utils";

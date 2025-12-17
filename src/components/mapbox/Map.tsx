@@ -39,7 +39,7 @@ export default function MyMap({ locations, zoom }: MyMapProps) {
         >
           <Popup>
             <div>
-              <h4 className="font-bold">{c.name.toUpperCase()}</h4>
+              <h4 className="font-bold">{c?.name?.toUpperCase() ?? ""}</h4>
               <div className="flex items-center gap-2 mt-1">
                 <span className={`flex items-center gap-x-1`}>
                   <div
@@ -47,9 +47,11 @@ export default function MyMap({ locations, zoom }: MyMapProps) {
                   ></div>{" "}
                   {c.status}
                 </span>
-                <span className="text-xs bg-gray-200 px-2 py-[2px] rounded-md">
-                  {c.category}
-                </span>
+                {c?.category && (
+                  <span className="text-xs bg-gray-200 px-2 py-[2px] rounded-md">
+                    {c.category}
+                  </span>
+                )}
               </div>
 
               <div className="text-[13px] mt-2 space-y-1">
@@ -60,7 +62,9 @@ export default function MyMap({ locations, zoom }: MyMapProps) {
 
                 <div className="flex justify-between gap-x-3">
                   <span className="text-gray-500">Kapasitas</span>
-                  <span>{c.capacity_building} m³</span>
+                  {c.capacity_building ? (
+                    <span>{c.capacity_building} m³</span>
+                  ) : <span>-</span>}
                 </div>
               </div>
             </div>

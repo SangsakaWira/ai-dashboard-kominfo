@@ -1,14 +1,13 @@
 "use client";
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+// import { Badge } from "@/components/ui/badge";
 import { useFloodSpotDetail } from "@/hooks/flood-spot";
 import { DetailTitle } from "@/components/parts/DetailTitle";
 import dynamic from "next/dynamic";
 import {
   AlertTriangleIcon,
   AlignLeftIcon,
-  BookmarkIcon,
   DropletIcon,
   InfoIcon,
   MapPinIcon,
