@@ -102,7 +102,7 @@ export default function StreamsPage({ }: Props) {
                         onClick={() => setSelectedCamera(camera.id.toString())}
                       >
                         <div className="aspect-video w-full bg-black relative">
-                          {/* {camera.thumbnail ? (
+                          {camera.stream_url ? (
                             <iframe
                               src={camera.stream_url}
                               title={camera.name}
@@ -112,13 +112,13 @@ export default function StreamsPage({ }: Props) {
                             <div className="flex items-center justify-center h-full text-white/70">
                               <Video className="h-10 w-10 opacity-40 mb-1" />
                             </div>
-                          )} */}
+                          )}
 
-                          <iframe
+                          {/* <iframe
                             src={camera.stream_url}
                             title={camera.name}
                             className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition"
-                          />
+                          /> */}
 
                           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
                         </div>
@@ -134,19 +134,23 @@ export default function StreamsPage({ }: Props) {
                           </p>
 
                           <div className="flex items-center justify-between mt-2 mb-1">
-                            <span className="text-[11px] text-gray-300 bg-white/10 px-2 py-[2px] rounded-full backdrop-blur-sm truncate">
-                              {camera.location_name}
-                            </span>
+                            {camera?.location_name && (
+                              <span className="text-[11px] text-gray-300 bg-white/10 px-2 py-[2px] rounded-full backdrop-blur-sm truncate">
+                                {camera.location_name}
+                              </span>
+                            )}
 
-                            <span className="text-[10px] text-gray-300 bg-white/5 px-2 py-[2px] rounded-md border border-white/10">
-                              {camera.category.replace("-", " ").toUpperCase()}
-                            </span>
+                            {camera?.category && (
+                              <span className="text-[10px] text-gray-300 bg-white/5 px-2 py-[2px] rounded-md border border-white/10">
+                                {camera.category.replace("-", " ").toUpperCase()}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
                     ))
                   ) : (
-                    <p>No data found..</p>
+                    <p>Tidak ada data CCTV</p>
                   )}
                 </div>
               </div>

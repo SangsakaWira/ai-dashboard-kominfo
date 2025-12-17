@@ -32,7 +32,7 @@ export default function Dashboard() {
     { location: selectedLocation ?? "" },
     "/water-level/last-12-hours"
   );
-  const { data: waterLevelHourly } = useWaterLevel(
+  const { data: waterLevelHourly, isLoading: waterLevelHourlyLoading } = useWaterLevel(
     { location: selectedLocation ?? "" },
     "/water-level/hourly"
   );
@@ -126,7 +126,10 @@ export default function Dashboard() {
           )} */}
           <OccupancyPanel
             zones={locations}
+            selectedZone={selectedLocation ?? ""}
+            setSelectedZone={setSelectedLocation}
             hourly={waterLevelHourly}
+            hourlyLoading={waterLevelHourlyLoading}
             daily={waterLevelDaily}
             weekly={waterLevelWeekly}
           />

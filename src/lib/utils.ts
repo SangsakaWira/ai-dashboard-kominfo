@@ -43,3 +43,27 @@ export function getApiErrorMessage(error: unknown): string {
 export function formatDateTime(date: string | Date) {
   return format(new Date(date), "d MMM yyyy HH.mm", { locale: id });
 }
+
+export function isValidLatLng(
+  lat?: string | number | null,
+  lng?: string | number | null
+) {
+  const latitude = typeof lat === "string" ? parseFloat(lat) : lat;
+  const longitude = typeof lng === "string" ? parseFloat(lng) : lng;
+
+  if (
+    typeof latitude !== "number" ||
+    typeof longitude !== "number" ||
+    Number.isNaN(latitude) ||
+    Number.isNaN(longitude)
+  ) {
+    return false;
+  }
+
+  return (
+    latitude >= -90 &&
+    latitude <= 90 &&
+    longitude >= -180 &&
+    longitude <= 180
+  );
+}
