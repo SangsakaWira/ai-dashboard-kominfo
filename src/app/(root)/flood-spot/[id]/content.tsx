@@ -14,7 +14,8 @@ import {
   MapPinIcon,
   WavesIcon,
 } from "lucide-react";
-import { formatDateTime } from "@/lib/utils";
+import { formatDateTime, isValidLatLng } from "@/lib/utils";
+import { LocationNotValid } from "@/components/parts/LocationNotValid";
 
 const LocationMap = dynamic(() => import("@/components/parts/LocationMap"), {
   ssr: false,
@@ -26,6 +27,7 @@ type Props = {
 
 export function DetailFloodSpotContent({ id }: Props) {
   const { data: spot } = useFloodSpotDetail(Number(id));
+  const showMap = isValidLatLng(spot?.latitude, spot?.longitude);
 
   const severityColor: Record<string, string> = {
     ringan: "bg-yellow-100 text-yellow-700",
@@ -146,11 +148,12 @@ export function DetailFloodSpotContent({ id }: Props) {
           </div>
         </CardContent>
       </Card>
-
       <Card>
         <CardContent className="pt-6">
           <h3 className="font-semibold mb-2">Lokasi</h3>
-          <LocationMap data={spot} />
+          {showMap ? (
+            <LocationMap data={spot} />
+          ) : <LocationNotValid />}
         </CardContent>
       </Card>
 

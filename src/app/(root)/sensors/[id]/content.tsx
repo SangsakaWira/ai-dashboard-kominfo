@@ -6,13 +6,14 @@ import { useSensorDetail } from "@/hooks/sensor";
 import { useLocationDetail } from "@/hooks/locations";
 import { DetailTitle } from "@/components/parts/DetailTitle";
 import dynamic from "next/dynamic";
-import { formatDateTime } from "@/lib/utils";
+import { formatDateTime, isValidLatLng } from "@/lib/utils";
 import {
   ActivitySquareIcon,
   BatteryIcon,
   CalendarClockIcon,
   RadioIcon,
 } from "lucide-react";
+import { LocationNotValid } from "@/components/parts/LocationNotValid";
 
 const LocationMap = dynamic(() => import("@/components/parts/LocationMap"), {
   ssr: false,
@@ -25,6 +26,7 @@ type Props = {
 export function DetailSensorContent({ id }: Props) {
   const { data: sensor } = useSensorDetail(Number(id));
   // const { data: location } = useLocationDetail(Number(sensor?.location_id));
+  const showMap = isValidLatLng(sensor?.latitude, sensor?.longitude);
 
   if (!sensor) return <p>Loading...</p>;
   return (
@@ -146,9 +148,11 @@ export function DetailSensorContent({ id }: Props) {
       <Card>
         <CardContent className="pt-6">
           <h3 className="font-semibold mb-2">Lokasi Sensor</h3>
-          <LocationMap
-              data={sensor}
-            />
+          {showMap ? (
+            <LocationMap
+                data={sensor}
+              />
+          ) : <LocationNotValid />}
         </CardContent>
       </Card>
       {/* <div>

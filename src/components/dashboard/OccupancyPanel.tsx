@@ -31,6 +31,7 @@ import {
   Bar,
   Cell,
 } from "recharts";
+import { Skeleton } from "../ui/skeleton";
 
 interface OccupancyPanelProps {
   zones?: Location[];
@@ -39,8 +40,13 @@ interface OccupancyPanelProps {
   trend?: "up" | "down" | "stable";
   alertThreshold?: number;
   hourly?: WaterLevel;
+  hourlyLoading?: boolean;
   daily?: WaterLevel;
+  dailyLoading?: boolean;
   weekly?: WaterLevel;
+  weeklyLoading?: boolean;
+  selectedZone: string
+  setSelectedZone: (value: string) => void
 }
 
 function formatChartData(source?: WaterLevel) {
@@ -60,20 +66,14 @@ export function OccupancyPanel({
   daily,
   hourly,
   weekly,
+  hourlyLoading,
+  weeklyLoading,
+  dailyLoading,
+  selectedZone,
+  setSelectedZone
 }: OccupancyPanelProps) {
-  const [selectedZone, setSelectedZone] = useState(zones?.[0]?.name);
+  // const [selectedZone, setSelectedZone] = useState(zones?.[0]?.name);
   const [threshold, setThreshold] = useState(alertThreshold);
-
-  // const chartData = React.useMemo(() => {
-  //   if (mode === "hourly") return formatChartData(dataHourly);
-  //   if (mode === "daily") return formatChartData(dataDaily);
-  //   if (mode === "weekly") return formatChartData(dataWeekly);
-  //   return [];
-  // }, [mode, dataHourly, dataDaily, dataWeekly]);
-
-  // const threshold = data?.threshold;
-  // const unit = data?.unit ?? "";
-  // const trend = data?.trend;
 
   const occupancyPercentage = (currentOccupancy / maxCapacity) * 100;
   const isNearCapacity = occupancyPercentage >= threshold;
@@ -181,21 +181,10 @@ export function OccupancyPanel({
                 <TabsTrigger value="weekly">Weekly</TabsTrigger>
               </TabsList>
               <TabsContent value="hourly" className="pt-4">
-                {!hourly ? (
-                  <div className="h-[180px] flex items-end justify-between space-x-2">
-                    {Array.from({ length: 12 }).map((_, i) => {
-                      const height = Math.floor(Math.random() * 100);
-                      return (
-                        <div key={i} className="flex flex-col items-center">
-                          <div
-                            className={`w-6 ${height > threshold ? "bg-red-500" : "bg-primary"} rounded-t`}
-                            style={{ height: `${height}px` }}
-                          ></div>
-                          <span className="text-xs mt-1">{i + 1}h</span>
-                        </div>
-                      );
-                    })}
-                  </div>
+                {hourlyLoading ? (
+                  <ChartSkeleton />
+                ) : !hourly || !hourly.values || hourly.values.length === 0 ? (
+                  <ChartEmptyState label="Tidak ada data" />
                 ) : (
                   <WaterLevelBarChart
                     data={formatChartData(hourly)}
@@ -204,7 +193,7 @@ export function OccupancyPanel({
                 )}
               </TabsContent>
               <TabsContent value="daily" className="pt-4">
-                {!daily ? (
+                {/* {!daily ? (
                   <div className="h-[180px] flex items-end justify-between space-x-2">
                     {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
                       (day, i) => {
@@ -226,10 +215,20 @@ export function OccupancyPanel({
                     data={formatChartData(daily)}
                     threshold={threshold}
                   />
+                )} */}
+                {dailyLoading ? (
+                  <ChartSkeleton />
+                ) : !daily || !daily.values || daily.values.length === 0 ? (
+                  <ChartEmptyState label="Tidak ada data" />
+                ) : (
+                  <WaterLevelBarChart
+                    data={formatChartData(daily)}
+                    threshold={threshold}
+                  />
                 )}
               </TabsContent>
               <TabsContent value="weekly" className="pt-4">
-                {!weekly ? (
+                {/* {!weekly ? (
                   <div className="h-[180px] flex items-end justify-between space-x-4">
                     {["Week 1", "Week 2", "Week 3", "Week 4"].map((week, i) => {
                       const height = Math.floor(Math.random() * 100);
@@ -244,6 +243,16 @@ export function OccupancyPanel({
                       );
                     })}
                   </div>
+                ) : (
+                  <WaterLevelBarChart
+                    data={formatChartData(weekly)}
+                    threshold={threshold}
+                  />
+                )} */}
+                {weeklyLoading ? (
+                  <ChartSkeleton />
+                ) : !weekly || !weekly.values || weekly.values.length === 0 ? (
+                  <ChartEmptyState label="Tidak ada data" />
                 ) : (
                   <WaterLevelBarChart
                     data={formatChartData(weekly)}
@@ -321,5 +330,41 @@ function WaterLevelBarChart({
         </BarChart>
       </ResponsiveContainer>
     </div>
+  );
+}
+
+function ChartEmptyState({ label }: { label: string }) {
+  return (
+    <div className="h-[180px] flex flex-col items-center justify-center text-muted-foreground">
+      <div className="flex items-end gap-2 mb-2 opacity-40">
+        {[1, 2, 3, 4].map((i) => (
+          <div
+            key={i}
+            className="w-10 bg-muted rounded-t"
+            style={{ height: `${20 + i * 15}px` }}
+          />
+        ))}
+      </div>
+      <p className="text-sm">{label}</p>
+    </div>
+  );
+}
+
+function ChartSkeleton() {
+  return (
+      <Skeleton className="w-full h-[150px]" />
+    // <div className="h-[180px]">
+    //   {Array.from({ length: 5 }).map((_, i) => (
+    //     <div key={i} className="flex flex-col items-center gap-2">
+    //       <Skeleton
+    //         className="w-6 rounded-t"
+    //         style={{
+    //           height: `${40 + (i % 5) * 20}px`,
+    //         }}
+    //       />
+    //       <Skeleton className="h-3 w-5" />
+    //     </div>
+    //   ))}
+    // </div>
   );
 }

@@ -6,13 +6,14 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { DetailTitle } from "@/components/parts/DetailTitle";
 import dynamic from "next/dynamic";
-import { formatDateTime } from "@/lib/utils";
+import { formatDateTime, isValidLatLng } from "@/lib/utils";
 import {
   CalendarDaysIcon,
   MapPinIcon,
   PhoneIcon,
   UserIcon,
 } from "lucide-react";
+import { LocationNotValid } from "@/components/parts/LocationNotValid";
 
 const LocationMap = dynamic(() => import("@/components/parts/LocationMap"), {
   ssr: false,
@@ -24,6 +25,7 @@ type Props = {
 
 export function DetailFloodReportContent({ id }: Props) {
   const { data: report } = useFloodReportDetail(Number(id));
+  const showMap = isValidLatLng(report?.latitude, report?.longitude);
 
   if (!report) return <p>Loading...</p>;
   return (
@@ -55,7 +57,7 @@ export function DetailFloodReportContent({ id }: Props) {
                         <MapPinIcon size={18} />
                         <h3 className="font-semibold">Lokasi Kejadian</h3>
                       </div>
-                      {/* <LocationMap data={report} /> */}
+                      {showMap ? <LocationMap data={report} /> : <LocationNotValid />}
                     </div>
 
                     <div>
