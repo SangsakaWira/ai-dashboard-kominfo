@@ -299,3 +299,33 @@ export interface WaterLevel {
   trend: string;
   max_level: number;
 }
+
+// Waste Spot (Titik Rawan Sampah)
+export interface WasteSpot {
+  id: number;
+  name: string;
+  latitude: string;
+  longitude: string;
+  severity: string;
+  waste_type: string;
+  volume_estimate: string;
+  status: string;
+  description: string;
+  image_url: string;
+  project: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface WasteSpotPayload {
+  name: string;
+  latitude: string;
+  longitude: string;
+  severity?: string;
+  waste_type?: string;
+  volume_estimate?: string;
+  status?: string;
+  description?: string;
+  image_url?: string;
+  project?: string;
+}

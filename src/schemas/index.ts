@@ -5,13 +5,13 @@ export const cctvSchema = z.object({
   latitude: z.string().optional(),
   longitude: z.string().optional(),
   is_active: z.boolean().default(true),
-//   status: z.enum(["online", "offline"]).optional(),
+  //   status: z.enum(["online", "offline"]).optional(),
   status: z.enum(["normal", "warning", "danger"]).optional(),
   category: z.string().optional(),
   stream_url: z.string().optional(),
   location_name: z.string().optional(),
-  resolution: z.string().optional(),   
-  description: z.string().optional(), 
+  resolution: z.string().optional(),
+  description: z.string().optional(),
 })
 
 export const reportSchema = z.object({
@@ -71,3 +71,18 @@ export type ReportPayload = z.infer<typeof reportSchema>;
 export type SpotPayload = z.infer<typeof spotSchema>;
 export type CctvPayload = z.infer<typeof cctvSchema>
 export type LocationPayload = z.infer<typeof locationSchema>
+
+export const wasteSpotSchema = z.object({
+  name: z.string().min(1, "Nama wajib diisi"),
+  latitude: z.string().min(1, "Latitude wajib diisi"),
+  longitude: z.string().min(1, "Longitude wajib diisi"),
+  severity: z.string().optional(),
+  waste_type: z.string().optional(),
+  volume_estimate: z.string().optional(),
+  status: z.string().optional(),
+  description: z.string().optional(),
+  image_url: z.string().optional(),
+  project: z.string().optional(),
+});
+
+export type WasteSpotSchemaPayload = z.infer<typeof wasteSpotSchema>;
