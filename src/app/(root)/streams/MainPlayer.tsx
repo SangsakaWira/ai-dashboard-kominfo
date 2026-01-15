@@ -381,6 +381,7 @@ export function MainPlayer({ selected, selectedLoading, onRemoveMainPlayer }: Pr
   )}
 </div>
 
+
         {selected && !isYouTubeUrl(streamUrl) && (
           <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-4 z-10">
             <div className="flex items-center justify-between">
