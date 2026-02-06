@@ -25,28 +25,38 @@ export default function Dashboard() {
   const { data: summary, isLoading: summaryLoading } = useDashboardSummary();
   const { data: locations } = useAllLocation();
   const { data: alerts } = useAlerts();
-  const [selectedLocation, setSelectedLocation] = React.useState(
-    locations?.[0].name
-  );
+  const [selectedLocation, setSelectedLocation] = React.useState("");
+
+  React.useEffect(() => {
+    if (!selectedLocation && locations?.length) {
+      setSelectedLocation(locations[0]?.name ?? "");
+    }
+  }, [locations, selectedLocation]);
+
+  const waterLevelParams = selectedLocation
+    ? { location: selectedLocation }
+    : null;
+  const waterLevelEndpoint = selectedLocation ? "/water-level" : null;
+
   const { data: waterLevelLast12Hours } = useWaterLevel(
-    { location: selectedLocation ?? "" },
-    "/water-level/last-12-hours"
+    waterLevelParams,
+    waterLevelEndpoint ? `${waterLevelEndpoint}/last-12-hours` : null
   );
   const { data: waterLevelHourly, isLoading: waterLevelHourlyLoading } = useWaterLevel(
-    { location: selectedLocation ?? "" },
-    "/water-level/hourly"
+    waterLevelParams,
+    waterLevelEndpoint ? `${waterLevelEndpoint}/hourly` : null
   );
   const { data: waterLevelDaily } = useWaterLevel(
-    { location: selectedLocation ?? "" },
-    "/water-level/daily"
+    waterLevelParams,
+    waterLevelEndpoint ? `${waterLevelEndpoint}/daily` : null
   );
   const { data: waterLevelLastWeek } = useWaterLevel(
-    { location: selectedLocation ?? "" },
-    "/water-level/last-week"
+    waterLevelParams,
+    waterLevelEndpoint ? `${waterLevelEndpoint}/last-week` : null
   );
   const { data: waterLevelWeekly } = useWaterLevel(
-    { location: selectedLocation ?? "" },
-    "/water-level/weekly"
+    waterLevelParams,
+    waterLevelEndpoint ? `${waterLevelEndpoint}/weekly` : null
   );
 
   const summaryCards = [
