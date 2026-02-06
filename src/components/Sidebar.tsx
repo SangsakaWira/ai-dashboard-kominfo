@@ -22,6 +22,7 @@ import {
   Gauge,
   Waves,
   ClipboardList,
+  Trash2,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -63,6 +64,12 @@ export function Sidebar({ sidebarOpen, setSidebarOpen }: Props) {
       label: "Flood Spot",
       link: "/flood-spot",
       icon: MapPinned,
+    },
+    {
+      id: "waste-spot",
+      label: "Titik Rawan Sampah",
+      link: "/waste-spot",
+      icon: Trash2,
     },
     // { id: "table", label: "Management", link: "/management", icon: TableIcon },
     { id: "historical", label: "Historical", link: "/historical", icon: Clock },

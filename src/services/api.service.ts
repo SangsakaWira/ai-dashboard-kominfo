@@ -44,3 +44,11 @@ export const alertService = {
     update: (id: number) => `/alert/${id}/read`,
     delete: (id: number) => `/alert/${id}`,
 }
+
+export const wasteSpotService = {
+    list: "/waste-spot",
+    detail: (id: number) => `/waste-spot/${id}`,
+    create: "/waste-spot",
+    update: (id: number) => `/waste-spot/${id}`,
+    delete: (id: number) => `/waste-spot/${id}`,
+}
